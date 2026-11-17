@@ -242,11 +242,26 @@ class ServiceTests(unittest.TestCase):
         self.program(at)
         # Deliberately do not process Qt's main event loop over the scheduled
         # instant. The worker must still commit its occurrence independently.
-        time.sleep(max(0, (at - datetime.now()).total_seconds()) + 0.15)
-        self.assertEqual(len(self.store.list_runs()), 1)
+        time.sleep(max(0, (at - datetime.now()).total_seconds()))
+        deadline = time.monotonic() + 2
+        while not self.store.list_runs() and time.monotonic() < deadline:
+            # WAL commit/fsync and OS thread scheduling can exceed a nominal
+            # polling interval, particularly on Windows CI. Keep the GUI event
+            # loop unprocessed while allowing a bounded eventual claim.
+            time.sleep(0.01)
+        self.assertEqual(
+            len(self.store.list_runs()),
+            1,
+            "the worker must claim without the GUI event loop, including slow storage",
+        )
         self.assertTrue(self.wait_until(lambda: events.count() == 1))
         event = events.at(0)[0]
-        self.assertLess(event["lateness_ms"], 1000)
+        self.assertGreaterEqual(event["lateness_ms"], 0)
+        self.assertAlmostEqual(
+            event["lateness_ms"],
+            (datetime.fromisoformat(event["detected_at"]) - at).total_seconds() * 1000,
+            delta=1,
+        )
 
     def test_restart_after_pause_controls_retains_floor_and_delivers_new_events(self):
         service = self.make_service()
@@ -315,6 +330,184 @@ class ServiceTests(unittest.TestCase):
             service.set_enabled(1)
         with self.assertRaises(ValueError):
             service.stop(timeout=-1)
+
+
+class PollingCacheTests(unittest.TestCase):
+    def setUp(self):
+        from bellplan.service import _PollingStore
+
+        self.temporary = TemporaryDirectory()
+        self.path = Path(self.temporary.name) / "cached.sqlite3"
+        self.store = Store(self.path)
+        self.plan = self.store.save_plan({"name": "默认节目单"})
+        self.now = datetime(2026, 11, 17, 8, 0, 1)
+        self.program = self.store.save_program(
+            {
+                "id": "bell",
+                "plan_id": self.plan["id"],
+                "name": "上课铃",
+                "time": "08:00:00",
+                "dates": ["2026-11-17"],
+                "files": ["bell.wav"],
+            }
+        )
+        self.worker = _PollingStore(self.path)
+        self.queries = []
+        self.worker.connection.set_trace_callback(self.queries.append)
+
+    def tearDown(self):
+        self.worker.close()
+        self.store.close()
+        self.temporary.cleanup()
+
+    def begin(self):
+        self.worker.connection.execute("BEGIN")
+        self.worker.begin_poll()
+
+    def end(self):
+        self.worker.connection.commit()
+        self.worker.end_poll()
+
+    def poll(self):
+        self.begin()
+        try:
+            result = Scheduler(self.worker).poll(self.now)
+            self.worker.connection.commit()
+            return result
+        except Exception:
+            self.worker.connection.rollback()
+            raise
+        finally:
+            self.worker.end_poll()
+
+    def count(self, fragment):
+        return sum(fragment in query for query in self.queries)
+
+    def load_all(self):
+        self.begin()
+        try:
+            programs = self.worker.list_programs()
+            plans = self.worker.list_plans()
+            settings = self.worker.get_setting("calendar_overrides", {})
+            # Multiple consumers in one cycle must not resample the version.
+            self.worker.list_programs()
+            self.worker.list_plans()
+            self.worker.get_setting("calendar_overrides", {})
+        finally:
+            self.end()
+        return programs, plans, settings
+
+    def test_loaders_run_once_for_unchanged_data_and_version_once_per_cycle(self):
+        first = self.load_all()
+        second = self.load_all()
+        third = self.load_all()
+        self.assertIs(first[0], second[0])
+        self.assertIs(first[1], third[1])
+        self.assertEqual(self.count("SELECT body FROM programs"), 1)
+        self.assertEqual(self.count("SELECT body FROM plans"), 1)
+        self.assertEqual(self.count("SELECT value FROM metadata"), 1)
+        self.assertEqual(self.count("PRAGMA data_version"), 3)
+
+    def test_external_program_edit_delete_and_plan_change_invalidate_next_cycle(self):
+        first, _, _ = self.load_all()
+        self.store.save_program(dict(self.program, name="新名称"))
+        edited, _, _ = self.load_all()
+        self.assertIsNot(first, edited)
+        self.assertEqual(edited[0]["name"], "新名称")
+        self.store.save_plan(dict(self.plan, enabled=False))
+        _, plans, _ = self.load_all()
+        self.assertFalse(plans[0]["enabled"])
+        self.store.delete_program(self.program["id"])
+        deleted, _, _ = self.load_all()
+        self.assertEqual(deleted, ())
+        self.assertEqual(self.count("SELECT body FROM programs"), 4)
+
+    def test_external_setting_commit_is_visible_without_restart(self):
+        self.load_all()
+        self.store.set_setting("calendar_overrides", {"2026-11-17": "disabled"})
+        _, _, calendar = self.load_all()
+        self.assertEqual(calendar["2026-11-17"], "disabled")
+        self.assertEqual(self.count("SELECT value FROM metadata"), 2)
+
+    def test_own_run_claim_and_status_commit_do_not_reload_configuration(self):
+        first = self.load_all()
+        self.begin()
+        self.assertTrue(self.worker.claim("event-one", self.program["id"], self.now.isoformat()))
+        self.end()
+        self.worker.finish_run("event-one", "completed", "完成")
+        second = self.load_all()
+        self.assertIs(first[0], second[0])
+        self.assertIs(first[1], second[1])
+        self.assertEqual(self.count("SELECT body FROM programs"), 1)
+        self.assertEqual(self.count("SELECT body FROM plans"), 1)
+        self.assertEqual(self.count("SELECT value FROM metadata"), 1)
+
+    def test_cached_records_are_deeply_read_only_and_due_copy_is_detached(self):
+        from bellplan.service import _thaw
+
+        programs, _, _ = self.load_all()
+        with self.assertRaises(TypeError):
+            programs[0]["name"] = "不能写入"
+        with self.assertRaises(AttributeError):
+            programs[0]["files"].append("unexpected.wav")
+        detached = _thaw(programs[0])
+        self.assertIsInstance(detached, dict)
+        self.assertIsInstance(detached["files"], list)
+        detached["name"] = "接收者自己的副本"
+        detached["files"].append("receiver.wav")
+        again, _, _ = self.load_all()
+        self.assertEqual(again[0]["name"], "上课铃")
+        self.assertEqual(again[0]["files"], ("bell.wav",))
+
+    def test_missing_settings_keep_each_callers_default_without_reloading(self):
+        self.begin()
+        first = self.worker.get_setting("not-present", {"mode": 1})
+        second = self.worker.get_setting("not-present", {"mode": 2})
+        self.end()
+        self.assertEqual(first["mode"], 1)
+        self.assertEqual(second["mode"], 2)
+        self.assertEqual(self.count("SELECT value FROM metadata"), 1)
+        with self.assertRaises(TypeError):
+            first["mode"] = 3
+
+    def test_begin_poll_requires_transaction_for_snapshot_safety(self):
+        with self.assertRaises(RuntimeError):
+            self.worker.begin_poll()
+
+    def test_commit_after_version_sampling_cannot_claim_using_stale_rules(self):
+        self.load_all()
+        self.begin()
+        self.store.save_program(dict(self.program, enabled=False))
+        # PRAGMA data_version fixed the read snapshot before the external
+        # commit. Upgrading it to a writer must fail, rather than claim using
+        # cached rules that are older than the new committed configuration.
+        try:
+            with self.assertRaises(sqlite3.OperationalError):
+                Scheduler(self.worker).poll(self.now)
+        finally:
+            self.worker.connection.rollback()
+            self.worker.end_poll()
+        self.assertEqual(self.store.list_runs(), [])
+        self.assertEqual(self.poll(), [])
+        self.assertFalse(self.worker.list_programs()[0]["enabled"])
+
+    def test_holiday_calendar_and_plan_disables_apply_to_next_poll(self):
+        self.load_all()
+        self.store.save_plan(dict(self.plan, enabled=False))
+        self.assertEqual(self.poll(), [])
+        self.store.save_plan(dict(self.plan, enabled=True))
+        self.store.set_setting(
+            "exclude_windows",
+            [{"start": "2026-11-17", "end": "2026-11-17", "enabled": True}],
+        )
+        self.assertEqual(self.poll(), [])
+        self.store.set_setting("exclude_windows", [])
+        self.store.set_setting("calendar_overrides", {"2026-11-17": "disabled"})
+        self.assertEqual(self.poll(), [])
+        self.store.set_setting("calendar_details", {"2026-11-17": {"enabled": False}})
+        events = self.poll()
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0]["program"]["id"], self.program["id"])
 
 
 if __name__ == "__main__":

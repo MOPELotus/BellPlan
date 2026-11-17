@@ -154,7 +154,7 @@ class Backend(QObject):
             )
             del self.logs[300:]
         if hasattr(self, "_state"):
-            self.refresh()
+            self.request_refresh()
 
     @Slot()
     def request_refresh(self):
@@ -164,17 +164,20 @@ class Backend(QObject):
             self.publish_timer.start(150)
 
     def _next(self, programs=None, plans=None):
-        key = (datetime.now().strftime("%Y-%m-%d %H:%M:%S"), self._revision)
-        if self._next_cache and self._next_cache[0] == key:
-            return self._next_cache[1]
-        events = self.scheduler.next_occurrences(datetime.now(), days=32, limit=1)
+        now = datetime.now()
+        cached = self._next_cache
+        if cached and cached[0] == self._revision and cached[3] <= now < cached[2]:
+            return cached[1]
+        events = self.scheduler.next_occurrences(now, days=32, limit=1)
         if not events:
-            self._next_cache = (key, "暂无待播节目")
-            return self._next_cache[1]
-        event = events[0]
-        at = datetime.fromisoformat(event["scheduled_at"])
-        result = f"{at:%m-%d %H:%M:%S} · {event['program']['name']}"
-        self._next_cache = (key, result)
+            result = "暂无待播节目"
+            expires = now + timedelta(seconds=60)
+        else:
+            event = events[0]
+            at = datetime.fromisoformat(event["scheduled_at"])
+            result = f"{at:%m-%d %H:%M:%S} · {event['program']['name']}"
+            expires = max(at, now + timedelta(milliseconds=1))
+        self._next_cache = (self._revision, result, expires, now)
         return result
 
     @Slot(str, str, str)
@@ -270,6 +273,7 @@ class Backend(QObject):
     def handle_resume(self):
         if self.closed:
             return
+        self._next_cache = None
         self.log("info", "系统已恢复运行，检查补播窗口和输出设备")
         if self.service:
             self.service.notify_resume()
@@ -734,6 +738,7 @@ class Backend(QObject):
         except Exception as exc:
             message = str(exc)
             self.log("error", message)
+            self.refresh()
             self.errorOccurred.emit(message)
             return json.dumps({"ok": False, "error": message}, ensure_ascii=False)
 

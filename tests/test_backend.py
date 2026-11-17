@@ -377,6 +377,8 @@ class BackendTests(unittest.TestCase):
         run = self.backend.store.list_runs()[0]
         self.assertEqual(run["status"], "failed")
         self.assertEqual(run["message"], "Output device unavailable")
+        # Playback logs are published in batches to keep the event loop responsive.
+        self.backend.refresh()
         self.assertEqual(json.loads(self.backend.stateJson)["logs"][0]["level"], "error")
 
     def test_close_stops_all_timers_and_is_idempotent(self):

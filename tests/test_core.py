@@ -2,10 +2,11 @@
 
 import tempfile
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, time, timedelta, timezone
 from pathlib import Path
+from unittest.mock import patch
 
-from bellplan.domain import validate_program
+from bellplan.domain import active_at, excluded_at, runs_on, validate_program
 from bellplan.scheduler import Scheduler
 from bellplan.storage import Store
 
@@ -488,6 +489,126 @@ class CoreTests(unittest.TestCase):
             dict(self.program, datetime_from="2026-11-17T08:00", datetime_to="2026-11-17T08:00")
         )
         self.assertEqual(valid["datetime_from"], valid["datetime_to"])
+
+    def full_preview_reference(self, now, days):
+        """Exhaustive oracle for checking the bounded preview algorithm."""
+        active_plans = {p["id"] for p in self.store.list_plans() if p["enabled"]}
+        details = self.store.get_setting("calendar_details", {})
+        overrides = self.store.get_setting("calendar_overrides", {})
+        global_exclusions = {"exclude_windows": self.store.get_setting("exclude_windows", [])}
+        result = []
+        for program in self.store.list_programs():
+            if not program["enabled"] or program["plan_id"] not in active_plans:
+                continue
+            for offset in range(days):
+                day = now.date() + timedelta(days=offset)
+                override = overrides.get(day.isoformat())
+                if not details.get(day.isoformat(), {}).get("enabled", True):
+                    override = None
+                if override == "disabled" or not runs_on(program, day, override):
+                    continue
+                for at in program["times"] or [program["time"]]:
+                    scheduled = datetime.combine(day, time.fromisoformat(at), tzinfo=now.tzinfo)
+                    if scheduled < now or not active_at(program, scheduled):
+                        continue
+                    if excluded_at(program, day, at) or excluded_at(global_exclusions, day, at):
+                        continue
+                    result.append(
+                        {
+                            "scheduled_at": scheduled.isoformat(timespec="seconds"),
+                            "program": program,
+                        }
+                    )
+        return sorted(result, key=lambda item: (item["scheduled_at"], -item["program"]["priority"]))
+
+    def test_bounded_preview_equals_exhaustive_prefix_with_many_times_and_ties(self):
+        # Equal names deliberately provide no useful ordering: manual rank wins.
+        for index, (priority, rank) in enumerate([(0, 5), (0, -1), (2, 3), (-1, 0)]):
+            self.store.save_program(
+                dict(
+                    self.program,
+                    id=f"preview-{index}",
+                    name="同名节目",
+                    priority=priority,
+                    sort_order=rank,
+                    times=["07:00", "08:00", "12:30", "23:59"],
+                )
+            )
+        now = self.at("2026-11-17T07:45:00+08:00")
+        expected = self.full_preview_reference(now, days=32)
+        scheduler = Scheduler(self.store)
+        for limit in [1, 2, 3, 5, 20, 75, len(expected), len(expected) + 1]:
+            with self.subTest(limit=limit):
+                self.assertEqual(
+                    scheduler.next_occurrences(now, days=32, limit=limit), expected[:limit]
+                )
+        self.assertEqual(self.store.list_runs(), [])
+
+    def test_bounded_preview_matches_month_end_expiry_and_holiday_rules(self):
+        self.program.update(
+            month_days=[30, 31, 1],
+            times=["07:00", "08:00", "09:00"],
+            datetime_from="2026-11-30T08:00",
+            datetime_to="2026-12-01T08:00",
+            exclude_windows=[
+                {
+                    "start": "2026-11-30",
+                    "end": "2026-11-30",
+                    "time_from": "08:00",
+                    "time_to": "08:30",
+                }
+            ],
+        )
+        self.store.save_program(self.program)
+        self.store.save_program(
+            dict(
+                self.program,
+                id="mapped-only",
+                month_days=[],
+                dates=["2026-11-29"],
+                datetime_to="2026-12-03T09:00",
+            )
+        )
+        self.store.set_setting(
+            "calendar_overrides", {"2026-12-01": "2026-11-29", "2026-12-02": "disabled"}
+        )
+        self.store.set_setting("calendar_details", {"2026-12-02": {"enabled": False}})
+        self.store.set_setting(
+            "exclude_windows",
+            [
+                {
+                    "start": "2026-12-01",
+                    "end": "2026-12-01",
+                    "time_from": "07:00",
+                    "time_to": "07:30",
+                }
+            ],
+        )
+        now = self.at("2026-11-29T12:00:00")
+        expected = self.full_preview_reference(now, days=32)
+        self.assertEqual(
+            [(x["scheduled_at"], x["program"]["id"]) for x in expected],
+            [
+                ("2026-11-30T09:00:00", self.program["id"]),
+                ("2026-12-01T08:00:00", "mapped-only"),
+                ("2026-12-01T09:00:00", "mapped-only"),
+            ],
+        )
+        for limit in [1, 2, 3, 10]:
+            with self.subTest(limit=limit):
+                self.assertEqual(
+                    Scheduler(self.store).next_occurrences(now, days=32, limit=limit),
+                    expected[:limit],
+                )
+
+    def test_preview_limit_one_stops_each_program_after_first_matching_day(self):
+        self.store.save_program(dict(self.program, id="second", times=["08:00", "12:00", "18:00"]))
+        with patch("bellplan.scheduler.runs_on", wraps=runs_on) as rule_check:
+            result = Scheduler(self.store).next_occurrences(
+                self.at("2026-11-17T07:00:00"), days=32, limit=1
+            )
+        self.assertEqual(len(result), 1)
+        self.assertEqual(rule_check.call_count, 2)
 
     def test_validation_rejects_invalid_and_nonfinite_values(self):
         for change in (

@@ -12,6 +12,7 @@ import threading
 import time
 from datetime import datetime
 from pathlib import Path
+from types import MappingProxyType
 
 from PySide6.QtCore import QObject, Signal
 
@@ -19,17 +20,97 @@ from .scheduler import Scheduler
 from .storage import Store
 
 
+def _freeze(value):
+    """Keep decoded scheduling data immutable between worker polling cycles."""
+    if isinstance(value, dict):
+        return MappingProxyType({key: _freeze(item) for key, item in value.items()})
+    if isinstance(value, list):
+        return tuple(_freeze(item) for item in value)
+    return value
+
+
+def _thaw(value):
+    """Detach the rare due event from the read-only worker cache."""
+    if isinstance(value, MappingProxyType):
+        return {key: _thaw(item) for key, item in value.items()}
+    if isinstance(value, tuple):
+        return [_thaw(item) for item in value]
+    return value
+
+
+_MISSING = object()
+
+
 class _PollingStore(Store):
-    """Claim an entire polling batch in the worker's outer transaction."""
+    """Cache read-only configuration; claim one batch in an outer transaction.
+
+    This connection is dedicated to polling and run-status writes. Configuration
+    edits use the UI's separate Store connection. SQLite's data_version changes
+    for those external commits, but not for this connection's own run claims.
+    """
 
     def __init__(self, path):
         try:
             super().__init__(path, timeout=0.1)
             self.connection.execute("PRAGMA busy_timeout = 100")
+            self._data_version = None
+            self._poll_active = False
+            self._programs_cache = None
+            self._plans_cache = None
+            self._settings_cache = {}
         except Exception:
             if hasattr(self, "connection"):
                 self.connection.close()
             raise
+
+    def _refresh_cache_version(self):
+        version = self.connection.execute("PRAGMA data_version").fetchone()[0]
+        if version != self._data_version:
+            self._data_version = version
+            self._programs_cache = None
+            self._plans_cache = None
+            self._settings_cache.clear()
+
+    def begin_poll(self):
+        """Sample once inside the transaction, fixing the matching WAL snapshot.
+
+        Sampling before BEGIN is unsafe: an external commit could otherwise make
+        the cached rules older than the transaction used to claim occurrences.
+        """
+        if not self.connection.in_transaction:
+            raise RuntimeError("缓存版本须在调度事务中读取")
+        self._refresh_cache_version()
+        self._poll_active = True
+
+    def end_poll(self):
+        self._poll_active = False
+
+    def _ensure_cache_version(self):
+        if not self._poll_active:
+            # Also keep direct diagnostic/test reads current outside a poll.
+            self._refresh_cache_version()
+
+    def list_programs(self, plan_id=None):
+        self._ensure_cache_version()
+        if self._programs_cache is None:
+            self._programs_cache = _freeze(super().list_programs())
+        if plan_id is None:
+            return self._programs_cache
+        return tuple(record for record in self._programs_cache if record["plan_id"] == plan_id)
+
+    def list_plans(self):
+        self._ensure_cache_version()
+        if self._plans_cache is None:
+            self._plans_cache = _freeze(super().list_plans())
+        return self._plans_cache
+
+    def get_setting(self, key, default=None):
+        self._ensure_cache_version()
+        if key not in self._settings_cache:
+            value = super().get_setting(key, _MISSING)
+            self._settings_cache[key] = _freeze(value) if value is not _MISSING else _MISSING
+        value = self._settings_cache[key]
+        return _freeze(default) if value is _MISSING else value
 
     def claim(self, event_id, program_id, scheduled_at):
         cursor = self.connection.execute(
@@ -235,9 +316,13 @@ class SchedulerService(QObject):
                     if enabled and not self._stop.is_set():
                         # A read snapshot and all occurrence claims form one
                         # transaction. A failed batch leaves no partial claims.
-                        with store.connection:
-                            store.connection.execute("BEGIN")
-                            events = scheduler.poll(wall)
+                        try:
+                            with store.connection:
+                                store.connection.execute("BEGIN")
+                                store.begin_poll()
+                                events = scheduler.poll(wall)
+                        finally:
+                            store.end_poll()
                         last_success = wall
                         with self._lock:
                             cancelled = (
@@ -252,6 +337,7 @@ class SchedulerService(QObject):
                                 )
                             events = []
                         for event in events:
+                            event["program"] = _thaw(event["program"])
                             detected = datetime.now()
                             scheduled = datetime.fromisoformat(event["scheduled_at"])
                             event["detected_at"] = detected.isoformat(timespec="milliseconds")

@@ -50,7 +50,8 @@ class PlaybackTests(unittest.TestCase):
             wav.write_bytes(b"RIFF")
             (folder / "ignored.txt").write_text("not media")
             files, errors = expand_sources([str(folder), str(wav), str(folder / "missing")])
-            self.assertEqual(files, [str(wav)])
+            # Canonical paths may expand Windows 8.3 temporary-directory names.
+            self.assertEqual(files, [str(wav.resolve())])
             self.assertEqual(len(errors), 1)
 
     def test_unsupported_file_is_not_playable(self):

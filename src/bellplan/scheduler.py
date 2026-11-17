@@ -7,6 +7,7 @@ replayed automatically after a crash; consumers record success/failure explicitl
 from __future__ import annotations
 
 import hashlib
+import heapq
 import math
 from datetime import datetime, time, timedelta
 
@@ -105,25 +106,38 @@ class Scheduler:
         }
         global_exclusions = {"exclude_windows": self.store.get_setting("exclude_windows", [])}
         plans = {x["id"] for x in self.store.list_plans() if x["enabled"]}
-        result = []
-        for program in self.store.list_programs():
-            if not program["enabled"] or program["plan_id"] not in plans:
-                continue
-            for offset in range(days):
-                day = now.date() + timedelta(days=offset)
-                override = overrides.get(day.isoformat())
-                if override == "disabled" or not runs_on(program, day, override):
+
+        def candidates():
+            # Each program contributes at most limit chronological occurrences.
+            # Later occurrences from that program cannot enter the global first
+            # limit results because limit earlier ones already precede them.
+            for order, program in enumerate(self.store.list_programs()):
+                if not program["enabled"] or program["plan_id"] not in plans:
                     continue
-                for at in program["times"] or [program["time"]]:
-                    if excluded_at(program, day, at) or excluded_at(global_exclusions, day, at):
+                times = [
+                    (at, time.fromisoformat(at)) for at in program["times"] or [program["time"]]
+                ]
+                emitted = 0
+                for offset in range(days):
+                    day = now.date() + timedelta(days=offset)
+                    override = overrides.get(day.isoformat())
+                    if override == "disabled" or not runs_on(program, day, override):
                         continue
-                    scheduled = datetime.combine(day, time.fromisoformat(at), tzinfo=now.tzinfo)
-                    if scheduled >= now and active_at(program, scheduled):
-                        result.append(
-                            {
-                                "scheduled_at": scheduled.isoformat(timespec="seconds"),
-                                "program": program,
-                            }
-                        )
-        result.sort(key=lambda x: (x["scheduled_at"], -x["program"]["priority"]))
-        return result[:limit]
+                    for at, parsed_time in times:
+                        scheduled = datetime.combine(day, parsed_time, tzinfo=now.tzinfo)
+                        if scheduled < now or not active_at(program, scheduled):
+                            continue
+                        if excluded_at(program, day, at) or excluded_at(global_exclusions, day, at):
+                            continue
+                        stamp = scheduled.isoformat(timespec="seconds")
+                        emitted += 1
+                        yield stamp, -program["priority"], order, program
+                        if emitted >= limit:
+                            break
+                    if emitted >= limit:
+                        break
+
+        # A bounded heap avoids allocating and sorting the full preview horizon.
+        # Explicit list order preserves manual ordering for equal time/priority.
+        first = heapq.nsmallest(limit, candidates(), key=lambda item: item[:3])
+        return [{"scheduled_at": stamp, "program": program} for stamp, _, _, program in first]
