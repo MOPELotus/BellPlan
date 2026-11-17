@@ -20,13 +20,17 @@ Item {
         var names = {};
         tracks.forEach(function (track) {
             names[track.category || "其他"] = true;
+            (track.category_aliases || []).forEach(function (name) { names[name] = true; });
         });
         return ["全部分类"].concat(Object.keys(names).sort(function (a, b) {
             return a.localeCompare(b);
         }));
     }
     readonly property var filteredTracks: tracks.filter(function (track) {
-        return (!library.category || (track.category || "其他") === library.category) && (!library.query || (track.name + " " + track.category).toLowerCase().indexOf(library.query.toLowerCase()) >= 0);
+        var categories = [track.category || "其他"].concat(track.category_aliases || []);
+        var labels = (track.source_aliases || []).map(function (item) { return (item.name || "") + " " + (item.label || ""); }).join(" ");
+        var searchable = track.name + " " + track.category + " " + categories.join(" ") + " " + labels;
+        return (!library.category || categories.indexOf(library.category) >= 0) && (!library.query || searchable.toLowerCase().indexOf(library.query.toLowerCase()) >= 0);
     })
     readonly property bool allVisibleSelected: filteredTracks.length > 0 && filteredTracks.every(function (track) {
         return library.selectedPaths.indexOf(track.path) >= 0;

@@ -1,147 +1,891 @@
 {
   "schema_version": 1,
   "source": "用户提供及公开页面获取的音频资料",
-  "media_count": 74,
+  "media_count": 119,
   "media": [
     {
       "name": "上课号上班号",
       "category": "军号",
       "relative_path": "music/军号/上课号上班号.mp3",
       "size": 152322,
-      "sha256": "bcfdce587b3af03dd1e05e17a614f382c67b9de088cfe00f82f1d04f356743ec"
+      "sha256": "bcfdce587b3af03dd1e05e17a614f382c67b9de088cfe00f82f1d04f356743ec",
+      "source_aliases": [
+        {
+          "name": "上课号上班号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "上课号上班号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "下课下班号",
       "category": "军号",
       "relative_path": "music/军号/下课下班号.mp3",
       "size": 168411,
-      "sha256": "e0cb8c534042423015150a08a33f80121af72f40e715a07875396c3b097b4637"
+      "sha256": "e0cb8c534042423015150a08a33f80121af72f40e715a07875396c3b097b4637",
+      "source_aliases": [
+        {
+          "name": "下课下班号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "下课下班号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "休息号",
       "category": "军号",
       "relative_path": "music/军号/休息号.mp3",
       "size": 127996,
-      "sha256": "b55563c377613407dc89c1b8be2831ef6ebe611820318f5d9fab0b2d55aaedfa"
+      "sha256": "b55563c377613407dc89c1b8be2831ef6ebe611820318f5d9fab0b2d55aaedfa",
+      "source_aliases": [
+        {
+          "name": "休息号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "休息号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "冲锋号",
       "category": "军号",
       "relative_path": "music/军号/冲锋号.mp3",
       "size": 56316,
-      "sha256": "4f1c6057e8d94de5f8c5ba682b861af35a647ca001ea0819a87934c125664910"
+      "sha256": "4f1c6057e8d94de5f8c5ba682b861af35a647ca001ea0819a87934c125664910",
+      "source_aliases": [
+        {
+          "name": "冲锋号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "冲锋号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "冲锋号OLD",
       "category": "军号",
       "relative_path": "music/军号/冲锋号OLD.mp3",
       "size": 48820,
-      "sha256": "675fcbcee353fc465c943903ec1876e7f19359bbf1bab1f2aab1d353566a7b63"
+      "sha256": "675fcbcee353fc465c943903ec1876e7f19359bbf1bab1f2aab1d353566a7b63",
+      "source_aliases": [
+        {
+          "name": "冲锋号OLD",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "冲锋号OLD.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "出操号",
       "category": "军号",
       "relative_path": "music/军号/出操号.mp3",
       "size": 86670,
-      "sha256": "886477b3c44f01c532e90ef25e63290270f62c85024a2f0502039fd05d190b30"
+      "sha256": "886477b3c44f01c532e90ef25e63290270f62c85024a2f0502039fd05d190b30",
+      "source_aliases": [
+        {
+          "name": "出操号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "出操号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "午睡号",
       "category": "军号",
       "relative_path": "music/军号/午睡号.mp3",
       "size": 121198,
-      "sha256": "9f895bc9e3e9fb22783e70e8e075e70e70e255b6d26d5ec38126f43803e6f8a9"
+      "sha256": "9f895bc9e3e9fb22783e70e8e075e70e70e255b6d26d5ec38126f43803e6f8a9",
+      "source_aliases": [
+        {
+          "name": "午睡号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "午睡号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "午起号",
       "category": "军号",
       "relative_path": "music/军号/午起号.mp3",
       "size": 154478,
-      "sha256": "556a33e364d1eb97a90777165bac0810f5f4831585405fa0e24db9167da034c1"
+      "sha256": "556a33e364d1eb97a90777165bac0810f5f4831585405fa0e24db9167da034c1",
+      "source_aliases": [
+        {
+          "name": "午起号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "午起号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "开饭号",
       "category": "军号",
       "relative_path": "music/军号/开饭号.mp3",
       "size": 133482,
-      "sha256": "5f7a439710158aecf1a96a349a6ba07422305892c318bb4e850fcbc63e209d04"
+      "sha256": "5f7a439710158aecf1a96a349a6ba07422305892c318bb4e850fcbc63e209d04",
+      "source_aliases": [
+        {
+          "name": "开饭号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "开饭号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "收操号",
       "category": "军号",
       "relative_path": "music/军号/收操号.mp3",
       "size": 77893,
-      "sha256": "c8b9aa89a28c1701ebd007835d815c0ac554dc023819c1378a0ef80a304bc4f9"
+      "sha256": "c8b9aa89a28c1701ebd007835d815c0ac554dc023819c1378a0ef80a304bc4f9",
+      "source_aliases": [
+        {
+          "name": "收操号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "收操号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "晚点名号",
       "category": "军号",
       "relative_path": "music/军号/晚点名号.mp3",
       "size": 119769,
-      "sha256": "7c66b23f2387603d7b01d2914bcdab4b63a3d2d8c90568a89c199f565fd475c9"
+      "sha256": "7c66b23f2387603d7b01d2914bcdab4b63a3d2d8c90568a89c199f565fd475c9",
+      "source_aliases": [
+        {
+          "name": "晚点名号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "晚点名号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "熄灯号",
       "category": "军号",
       "relative_path": "music/军号/熄灯号.mp3",
       "size": 138602,
-      "sha256": "a0080f886a81ebda7f5cdcc0db5995d723af6d8ece7879f2391ada11f42c9f20"
+      "sha256": "a0080f886a81ebda7f5cdcc0db5995d723af6d8ece7879f2391ada11f42c9f20",
+      "source_aliases": [
+        {
+          "name": "熄灯号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "熄灯号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "紧急集合号",
       "category": "军号",
       "relative_path": "music/军号/紧急集合号.mp3",
       "size": 78048,
-      "sha256": "445cbfb456e39735543c369d142e1fa20ef824f1930198f2d012152f9356c185"
+      "sha256": "445cbfb456e39735543c369d142e1fa20ef824f1930198f2d012152f9356c185",
+      "source_aliases": [
+        {
+          "name": "紧急集合号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "紧急集合号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "解除警报号",
       "category": "军号",
       "relative_path": "music/军号/解除警报号.mp3",
       "size": 80457,
-      "sha256": "12e8c1c2c294144131ad51e346e8fca685cee39dee4b10560cbb84de9ca799b7"
+      "sha256": "12e8c1c2c294144131ad51e346e8fca685cee39dee4b10560cbb84de9ca799b7",
+      "source_aliases": [
+        {
+          "name": "解除警报号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "解除警报号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "起床号",
       "category": "军号",
       "relative_path": "music/军号/起床号.mp3",
       "size": 149939,
-      "sha256": "c056a53cb62745591be4a2c847260c6b9761c015b334a954c27d804b35c89779"
+      "sha256": "c056a53cb62745591be4a2c847260c6b9761c015b334a954c27d804b35c89779",
+      "source_aliases": [
+        {
+          "name": "起床号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "起床号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "防空号",
       "category": "军号",
       "relative_path": "music/军号/防空号.mp3",
       "size": 105838,
-      "sha256": "aa57c94b74b4693a266fd1983fec925c1b5b82161cf5d261265c6cc9c65ae5df"
+      "sha256": "aa57c94b74b4693a266fd1983fec925c1b5b82161cf5d261265c6cc9c65ae5df",
+      "source_aliases": [
+        {
+          "name": "防空号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "防空号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
       "name": "集合号",
       "category": "军号",
       "relative_path": "music/军号/集合号.mp3",
       "size": 158533,
-      "sha256": "47f88d4aedea1c2d5c20adb1238e7450a58148802ce2f24e3865fb7976e642b3"
+      "sha256": "47f88d4aedea1c2d5c20adb1238e7450a58148802ce2f24e3865fb7976e642b3",
+      "source_aliases": [
+        {
+          "name": "集合号",
+          "category": "军号",
+          "label": "军号合集",
+          "source_url": "https://wangsg.lanzoub.com/iaC7207tiecb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "集合号.mp3"
+        }
+      ],
+      "category_aliases": [
+        "军号"
+      ]
     },
     {
-      "name": "打烊（萨克斯回家）",
-      "category": "通用提示与音乐",
-      "relative_path": "music/打烊（萨克斯回家）.mp3",
-      "size": 4069700,
-      "sha256": "9f3ecb3ce9e9ea907998b9bddac5fb87a3c0be25b2deab149c8e2f94471ab011"
+      "name": "出国旗-含口令（113s）",
+      "category": "升旗",
+      "relative_path": "music/升旗/出国旗-含口令（113s）.mp3",
+      "size": 3605316,
+      "sha256": "ae0bcefd00422906b155bfb77c5192644243b798e9f5492c410b7efdddcf5065",
+      "pcm_sha256": "85df9ff3163f16ea2da2343f532c4cac62463d88e1f78d01cb36634a4afe9acd",
+      "duration_seconds": 112.66612244897959,
+      "source_url": "https://wangsg.lanzoub.com/iuSCj17dcele",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "出国旗-含口令（113s）",
+          "category": "升旗",
+          "label": "出国旗含口令",
+          "source_url": "https://wangsg.lanzoub.com/iuSCj17dcele",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "出国旗-含口令（113s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "升旗"
+      ]
+    },
+    {
+      "name": "升国旗-含口令（64s）",
+      "category": "升旗",
+      "relative_path": "music/升旗/升国旗-含口令（64s）.mp3",
+      "size": 2053851,
+      "sha256": "efe2d419ef09f085c93f8bc5865292eddb1661e38f3983f7ad6676914ec77951",
+      "pcm_sha256": "b165b58db2adcff38386cbd972442104d23fcbc21c21a652e076b28e7c9279f4",
+      "duration_seconds": 64.18285714285715,
+      "source_url": "https://wangsg.lanzoub.com/iQGUC17dcepi",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "升国旗-含口令（64s）",
+          "category": "升旗",
+          "label": "升国旗含口令",
+          "source_url": "https://wangsg.lanzoub.com/iQGUC17dcepi",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "升国旗-含口令（64s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "升旗"
+      ]
+    },
+    {
+      "name": "国歌奏乐",
+      "category": "升旗",
+      "relative_path": "music/升旗/国歌奏乐.mp3",
+      "size": 1094101,
+      "sha256": "875cbf1fcd288ce25be4477ef256dcc285a0aa2ccb6b674e9b7ceb77073d088e",
+      "pcm_sha256": "3e5b351a3ac57468391f5574c85b97d42728bd16b482bf0c6b28412e02eed49d",
+      "duration_seconds": 47.7733560090703,
+      "source_url": "https://wangsg.lanzoub.com/iMYJ107tiprc",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "国歌奏乐",
+          "category": "升旗",
+          "label": "国歌奏乐",
+          "source_url": "https://wangsg.lanzoub.com/iMYJ107tiprc",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "国歌奏乐.mp3"
+        }
+      ],
+      "category_aliases": [
+        "升旗"
+      ]
+    },
+    {
+      "name": "少先队出旗曲",
+      "category": "升旗",
+      "relative_path": "music/升旗/少先队出旗曲.mp3",
+      "size": 6837492,
+      "sha256": "f13e5af7201cc5903261d11632adf4c7aa6513fab1dbc1657c28edf362410f34",
+      "pcm_sha256": "7938faf37b9bf3b9413f997e49d36dba90f7b28adf8be836cf26de0174b9452b",
+      "duration_seconds": 168.47780045351473,
+      "source_url": "https://wangsg.lanzoub.com/iDSpx07tipwh",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "少先队出旗曲",
+          "category": "升旗",
+          "label": "少先队出旗曲",
+          "source_url": "https://wangsg.lanzoub.com/iDSpx07tipwh",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "少先队出旗曲.mp3"
+        }
+      ],
+      "category_aliases": [
+        "升旗"
+      ]
+    },
+    {
+      "name": "少先队退旗曲",
+      "category": "升旗",
+      "relative_path": "music/升旗/少先队退旗曲.mp3",
+      "size": 7277081,
+      "sha256": "67677a668553068eb02e6921fbde5b363d97e141e3db72d111969fb818a1f1b1",
+      "pcm_sha256": "33d817bf5c229c75d5e9b7b4afe1de6b0c59b4adf55cc2f484eb64cec25ef31c",
+      "duration_seconds": 179.52759637188208,
+      "source_url": "https://wangsg.lanzoub.com/im8xT07tiq2d",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "少先队退旗曲",
+          "category": "升旗",
+          "label": "少先队退旗曲",
+          "source_url": "https://wangsg.lanzoub.com/im8xT07tiq2d",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "少先队退旗曲.mp3"
+        }
+      ],
+      "category_aliases": [
+        "升旗"
+      ]
+    },
+    {
+      "name": "歌唱祖国",
+      "category": "升旗",
+      "relative_path": "music/升旗/歌唱祖国.mp3",
+      "size": 3698366,
+      "sha256": "6054448db2a4892fa1e81fde75e813f81085f8d91d80f5c0c7a0026e03f6fb1f",
+      "pcm_sha256": "8515a7152a2207936268128301d379592209a70a6c0759664b026336052f54ef",
+      "duration_seconds": 188.41083900226758,
+      "source_url": "https://wangsg.lanzoub.com/iUzon07tippa",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "歌唱祖国",
+          "category": "升旗",
+          "label": "歌唱祖国",
+          "source_url": "https://wangsg.lanzoub.com/iUzon07tippa",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "歌唱祖国.mp3"
+        }
+      ],
+      "category_aliases": [
+        "升旗"
+      ]
+    },
+    {
+      "name": "第三套(七彩阳光)",
+      "category": "学生第三套",
+      "relative_path": "music/学生第三套/第三套(七彩阳光).mp3",
+      "size": 5324911,
+      "sha256": "9148a4ec4ecc9e05c42979d43c50aafd93c63e065c33da240235b4d0385d5302",
+      "pcm_sha256": "c23ce02270fc4b4249decb2c2ce4acafa1ffb58f1956dee1463229bdf477d16f",
+      "duration_seconds": 274.75591836734696,
+      "source_url": "https://wangsg.lanzoub.com/iT8g407tin3g",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "第三套(七彩阳光)",
+          "category": "学生第三套",
+          "label": "七彩阳光",
+          "source_url": "https://wangsg.lanzoub.com/iT8g407tin3g",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "第三套(七彩阳光).mp3"
+        }
+      ],
+      "category_aliases": [
+        "学生第三套"
+      ]
+    },
+    {
+      "name": "第三套(希望风帆)",
+      "category": "学生第三套",
+      "relative_path": "music/学生第三套/第三套(希望风帆).mp3",
+      "size": 4591739,
+      "sha256": "51af0ccfa83cdff1a131d54aa68b6eb77408127802359bb02f513c59589f0787",
+      "pcm_sha256": "5c7633fa4523d481d0dda032c1fead916a2c4a35145e8c08f18153474f96b549",
+      "duration_seconds": 282.8418820861678,
+      "source_url": "https://wangsg.lanzoub.com/iFkuo07tin8b",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "第三套(希望风帆)",
+          "category": "学生第三套",
+          "label": "希望风帆",
+          "source_url": "https://wangsg.lanzoub.com/iFkuo07tin8b",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "第三套(希望风帆).mp3"
+        }
+      ],
+      "category_aliases": [
+        "学生第三套"
+      ]
+    },
+    {
+      "name": "第三套(放飞理想)",
+      "category": "学生第三套",
+      "relative_path": "music/学生第三套/第三套(放飞理想).mp3",
+      "size": 4406543,
+      "sha256": "5a4fbb9dffca0ee43340d4a82c438413ae54c4173db79a3f1cb89d83183bacdd",
+      "pcm_sha256": "d9d5ad8c4bfe9ad99a8e0dd7db0b781ff1bea21c28bc56421bb614fa50370c23",
+      "duration_seconds": 275.4089795918367,
+      "source_url": "https://wangsg.lanzoub.com/iF9pk07tin2f",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "第三套(放飞理想)",
+          "category": "学生第三套",
+          "label": "放飞理想",
+          "source_url": "https://wangsg.lanzoub.com/iF9pk07tin2f",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "第三套(放飞理想).mp3"
+        }
+      ],
+      "category_aliases": [
+        "学生第三套"
+      ]
+    },
+    {
+      "name": "第三套(舞动青春)",
+      "category": "学生第三套",
+      "relative_path": "music/学生第三套/第三套(舞动青春).mp3",
+      "size": 2206938,
+      "sha256": "5dcce3852d9f5341d225b3375a00267270ebe2112694fb8094ae7934c8296da6",
+      "pcm_sha256": "02d13d811ffbc20fc4f1b5ffc72b7a0234c9c8b24e3fedd8fce9826d4610ea12",
+      "duration_seconds": 275.33061224489796,
+      "source_url": "https://wangsg.lanzoub.com/itT3J07tin5i",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "第三套(舞动青春)",
+          "category": "学生第三套",
+          "label": "舞动青春",
+          "source_url": "https://wangsg.lanzoub.com/itT3J07tin5i",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "第三套(舞动青春).mp3"
+        }
+      ],
+      "category_aliases": [
+        "学生第三套"
+      ]
+    },
+    {
+      "name": "第二套(世界真美好)",
+      "category": "学生第二套",
+      "relative_path": "music/学生第二套/第二套(世界真美好).mp3",
+      "size": 6574121,
+      "sha256": "7aac8ebabc77207cffe55061430d64d65aa107c4a7f74437ee83e07cda758c32",
+      "pcm_sha256": "d741aa695652bb12ef2f4a09deda0471245a95767e7ec34c45a25f2915411db9",
+      "duration_seconds": 160.78394557823128,
+      "source_url": "https://wangsg.lanzoub.com/iFVFU07tin0d",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "第二套(世界真美好)",
+          "category": "学生第二套",
+          "label": "世界真美好",
+          "source_url": "https://wangsg.lanzoub.com/iFVFU07tin0d",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "第二套(世界真美好).mp3"
+        }
+      ],
+      "category_aliases": [
+        "学生第二套"
+      ]
+    },
+    {
+      "name": "第二套(初升的太阳)",
+      "category": "学生第二套",
+      "relative_path": "music/学生第二套/第二套(初升的太阳).mp3",
+      "size": 3543792,
+      "sha256": "b9095481388ba25f9be685f7e9efa572dd3365555d79a13ed6d9245a4ce5ac0a",
+      "pcm_sha256": "c88627320153fc35cec02bd9b121824a55cbe77b49c39dfea2e931521b523487",
+      "duration_seconds": 206.9612925170068,
+      "source_url": "https://wangsg.lanzoub.com/iR6xd07timqd",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "第二套(初升的太阳)",
+          "category": "学生第二套",
+          "label": "初升的太阳",
+          "source_url": "https://wangsg.lanzoub.com/iR6xd07timqd",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "第二套(初升的太阳).mp3"
+        }
+      ],
+      "category_aliases": [
+        "学生第二套"
+      ]
+    },
+    {
+      "name": "第二套(时代在召唤)",
+      "category": "学生第二套",
+      "relative_path": "music/学生第二套/第二套(时代在召唤).mp3",
+      "size": 8091405,
+      "sha256": "b17d25e08becbdb847fa8f7312124f0a069e7c8a39e845d0847cf811962dca0e",
+      "pcm_sha256": "52eb6e07136075d86aa8f2cf681639176428b5ecd8dfa2700b642cd35d7bc234",
+      "duration_seconds": 249.44401360544217,
+      "source_url": "https://wangsg.lanzoub.com/i5tQ607timxa",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "第二套(时代在召唤)",
+          "category": "学生第二套",
+          "label": "时代在召唤",
+          "source_url": "https://wangsg.lanzoub.com/i5tQ607timxa",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "第二套(时代在召唤).mp3"
+        }
+      ],
+      "category_aliases": [
+        "学生第二套"
+      ]
+    },
+    {
+      "name": "第二套(雏鹰起飞)",
+      "category": "学生第二套",
+      "relative_path": "music/学生第二套/第二套(雏鹰起飞).mp3",
+      "size": 4291275,
+      "sha256": "c5e7f299181dbaf83a4545bd33f0eb4de8275610938ec0ac632c6175c957ce81",
+      "pcm_sha256": "6a5b6efca702368da53168201940f3623ba2f0000906fc61b02c270ed5d30f72",
+      "duration_seconds": 194.0320634920635,
+      "source_url": "https://wangsg.lanzoub.com/itdGc07timre",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "第二套(雏鹰起飞)",
+          "category": "学生第二套",
+          "label": "雏鹰起飞",
+          "source_url": "https://wangsg.lanzoub.com/itdGc07timre",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "第二套(雏鹰起飞).mp3"
+        }
+      ],
+      "category_aliases": [
+        "学生第二套"
+      ]
+    },
+    {
+      "name": "第二套(青春的活力)",
+      "category": "学生第二套",
+      "relative_path": "music/学生第二套/第二套(青春的活力).mp3",
+      "size": 4542218,
+      "sha256": "a4157fbfab9c62e5cfe44a7f65f3bc99380f23946db915c7114f7a5a466ee731",
+      "pcm_sha256": "a38d22d36da84741b9f087adafb0bbe57e508826a4b0aacd8bb29c72eaa7a914",
+      "duration_seconds": 226.78632653061226,
+      "source_url": "https://wangsg.lanzoub.com/iNPdV07timtg",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "第二套(青春的活力)",
+          "category": "学生第二套",
+          "label": "青春的活力",
+          "source_url": "https://wangsg.lanzoub.com/iNPdV07timtg",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "第二套(青春的活力).mp3"
+        }
+      ],
+      "category_aliases": [
+        "学生第二套"
+      ]
+    },
+    {
+      "name": "大众广播10",
+      "category": "广播操",
+      "relative_path": "music/广播操/大众广播10.mp3",
+      "size": 2254856,
+      "sha256": "9a4264d2af2f94dadf49ed552eebb9b987f1e0c13001b66634cf0b9ceef16ed6",
+      "pcm_sha256": "7761d4480927d1260cf7c5c382cbbf79e49cacce5d82d6e2b93449080f5a5e41",
+      "duration_seconds": 281.78285714285715,
+      "source_url": "https://wangsg.lanzoub.com/iw9HF07timob",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "大众广播10",
+          "category": "广播操",
+          "label": "第十套",
+          "source_url": "https://wangsg.lanzoub.com/iw9HF07timob",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "大众广播10.mp3"
+        }
+      ],
+      "category_aliases": [
+        "广播操"
+      ]
+    },
+    {
+      "name": "大众广播6",
+      "category": "广播操",
+      "relative_path": "music/广播操/大众广播6.mp3",
+      "size": 1578193,
+      "sha256": "a83898ac775d20cae56502adf00523a976117dacb96f828252464311765c8020",
+      "pcm_sha256": "142b07a1000e0caca788a04e904feb5ea0e28c1d19482121b78944cee898389f",
+      "duration_seconds": 263.0269387755102,
+      "source_url": "https://wangsg.lanzoub.com/iiuIq07timhe",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "大众广播6",
+          "category": "广播操",
+          "label": "第六套",
+          "source_url": "https://wangsg.lanzoub.com/iiuIq07timhe",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "大众广播6.mp3"
+        }
+      ],
+      "category_aliases": [
+        "广播操"
+      ]
+    },
+    {
+      "name": "大众广播7",
+      "category": "广播操",
+      "relative_path": "music/广播操/大众广播7.mp3",
+      "size": 1664727,
+      "sha256": "93096efd6c1b310f2af21cf244304e68696078d21dbff0c30d9a8b1f419592f1",
+      "pcm_sha256": "364c32143c58b7512ca7c644c72003bc0be5572ccaf42858b0050b340cb38507",
+      "duration_seconds": 277.4465306122449,
+      "source_url": "https://wangsg.lanzoub.com/iQ1re07timli",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "大众广播7",
+          "category": "广播操",
+          "label": "第七套",
+          "source_url": "https://wangsg.lanzoub.com/iQ1re07timli",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "大众广播7.mp3"
+        }
+      ],
+      "category_aliases": [
+        "广播操"
+      ]
+    },
+    {
+      "name": "大众广播8",
+      "category": "广播操",
+      "relative_path": "music/广播操/大众广播8.mp3",
+      "size": 4065603,
+      "sha256": "a37356cd97c651e140c8869554c30a978f12634043b496196f20e136f20fe6ec",
+      "pcm_sha256": "949b13914a1f942b06fe0ea6ce12d417e4532ff24ada00ea5a8830f92190e6dd",
+      "duration_seconds": 253.83183673469387,
+      "source_url": "https://wangsg.lanzoub.com/igbnf07timmj",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "大众广播8",
+          "category": "广播操",
+          "label": "第八套",
+          "source_url": "https://wangsg.lanzoub.com/igbnf07timmj",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "大众广播8.mp3"
+        }
+      ],
+      "category_aliases": [
+        "广播操"
+      ]
+    },
+    {
+      "name": "大众广播9",
+      "category": "广播操",
+      "relative_path": "music/广播操/大众广播9.mp3",
+      "size": 1742204,
+      "sha256": "18285daef0b3c6471e16fc62f5be98c0f7026089eb59434e75c5644905d0b039",
+      "pcm_sha256": "25be49bc3a62c93aca5ccf104578381acec18ed3957514c0687a0c6f43678a2c",
+      "duration_seconds": 290.32489795918366,
+      "source_url": "https://wangsg.lanzoub.com/iXAI607timna",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "大众广播9",
+          "category": "广播操",
+          "label": "第九套",
+          "source_url": "https://wangsg.lanzoub.com/iXAI607timna",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "大众广播9.mp3"
+        }
+      ],
+      "category_aliases": [
+        "广播操"
+      ]
+    },
+    {
+      "name": "旭日东升(武术健身)",
+      "category": "广播操",
+      "relative_path": "music/广播操/旭日东升(武术健身).mp3",
+      "size": 689294,
+      "sha256": "7d83792cb11abb1650691c0dae04f000dba8ca0857207d4f725717cc1f0e347a",
+      "pcm_sha256": "332bcb9b516e71a8b7b0467e557e04971868815191ce152122e6caf44a1eac5c",
+      "duration_seconds": 172.0440136054422,
+      "source_url": "https://wangsg.lanzoub.com/iggwq17d9myh",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "旭日东升(武术健身)",
+          "category": "广播操",
+          "label": "旭日东升(武术健身操)",
+          "source_url": "https://wangsg.lanzoub.com/iggwq17d9myh",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "旭日东升(武术健身).mp3"
+        }
+      ],
+      "category_aliases": [
+        "广播操"
+      ]
     },
     {
       "name": "上课-人声（15s）",
       "category": "打铃",
       "relative_path": "music/打铃/上课-人声（15s）.mp3",
       "size": 118740,
-      "sha256": "8e1330bb8b41149d8a24f7fb0c80cedf126c90f9df5b5d45c54a3623454c5dd2"
+      "sha256": "8e1330bb8b41149d8a24f7fb0c80cedf126c90f9df5b5d45c54a3623454c5dd2",
+      "source_aliases": [
+        {
+          "name": "上课-人声(15s)",
+          "category": "上课",
+          "label": "人声(15s)",
+          "source_url": "https://wangsg.lanzoub.com/iQOkK07tikkf",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "上课-人声(15s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "上课"
+      ]
     },
     {
       "name": "上课-女声（26s）",
       "category": "打铃",
       "relative_path": "music/打铃/上课-女声（26s）.mp3",
       "size": 602154,
-      "sha256": "91313ac3e0600a599ed1575f9011d501aeeba9fff0b6062bf88800d90a849d11"
+      "sha256": "91313ac3e0600a599ed1575f9011d501aeeba9fff0b6062bf88800d90a849d11",
+      "source_aliases": [
+        {
+          "name": "上课-声（26s）",
+          "category": "上课",
+          "label": "女声(26s)",
+          "source_url": "https://wangsg.lanzoub.com/ijaEn17d9c4h",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "上课-声（26s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "上课"
+      ]
     },
     {
       "name": "上课-女童（17s）",
@@ -151,6 +895,27 @@
       "sha256": "280370fbb06c0d3f71abba6432ead661b9076f67c19bc7feb8dc599fcdbc590e",
       "aliases": [
         "music/打铃/上课-人声（17s）.mp3"
+      ],
+      "source_aliases": [
+        {
+          "name": "上课-人声(17s)",
+          "category": "上课",
+          "label": "人声(17s)",
+          "source_url": "https://wangsg.lanzoub.com/ibVR307tiklg",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "上课-人声(17s).mp3"
+        },
+        {
+          "name": "上课-童（17s）",
+          "category": "上课",
+          "label": "女童(17s)",
+          "source_url": "https://wangsg.lanzoub.com/iaFcn17d9c5i",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "上课-童（17s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "上课"
       ]
     },
     {
@@ -158,203 +923,811 @@
       "category": "打铃",
       "relative_path": "music/打铃/上课-钟声（08s）.mp3",
       "size": 94006,
-      "sha256": "d8638bb11eba10d0c63806607356a7d5288885e556acc93a05f6ea74ada049ad"
+      "sha256": "d8638bb11eba10d0c63806607356a7d5288885e556acc93a05f6ea74ada049ad",
+      "source_aliases": [
+        {
+          "name": "上课-钟声（08s）",
+          "category": "上课",
+          "label": "钟声(08s)",
+          "source_url": "https://wangsg.lanzoub.com/imX5417d9c6j",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "上课-钟声（08s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "上课"
+      ]
     },
     {
       "name": "上课-钟声（13s）",
       "category": "打铃",
       "relative_path": "music/打铃/上课-钟声（13s）.mp3",
       "size": 120384,
-      "sha256": "2c5e3eb5abed145c6d816fc3ffe5c581e56f4b51409e3e03fcb44cc1dd9a0126"
+      "sha256": "2c5e3eb5abed145c6d816fc3ffe5c581e56f4b51409e3e03fcb44cc1dd9a0126",
+      "source_aliases": [
+        {
+          "name": "上课-钟声(13s)",
+          "category": "上课",
+          "label": "钟声(13s)",
+          "source_url": "https://wangsg.lanzoub.com/i3N8r07tikmh",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "上课-钟声(13s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "上课"
+      ]
     },
     {
       "name": "上课-钟声（24s）",
       "category": "打铃",
       "relative_path": "music/打铃/上课-钟声（24s）.mp3",
       "size": 603192,
-      "sha256": "49399b121bfa792f4fa85b38d6cf6fb1e07ecc7b3b697ae04b76c27b99571c78"
+      "sha256": "49399b121bfa792f4fa85b38d6cf6fb1e07ecc7b3b697ae04b76c27b99571c78",
+      "source_aliases": [
+        {
+          "name": "上课-钟声(24s)",
+          "category": "上课",
+          "label": "钟声(24s)",
+          "source_url": "https://wangsg.lanzoub.com/ipfgl07tikoj",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "上课-钟声(24s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "上课"
+      ]
     },
     {
       "name": "下课-人声（16s）",
       "category": "打铃",
       "relative_path": "music/打铃/下课-人声（16s）.mp3",
       "size": 180440,
-      "sha256": "0095643fbf261fd04e741534b51fe0eb7ba60a7b7320663a7c02d06c6491baa8"
-    },
-    {
-      "name": "下课-人声（21s）",
-      "category": "打铃",
-      "relative_path": "music/打铃/下课-人声（21s）.mp3",
-      "size": 433361,
-      "sha256": "60d87552fe2e16c6de126de570eb8460f5a49bfb79ad4640903d74cc4853f0a9"
+      "sha256": "0095643fbf261fd04e741534b51fe0eb7ba60a7b7320663a7c02d06c6491baa8",
+      "source_aliases": [
+        {
+          "name": "下课-人声(16s)",
+          "category": "下课",
+          "label": "人声(16s)",
+          "source_url": "https://wangsg.lanzoub.com/ifHAs07tikqb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "下课-人声(16s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "下课"
+      ]
     },
     {
       "name": "下课-女声（15s）",
       "category": "打铃",
       "relative_path": "music/打铃/下课-女声（15s）.mp3",
       "size": 63608,
-      "sha256": "8f4e46e2b3fc060fb9588ec43ecf25b932b00e1f8a6aec7da97fc463981dc1a5"
+      "sha256": "8f4e46e2b3fc060fb9588ec43ecf25b932b00e1f8a6aec7da97fc463981dc1a5",
+      "source_aliases": [
+        {
+          "name": "下课-声（15s）",
+          "category": "下课",
+          "label": "女声(15s)",
+          "source_url": "https://wangsg.lanzoub.com/ijrRT17d9c9c",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "下课-声（15s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "下课"
+      ]
     },
     {
       "name": "下课-女声（25s）",
       "category": "打铃",
       "relative_path": "music/打铃/下课-女声（25s）.mp3",
       "size": 197208,
-      "sha256": "2ef55283897cadd3cc18f32438a24062121bdb9069890546840b0a7d122347dd"
+      "sha256": "2ef55283897cadd3cc18f32438a24062121bdb9069890546840b0a7d122347dd",
+      "source_aliases": [
+        {
+          "name": "下课-声（25s）",
+          "category": "下课",
+          "label": "女声(25s)",
+          "source_url": "https://wangsg.lanzoub.com/iYlHH17d9cad",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "下课-声（25s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "下课"
+      ]
     },
     {
       "name": "下课-女童（21s）",
       "category": "打铃",
       "relative_path": "music/打铃/下课-女童（21s）.mp3",
-      "size": 339427,
-      "sha256": "f0dcad308682d0dd3b24deb64735865525ef09d287d72d6ecb51aba2f4f389b0"
+      "size": 433361,
+      "sha256": "60d87552fe2e16c6de126de570eb8460f5a49bfb79ad4640903d74cc4853f0a9",
+      "source_aliases": [
+        {
+          "name": "下课-人声(21s)",
+          "category": "下课",
+          "label": "人声(21s)",
+          "source_url": "https://wangsg.lanzoub.com/iiKOO07tikrc",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "下课-人声(21s).mp3"
+        },
+        {
+          "name": "下课-童（21s）",
+          "category": "下课",
+          "label": "女童(21s)",
+          "source_url": "https://wangsg.lanzoub.com/icXVg17d9ceh",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "下课-童（21s）.mp3"
+        }
+      ],
+      "bitrate": 165276,
+      "pcm_sha256": "545b14ff3099d73752b30ecb7af4e4ef14a5c1299c9d13337418dc8195049b05",
+      "duration_seconds": 20.950204081632652,
+      "category_aliases": [
+        "下课"
+      ],
+      "aliases": [
+        "music/打铃/下课-人声（21s）.mp3"
+      ]
     },
     {
       "name": "下课-钟声（19s）",
       "category": "打铃",
       "relative_path": "music/打铃/下课-钟声（19s）.mp3",
       "size": 165636,
-      "sha256": "7fe4f205225fef7a20f37ef7659594d7aa318a95836d89a72d493398cb6c14f3"
+      "sha256": "7fe4f205225fef7a20f37ef7659594d7aa318a95836d89a72d493398cb6c14f3",
+      "source_aliases": [
+        {
+          "name": "下课-钟声(20s)",
+          "category": "下课",
+          "label": "钟声(20s)",
+          "source_url": "https://wangsg.lanzoub.com/i2KZJ07tiksd",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "下课-钟声(20s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "下课"
+      ]
     },
     {
       "name": "下课-钟声（20s）",
       "category": "打铃",
       "relative_path": "music/打铃/下课-钟声（20s）.mp3",
       "size": 464185,
-      "sha256": "dbc5b430c066a56749f7959ae8a395091a272f07fd64b8a599a7f986717d1fe2"
+      "sha256": "dbc5b430c066a56749f7959ae8a395091a272f07fd64b8a599a7f986717d1fe2",
+      "source_aliases": [
+        {
+          "name": "下课-钟声（20s）",
+          "category": "下课",
+          "label": "钟声(20s)",
+          "source_url": "https://wangsg.lanzoub.com/ik0gy17d9cgj",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "下课-钟声（20s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "下课"
+      ]
     },
     {
       "name": "下课-钟声（22s）",
       "category": "打铃",
       "relative_path": "music/打铃/下课-钟声（22s）.mp3",
       "size": 346938,
-      "sha256": "2c609eaa52c1ba91d95be31f8a992992e6028376f3ff4f690d6fd899be165b9d"
+      "sha256": "2c609eaa52c1ba91d95be31f8a992992e6028376f3ff4f690d6fd899be165b9d",
+      "source_aliases": [
+        {
+          "name": "下课-钟声(22s)",
+          "category": "下课",
+          "label": "钟声(22s)",
+          "source_url": "https://wangsg.lanzoub.com/iQTem07tikte",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "下课-钟声(22s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "下课"
+      ]
     },
     {
       "name": "打铃-电铃（10s）",
       "category": "打铃",
       "relative_path": "music/打铃/打铃-电铃（10s）.mp3",
       "size": 77981,
-      "sha256": "a0da21c77f5222a117cc20841923aff10f2f0d1b73e51300e03784dee2aae383"
+      "sha256": "a0da21c77f5222a117cc20841923aff10f2f0d1b73e51300e03784dee2aae383",
+      "source_aliases": [
+        {
+          "name": "打铃-电铃(10s)",
+          "category": "传统电铃",
+          "label": "电铃(10s)",
+          "source_url": "https://wangsg.lanzoub.com/iEAJ607tikbg",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "打铃-电铃(10s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "传统电铃"
+      ]
     },
     {
       "name": "打铃-电铃（15s）",
       "category": "打铃",
       "relative_path": "music/打铃/打铃-电铃（15s）.mp3",
       "size": 333342,
-      "sha256": "b663c3d903c75b53c86b53d9a20502e724af4a20051764ff5fa04d3016c7f0ca"
+      "sha256": "b663c3d903c75b53c86b53d9a20502e724af4a20051764ff5fa04d3016c7f0ca",
+      "source_aliases": [
+        {
+          "name": "打铃-电铃(15s)",
+          "category": "传统电铃",
+          "label": "电铃(15s)",
+          "source_url": "https://wangsg.lanzoub.com/ixmpR07tikch",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "打铃-电铃(15s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "传统电铃"
+      ]
     },
     {
       "name": "打铃-经典（14s）",
       "category": "打铃",
       "relative_path": "music/打铃/打铃-经典（14s）.mp3",
       "size": 351754,
-      "sha256": "e2d3b270ff31459cd7cff3629108370cdda9ee856d91fcbd3743fe3abdb69a74"
+      "sha256": "e2d3b270ff31459cd7cff3629108370cdda9ee856d91fcbd3743fe3abdb69a74",
+      "source_aliases": [
+        {
+          "name": "打铃-经典(14s)",
+          "category": "传统电铃",
+          "label": "经典(14s)",
+          "source_url": "https://wangsg.lanzoub.com/iDs2z07tikej",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "打铃-经典(14s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "传统电铃"
+      ]
     },
     {
       "name": "打铃-连续（31s）",
       "category": "打铃",
       "relative_path": "music/打铃/打铃-连续（31s）.mp3",
       "size": 798109,
-      "sha256": "79ea9d04e7a5f4583b222103cca39a3d4d5810742557276d504867892e6ae09b"
+      "sha256": "79ea9d04e7a5f4583b222103cca39a3d4d5810742557276d504867892e6ae09b",
+      "source_aliases": [
+        {
+          "name": "打铃-连续(31s)",
+          "category": "传统电铃",
+          "label": "连续(31s)",
+          "source_url": "https://wangsg.lanzoub.com/iTHni07tikfa",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "打铃-连续(31s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "传统电铃"
+      ]
     },
     {
       "name": "打铃-间隙（30s）",
       "category": "打铃",
       "relative_path": "music/打铃/打铃-间隙（30s）.mp3",
       "size": 686973,
-      "sha256": "bf0a40c314e0544b42ef85e5dbd108ce3c0986ce99c3820df3b7b143e8ffceeb"
+      "sha256": "bf0a40c314e0544b42ef85e5dbd108ce3c0986ce99c3820df3b7b143e8ffceeb",
+      "source_aliases": [
+        {
+          "name": "打铃-间隙(30s)",
+          "category": "传统电铃",
+          "label": "间隙(30s)",
+          "source_url": "https://wangsg.lanzoub.com/i0szf07tikdi",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "打铃-间隙(30s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "传统电铃"
+      ]
     },
     {
       "name": "钟声-经典（14s）",
       "category": "打铃",
       "relative_path": "music/打铃/钟声-经典（14s）.mp3",
       "size": 56262,
-      "sha256": "c9f59ec2897cb92bb23481b57a074431de83177552c8db10508d862a6aafde8e"
+      "sha256": "c9f59ec2897cb92bb23481b57a074431de83177552c8db10508d862a6aafde8e",
+      "source_aliases": [
+        {
+          "name": "钟声-经典(14s)",
+          "category": "上课",
+          "label": "钟声(14s)",
+          "source_url": "https://wangsg.lanzoub.com/iezY707til0b",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "钟声-经典(14s).mp3"
+        },
+        {
+          "name": "钟声-经典(14s)",
+          "category": "下课",
+          "label": "钟声(14s)",
+          "source_url": "https://wangsg.lanzoub.com/iezY707til0b",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "钟声-经典(14s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "上课",
+        "下课"
+      ]
     },
     {
       "name": "预备铃（15s）",
       "category": "打铃",
       "relative_path": "music/打铃/预备铃（15s）.mp3",
       "size": 302783,
-      "sha256": "4981c7ddf0b1e535289367f88b270bcc5c8d894950c5c849d33c5276ab1055c7"
+      "sha256": "4981c7ddf0b1e535289367f88b270bcc5c8d894950c5c849d33c5276ab1055c7",
+      "source_aliases": [
+        {
+          "name": "预备铃（15s）",
+          "category": "预备铃",
+          "label": "预备铃(15s)",
+          "source_url": "https://wangsg.lanzoub.com/iHJOr17d9cha",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "预备铃（15s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "预备铃"
+      ]
     },
     {
       "name": "预备铃（16s）",
       "category": "打铃",
       "relative_path": "music/打铃/预备铃（16s）.mp3",
       "size": 223085,
-      "sha256": "de8bd6bd5c03a6fe47574e93c7217da14ae6e7e84f04e97e8e0598f4c2064c97"
+      "sha256": "de8bd6bd5c03a6fe47574e93c7217da14ae6e7e84f04e97e8e0598f4c2064c97",
+      "source_aliases": [
+        {
+          "name": "预备铃(16s)",
+          "category": "预备铃",
+          "label": "预备铃(16s)",
+          "source_url": "https://wangsg.lanzoub.com/in6RD07tikwh",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "预备铃(16s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "预备铃"
+      ]
     },
     {
       "name": "预备铃（25s）",
       "category": "打铃",
       "relative_path": "music/打铃/预备铃（25s）.mp3",
       "size": 197417,
-      "sha256": "4aab1d6fab24bd956e743a9aacec19821fdfcab3db9d7518b8d92551a6f0be36"
+      "sha256": "4aab1d6fab24bd956e743a9aacec19821fdfcab3db9d7518b8d92551a6f0be36",
+      "source_aliases": [
+        {
+          "name": "预备铃(25s)",
+          "category": "预备铃",
+          "label": "预备铃(25s)",
+          "source_url": "https://wangsg.lanzoub.com/iR6lY07tikxi",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "预备铃(25s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "预备铃"
+      ]
     },
     {
       "name": "预备铃（26s）",
       "category": "打铃",
       "relative_path": "music/打铃/预备铃（26s）.mp3",
       "size": 384214,
-      "sha256": "b39acbb2054dd298f6322a93f93dc3642aa005460c99dcf727b0e21653a19b76"
+      "sha256": "b39acbb2054dd298f6322a93f93dc3642aa005460c99dcf727b0e21653a19b76",
+      "source_aliases": [
+        {
+          "name": "预备铃（26s）",
+          "category": "预备铃",
+          "label": "预备铃(26s)",
+          "source_url": "https://wangsg.lanzoub.com/iokyK17d9cib",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "预备铃（26s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "预备铃"
+      ]
     },
     {
       "name": "预备铃（27s）",
       "category": "打铃",
       "relative_path": "music/打铃/预备铃（27s）.mp3",
       "size": 350712,
-      "sha256": "1f4b63e5674a71da2fb0395fa728716328566af0e143d542d6c5323ba37b71cb"
+      "sha256": "1f4b63e5674a71da2fb0395fa728716328566af0e143d542d6c5323ba37b71cb",
+      "source_aliases": [
+        {
+          "name": "预备铃(27s)",
+          "category": "预备铃",
+          "label": "预备铃(27s)",
+          "source_url": "https://wangsg.lanzoub.com/i7BnL07tikyj",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "预备铃(27s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "预备铃"
+      ]
     },
     {
       "name": "预备铃（43s）",
       "category": "打铃",
       "relative_path": "music/打铃/预备铃（43s）.mp3",
       "size": 694196,
-      "sha256": "c8d13965df303b61934de051f898bc736c21b7acb90c10c218fe0f18f8fc13de"
-    },
-    {
-      "name": "提示音a",
-      "category": "通用提示与音乐",
-      "relative_path": "music/提示音a.mp3",
-      "size": 35704,
-      "sha256": "ca7249cbcdfa23a916d34dabdae9a8cfef08dfc60c927c94ee0d014a34fdad23"
-    },
-    {
-      "name": "提示音b",
-      "category": "通用提示与音乐",
-      "relative_path": "music/提示音b.mp3",
-      "size": 57769,
-      "sha256": "68086ebc8e7950904ac18bcc8f0b8870977d6da2678d9df77230fea73ecb0260"
-    },
-    {
-      "name": "提示音c",
-      "category": "通用提示与音乐",
-      "relative_path": "music/提示音c.mp3",
-      "size": 52191,
-      "sha256": "64cf7aeeb9d73db9b45cd1250db3888de973114f2e7392f17603ef5da7cca84d"
+      "sha256": "c8d13965df303b61934de051f898bc736c21b7acb90c10c218fe0f18f8fc13de",
+      "source_aliases": [
+        {
+          "name": "预备铃（43s）",
+          "category": "预备铃",
+          "label": "预备铃(43s)",
+          "source_url": "https://wangsg.lanzoub.com/i3yES17d9cjc",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "预备铃（43s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "预备铃"
+      ]
     },
     {
       "name": "放学-人声(22s)",
       "category": "放学安全提示",
       "relative_path": "music/放学安全提示/放学-人声(22s).mp3",
       "size": 174203,
-      "sha256": "c7a7a62827d7182ec86114a7a833dfc244d023f19137cefba738d79e97ad5d4d"
+      "sha256": "c7a7a62827d7182ec86114a7a833dfc244d023f19137cefba738d79e97ad5d4d",
+      "source_aliases": [
+        {
+          "name": "放学-声（22s）",
+          "category": "放学安全提示",
+          "label": "放学安全提示(22s)",
+          "source_url": "https://wangsg.lanzoub.com/iWpR917db0xg",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "放学-声（22s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "放学安全提示"
+      ]
     },
     {
       "name": "放学-人声(38s)",
       "category": "放学安全提示",
       "relative_path": "music/放学安全提示/放学-人声(38s).mp3",
       "size": 303261,
-      "sha256": "aa8a7b365f169fdb7484b65737599fb32d7286a0afa50fcad19e4c6bcb70d5ae"
+      "sha256": "aa8a7b365f169fdb7484b65737599fb32d7286a0afa50fcad19e4c6bcb70d5ae",
+      "source_aliases": [
+        {
+          "name": "放学-人声(38s)",
+          "category": "放学安全提示",
+          "label": "放学安全提示(38s)",
+          "source_url": "https://wangsg.lanzoub.com/irjSr07tikgb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "放学-人声(38s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "放学安全提示"
+      ]
     },
     {
       "name": "放学-人声(39s)",
       "category": "放学安全提示",
       "relative_path": "music/放学安全提示/放学-人声(39s).mp3",
       "size": 309321,
-      "sha256": "24f5934c7513bdc87af569b32f0e9654e7780865bd35967e6a123803806f9533"
+      "sha256": "24f5934c7513bdc87af569b32f0e9654e7780865bd35967e6a123803806f9533",
+      "source_aliases": [
+        {
+          "name": "放学-人声(39s)",
+          "category": "放学安全提示",
+          "label": "放学安全提示(39s)",
+          "source_url": "https://wangsg.lanzoub.com/iEhO407tikhc",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "放学-人声(39s).mp3"
+        }
+      ],
+      "category_aliases": [
+        "放学安全提示"
+      ]
+    },
+    {
+      "name": "午睡起床-音乐（62s）",
+      "category": "晨读午休餐寝",
+      "relative_path": "music/晨读午休餐寝/午睡起床-音乐（62s）.mp3",
+      "size": 999365,
+      "sha256": "129e0301dbd64c8ba8b6fc4c9e73a953fd002d88418680c7bb8b698eaa8dd85d",
+      "pcm_sha256": "034ceb2ce709ff3e3a72231564dce2cc08bebd6da13331177a6ce77d557a303e",
+      "duration_seconds": 62.458775510204084,
+      "source_url": "https://wangsg.lanzoub.com/iqkoK17dbt9g",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "午睡起床-音乐（62s）",
+          "category": "晨读午休餐寝",
+          "label": "午睡起(62s)",
+          "source_url": "https://wangsg.lanzoub.com/iqkoK17dbt9g",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "午睡起床-音乐（62s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "晨读午休餐寝"
+      ]
+    },
+    {
+      "name": "午睡预备-音乐（90s）",
+      "category": "晨读午休餐寝",
+      "relative_path": "music/晨读午休餐寝/午睡预备-音乐（90s）.mp3",
+      "size": 724204,
+      "sha256": "8cbb6d6a26984587be63e64dda523d9787307f7c26eca7b4dbc4bee996cd8357",
+      "pcm_sha256": "1a9b88158322d4489f843d84c11134e6e364d56d21aca322997e0fa7ea544d74",
+      "duration_seconds": 90.45333333333333,
+      "source_url": "https://wangsg.lanzoub.com/iuXzv17dbtah",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "午睡预备-音乐（90s）",
+          "category": "晨读午休餐寝",
+          "label": "午睡(90s)",
+          "source_url": "https://wangsg.lanzoub.com/iuXzv17dbtah",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "午睡预备-音乐（90s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "晨读午休餐寝"
+      ]
+    },
+    {
+      "name": "午餐提示-声（53s）",
+      "category": "晨读午休餐寝",
+      "relative_path": "music/晨读午休餐寝/午餐提示-声（53s）.mp3",
+      "size": 848919,
+      "sha256": "bd984cc072779605cf9b250419e7332a0b2de3728bd991723766a3c2c7f779d0",
+      "pcm_sha256": "b396499edd2c3b6e6321b1ad721c83bbcda23575037075a17f3957ad7bbb5e5a",
+      "duration_seconds": 53.0,
+      "source_url": "https://wangsg.lanzoub.com/iXTpU17dby9g",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "午餐提示-声（53s）",
+          "category": "晨读午休餐寝",
+          "label": "午餐(53s)",
+          "source_url": "https://wangsg.lanzoub.com/iXTpU17dby9g",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "午餐提示-声（53s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "晨读午休餐寝"
+      ]
+    },
+    {
+      "name": "就寝提示-声（23s）",
+      "category": "晨读午休餐寝",
+      "relative_path": "music/晨读午休餐寝/就寝提示-声（23s）.mp3",
+      "size": 372445,
+      "sha256": "01af36fbf326fb34d4658c9880175ea19c1e49dcf853ada6d4fcf03b7571ceca",
+      "pcm_sha256": "77763ef5d7c2f99542c81703a1fa9ca52ee1929df4a49df76282a12ac1ed5a20",
+      "duration_seconds": 23.2,
+      "source_url": "https://wangsg.lanzoub.com/i3Yu817dbt4b",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "就寝提示-声（23s）",
+          "category": "晨读午休餐寝",
+          "label": "就寝(23s)",
+          "source_url": "https://wangsg.lanzoub.com/i3Yu817dbt4b",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "就寝提示-声（23s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "晨读午休餐寝"
+      ]
+    },
+    {
+      "name": "晨读-声（27s）",
+      "category": "晨读午休餐寝",
+      "relative_path": "music/晨读午休餐寝/晨读-声（27s）.mp3",
+      "size": 462520,
+      "sha256": "8e63efdef8f159fdc6224888fc2b545c1c4108655506ad0ba4904a9bb0cef519",
+      "pcm_sha256": "8abfdc7ac9292c82027cc303598e76b3b06c1be7c892df131e2a3643a5f34fd7",
+      "duration_seconds": 26.686326530612245,
+      "source_url": "https://wangsg.lanzoub.com/iRELO17db5pi",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "晨读-声（27s）",
+          "category": "晨读午休餐寝",
+          "label": "晨读(27s)",
+          "source_url": "https://wangsg.lanzoub.com/iRELO17db5pi",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "晨读-声（27s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "晨读午休餐寝"
+      ]
+    },
+    {
+      "name": "晨读-声（40s）",
+      "category": "晨读午休餐寝",
+      "relative_path": "music/晨读午休餐寝/晨读-声（40s）.mp3",
+      "size": 852699,
+      "sha256": "e1b24091d47dd0b237dd696c2fadb6cf5bc3a7897d4309db7bfb267c27799754",
+      "pcm_sha256": "72aa717e60d3a995602094d4f3a01528eedfb37b14c66b157bed84e03b809a6b",
+      "duration_seconds": 39.50609977324263,
+      "source_url": "https://wangsg.lanzoub.com/iCpQi17db5qj",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "晨读-声（40s）",
+          "category": "晨读午休餐寝",
+          "label": "晨读(40s)",
+          "source_url": "https://wangsg.lanzoub.com/iCpQi17db5qj",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "晨读-声（40s）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "晨读午休餐寝"
+      ]
+    },
+    {
+      "name": "An Angel",
+      "category": "歌曲",
+      "relative_path": "music/歌曲/An Angel.mp3",
+      "size": 4522701,
+      "sha256": "6df2a8f6082e100aaa5b82dc69f4556af8569d576be09375b17a67dbe1fda852",
+      "pcm_sha256": "0a63803fb1cca10a3feb188dd6975f6f653e650974b02aac12d29d71fec9a51b",
+      "duration_seconds": 214.7526530612245,
+      "source_url": "https://wangsg.lanzoub.com/i3O6D07tit8h",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "An Angel",
+          "category": "歌曲",
+          "label": "An Angel",
+          "source_url": "https://wangsg.lanzoub.com/i3O6D07tit8h",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "An Angel.mp3"
+        }
+      ],
+      "category_aliases": [
+        "歌曲"
+      ]
+    },
+    {
+      "name": "Encore Une Fois",
+      "category": "歌曲",
+      "relative_path": "music/歌曲/Encore Une Fois.mp3",
+      "size": 3764172,
+      "sha256": "96f22699dcf9bd372b35190a69a526963f5c66f77fa085b26562b2a94a64c673",
+      "pcm_sha256": "74b9e3e1961a5fd7cb9b312c2f8de024cfae5574b0b6f3ce75621fa58f2abaa1",
+      "duration_seconds": 235.2587755102041,
+      "source_url": "https://wangsg.lanzoub.com/iQ7K907titaj",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "Encore Une Fois",
+          "category": "歌曲",
+          "label": "Encore Une Fois",
+          "source_url": "https://wangsg.lanzoub.com/iQ7K907titaj",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "Encore Une Fois.mp3"
+        }
+      ],
+      "category_aliases": [
+        "歌曲"
+      ]
+    },
+    {
+      "name": "Moskau",
+      "category": "歌曲",
+      "relative_path": "music/歌曲/Moskau.mp3",
+      "size": 8857832,
+      "sha256": "0bb684b2e4f292bdcdee6d051a66351994eee398f6732cf889125df892f2f033",
+      "pcm_sha256": "080bc47eeb67c8b81b6b03c4287121ec1d2751cf7de975c3de61a36d50c649df",
+      "duration_seconds": 221.37333333333333,
+      "source_url": "https://wangsg.lanzoub.com/i9uv817d9elg",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "Moskau",
+          "category": "歌曲",
+          "label": "Moskau",
+          "source_url": "https://wangsg.lanzoub.com/i9uv817d9elg",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "Moskau.mp3"
+        }
+      ],
+      "category_aliases": [
+        "歌曲"
+      ]
+    },
+    {
+      "name": "好汉歌",
+      "category": "歌曲",
+      "relative_path": "music/歌曲/好汉歌.mp3",
+      "size": 7576636,
+      "sha256": "4866ec06833b8110b57704ab3b3015adef18b40cba9840e7ec04fccacb44a70f",
+      "pcm_sha256": "9ac239c6b46067f591b3b83d4352eb4656eddcda9315022bf385550ab2c01b74",
+      "duration_seconds": 189.33333333333334,
+      "source_url": "https://wangsg.lanzoub.com/igjgn07titdc",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "好汉歌",
+          "category": "歌曲",
+          "label": "好汉歌",
+          "source_url": "https://wangsg.lanzoub.com/igjgn07titdc",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "好汉歌.mp3"
+        }
+      ],
+      "category_aliases": [
+        "歌曲"
+      ]
+    },
+    {
+      "name": "我爱你",
+      "category": "歌曲",
+      "relative_path": "music/歌曲/我爱你.mp3",
+      "size": 3689577,
+      "sha256": "847d7eef73aaf08e2b644e2d1ec49634de7661c8a4dbba1e5ddddd03b0d815cd",
+      "pcm_sha256": "b299726edc1829b0ac95cf41a002161c7318c3d073904292ddbc948b1ee5e039",
+      "duration_seconds": 230.50448979591837,
+      "source_url": "https://wangsg.lanzoub.com/i5Axb07titfe",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "我爱你",
+          "category": "歌曲",
+          "label": "我爱你",
+          "source_url": "https://wangsg.lanzoub.com/i5Axb07titfe",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "我爱你.mp3"
+        }
+      ],
+      "category_aliases": [
+        "歌曲"
+      ]
+    },
+    {
+      "name": "早上好",
+      "category": "歌曲",
+      "relative_path": "music/歌曲/早上好.mp3",
+      "size": 2153837,
+      "sha256": "7273393c54e880a8ac476897a835ba3244a658cf6c29f0757b6b2a39912aa0c2",
+      "pcm_sha256": "1a08b235e6cce62279a5ddb50c38db6fbf859cd52edd565089303bded6cbc6ae",
+      "duration_seconds": 134.92244897959185,
+      "source_url": "https://wangsg.lanzoub.com/i66v507titmb",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "早上好",
+          "category": "歌曲",
+          "label": "早上好",
+          "source_url": "https://wangsg.lanzoub.com/i66v507titmb",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "早上好.mp3"
+        }
+      ],
+      "category_aliases": [
+        "歌曲"
+      ]
     },
     {
       "name": "莱芜南冶",
@@ -364,166 +1737,876 @@
       "sha256": "3f54325450fed569e3394b8e323ea01b45dae6d780a09f49f7a66025a564b191"
     },
     {
+      "name": "追梦人",
+      "category": "歌曲",
+      "relative_path": "music/歌曲/追梦人.mp3",
+      "size": 1805197,
+      "sha256": "77126f220e8135452cdd61ab24e1440020549b895ded7263c32afb5b1b725fca",
+      "pcm_sha256": "19b464c68f72392bdaec07d104c448cc14c06b5c2e68b0b653bbf3fd74ea2b64",
+      "duration_seconds": 225.6457142857143,
+      "source_url": "https://wangsg.lanzoub.com/iFqLC07titod",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "追梦人",
+          "category": "歌曲",
+          "label": "追梦人",
+          "source_url": "https://wangsg.lanzoub.com/iFqLC07titod",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "追梦人.mp3"
+        }
+      ],
+      "category_aliases": [
+        "歌曲"
+      ]
+    },
+    {
+      "name": "雨一直下",
+      "category": "歌曲",
+      "relative_path": "music/歌曲/雨一直下.mp3",
+      "size": 6726294,
+      "sha256": "1de9e2b051acc4e05d4a83e1076f122f6f5a7146685e3d5f9d499eafafba57c2",
+      "pcm_sha256": "585a373cdef7a2520753641c3f5726338b4c55fb5a6aacdbd8ab70be6cfb5096",
+      "duration_seconds": 292.5885034013605,
+      "source_url": "https://wangsg.lanzoub.com/i8vkb07titla",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "雨一直下",
+          "category": "歌曲",
+          "label": "雨一直下",
+          "source_url": "https://wangsg.lanzoub.com/i8vkb07titla",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "雨一直下.mp3"
+        }
+      ],
+      "category_aliases": [
+        "歌曲"
+      ]
+    },
+    {
+      "name": "眼保健(传统)",
+      "category": "眼保健操",
+      "relative_path": "music/眼保健操/眼保健(传统).mp3",
+      "size": 2533797,
+      "sha256": "96bd7fb4c0f3cc042b4ed54eb884a9d969886e84efa121a448c34aea44164301",
+      "pcm_sha256": "b91b97fa831ea4908402ab32bb790409c64c3b9c256c3f4ffff8975a4c05ff8f",
+      "duration_seconds": 316.7085714285714,
+      "source_url": "https://wangsg.lanzoub.com/idwTk07tineh",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "眼保健(传统)",
+          "category": "眼保健操",
+          "label": "传统",
+          "source_url": "https://wangsg.lanzoub.com/idwTk07tineh",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "眼保健(传统).mp3"
+        }
+      ],
+      "category_aliases": [
+        "眼保健操"
+      ]
+    },
+    {
+      "name": "眼保健(新版)",
+      "category": "眼保健操",
+      "relative_path": "music/眼保健操/眼保健(新版).mp3",
+      "size": 1183924,
+      "sha256": "711755f2bacd5765e52eb9e8e65b36c3c28001bb65e2b205f9782343f3a6ef7c",
+      "pcm_sha256": "05d310b0c847ba579dd18eaf5f6878cdbbdc08eafff03c20e0c57b8b4ae1d92e",
+      "duration_seconds": 295.7040136054422,
+      "source_url": "https://wangsg.lanzoub.com/ijMA207tio6f",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "眼保健(新版)",
+          "category": "眼保健操",
+          "label": "新版",
+          "source_url": "https://wangsg.lanzoub.com/ijMA207tio6f",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "眼保健(新版).mp3"
+        }
+      ],
+      "category_aliases": [
+        "眼保健操"
+      ]
+    },
+    {
+      "name": "眼保健(经典)",
+      "category": "眼保健操",
+      "relative_path": "music/眼保健操/眼保健(经典).mp2",
+      "size": 5651645,
+      "sha256": "4fa5c0b70247f0647871c75f76e2b4404a33b67006df4fcad158b6202b32898e",
+      "pcm_sha256": "9a11985627968c664e442a2330943852acd49ce9e884da5c23cf36084412d0af",
+      "duration_seconds": 353.2277551020408,
+      "source_url": "https://wangsg.lanzoub.com/iUVyV07tinra",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_sha256": "2aa02b1dad1d06913d83572686c4f97e36f708641843dc409899cc268ae26c2a",
+      "normalization": "清除非音频尾部，无重编码",
+      "source_aliases": [
+        {
+          "name": "眼保健(经典)",
+          "category": "眼保健操",
+          "label": "经典",
+          "source_url": "https://wangsg.lanzoub.com/iUVyV07tinra",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "眼保健(经典).mp3"
+        }
+      ],
+      "category_aliases": [
+        "眼保健操"
+      ]
+    },
+    {
+      "name": "眼保健(轻柔)",
+      "category": "眼保健操",
+      "relative_path": "music/眼保健操/眼保健(轻柔).mp3",
+      "size": 5356757,
+      "sha256": "33c819ad89c836c7bfe6e92d4900a019659a745cf88ebc651c8de1f0a686988f",
+      "pcm_sha256": "6d05fdc0bb1cbe1266af463896b71fc4722723a4d3cf46652aa645e56e5f7ae6",
+      "duration_seconds": 331.1553514739229,
+      "source_url": "https://wangsg.lanzoub.com/iwkGF07tio3c",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "眼保健(轻柔)",
+          "category": "眼保健操",
+          "label": "轻柔",
+          "source_url": "https://wangsg.lanzoub.com/iwkGF07tio3c",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "眼保健(轻柔).mp3"
+        }
+      ],
+      "category_aliases": [
+        "眼保健操"
+      ]
+    },
+    {
       "name": "考试1-入考室",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试1-入考室.mp3",
       "size": 209155,
-      "sha256": "c7cadb6db248d05d32872d64020146a620499e9d05725e648d97ccc9aedd1e04"
+      "sha256": "c7cadb6db248d05d32872d64020146a620499e9d05725e648d97ccc9aedd1e04",
+      "source_aliases": [
+        {
+          "name": "考试(入考室)",
+          "category": "考试指令",
+          "label": "入考室",
+          "source_url": "https://wangsg.lanzoub.com/iw9x607tih4b",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试(入考室).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令"
+      ]
     },
     {
       "name": "考试1-发卷",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试1-发卷.mp3",
       "size": 711784,
-      "sha256": "393a8f5026d116a9c1e7af709ddc972e1653ecde061d3904734403cfda4313e8"
+      "sha256": "393a8f5026d116a9c1e7af709ddc972e1653ecde061d3904734403cfda4313e8",
+      "source_aliases": [
+        {
+          "name": "考试(发卷)",
+          "category": "考试指令",
+          "label": "发卷",
+          "source_url": "https://wangsg.lanzoub.com/i8Ek107tih0h",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试(发卷).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令"
+      ]
     },
     {
       "name": "考试1-开考",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试1-开考.mp3",
       "size": 69635,
-      "sha256": "8ac9cb20e1adce62f593e2736273007a4e44dd04c5855e7c64cc4951f0081c46"
+      "sha256": "8ac9cb20e1adce62f593e2736273007a4e44dd04c5855e7c64cc4951f0081c46",
+      "source_aliases": [
+        {
+          "name": "考试(开考)",
+          "category": "考试指令",
+          "label": "开考",
+          "source_url": "https://wangsg.lanzoub.com/icH9N07tih2j",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试(开考).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令"
+      ]
     },
     {
       "name": "考试1-拆卷",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试1-拆卷.mp3",
       "size": 242800,
-      "sha256": "71e03d2bb9c9c9daf686a64722e67b31902852538f3f0783e827102509d08dbb"
+      "sha256": "71e03d2bb9c9c9daf686a64722e67b31902852538f3f0783e827102509d08dbb",
+      "source_aliases": [
+        {
+          "name": "考试(拆卷)",
+          "category": "考试指令",
+          "label": "拆卷",
+          "source_url": "https://wangsg.lanzoub.com/iFfvV07tigzg",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试(拆卷).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令"
+      ]
     },
     {
       "name": "考试1-结束",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试1-结束.mp3",
       "size": 201665,
-      "sha256": "11aae616a176f0095b8f3bc22c4db77e3c6111d1555367f3972d979c888775b6"
+      "sha256": "11aae616a176f0095b8f3bc22c4db77e3c6111d1555367f3972d979c888775b6",
+      "source_aliases": [
+        {
+          "name": "考试(结束)",
+          "category": "考试指令",
+          "label": "结束",
+          "source_url": "https://wangsg.lanzoub.com/i7dlR07tih1i",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试(结束).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令"
+      ]
     },
     {
       "name": "考试1-领卷",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试1-领卷.mp3",
       "size": 162795,
-      "sha256": "9eac7875b2a86f98b26870f7405d55592de78237fb3ce3b14e137f636063bbc7"
+      "sha256": "9eac7875b2a86f98b26870f7405d55592de78237fb3ce3b14e137f636063bbc7",
+      "source_aliases": [
+        {
+          "name": "考试(领卷)",
+          "category": "考试指令",
+          "label": "领卷",
+          "source_url": "https://wangsg.lanzoub.com/imwNc07tih3a",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试(领卷).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令"
+      ]
     },
     {
       "name": "考试2-15分钟提示",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试2-15分钟提示.mp3",
       "size": 117413,
-      "sha256": "4d28a88031355d9c71f5b8b94b0da3bd04233aec3640222d93eeab7bf911df42"
+      "sha256": "4d28a88031355d9c71f5b8b94b0da3bd04233aec3640222d93eeab7bf911df42",
+      "source_aliases": [
+        {
+          "name": "考试2(15分钟提示)",
+          "category": "考试指令2",
+          "label": "15分钟提示",
+          "source_url": "https://wangsg.lanzoub.com/i110y07tih5c",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试2(15分钟提示).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令2"
+      ]
     },
     {
       "name": "考试2-发卷",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试2-发卷.mp3",
       "size": 991013,
-      "sha256": "34024d5aa8b823185e28fe5fe2446dabef61372370c0cea9ef126e47f16121d6"
+      "sha256": "34024d5aa8b823185e28fe5fe2446dabef61372370c0cea9ef126e47f16121d6",
+      "source_aliases": [
+        {
+          "name": "考试2(发卷)",
+          "category": "考试指令2",
+          "label": "发卷",
+          "source_url": "https://wangsg.lanzoub.com/i8fRy07tih7e",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试2(发卷).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令2"
+      ]
     },
     {
       "name": "考试2-开考",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试2-开考.mp3",
       "size": 172440,
-      "sha256": "5a2c39a0c512b379a3043324875bfe8d5402ecbe755e80ced50342146ce219a7"
+      "sha256": "5a2c39a0c512b379a3043324875bfe8d5402ecbe755e80ced50342146ce219a7",
+      "source_aliases": [
+        {
+          "name": "考试2(开考)",
+          "category": "考试指令2",
+          "label": "开考",
+          "source_url": "https://wangsg.lanzoub.com/i1ebI07tih8f",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试2(开考).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令2"
+      ]
     },
     {
       "name": "考试2-拆卷",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试2-拆卷.mp3",
       "size": 281109,
-      "sha256": "6ff54f1933581e676eecc2360fc3ef4afd18f1cc6657d2f0480efd73e273cfcd"
+      "sha256": "6ff54f1933581e676eecc2360fc3ef4afd18f1cc6657d2f0480efd73e273cfcd",
+      "source_aliases": [
+        {
+          "name": "考试2(拆卷)",
+          "category": "考试指令2",
+          "label": "拆卷",
+          "source_url": "https://wangsg.lanzoub.com/itIE307tih6d",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试2(拆卷).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令2"
+      ]
     },
     {
       "name": "考试2-考生进场",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试2-考生进场.mp3",
       "size": 192920,
-      "sha256": "4d898e0f2a981df09c4933967d170d0e87671cfd1005a65a17b5574230b7c70b"
+      "sha256": "4d898e0f2a981df09c4933967d170d0e87671cfd1005a65a17b5574230b7c70b",
+      "source_aliases": [
+        {
+          "name": "考试2(考生进场)",
+          "category": "考试指令2",
+          "label": "考生进场",
+          "source_url": "https://wangsg.lanzoub.com/iNLSK07tih9g",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试2(考生进场).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令2"
+      ]
     },
     {
       "name": "考试2-考试纪律",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试2-考试纪律.mp3",
       "size": 1281494,
-      "sha256": "bcadaac1da6819d88697f3a13fa58bdaafa4206dc737dd5bd4a7dc75e7a9ba04"
+      "sha256": "bcadaac1da6819d88697f3a13fa58bdaafa4206dc737dd5bd4a7dc75e7a9ba04",
+      "source_aliases": [
+        {
+          "name": "考试2(考试纪律)",
+          "category": "考试指令2",
+          "label": "考试纪律",
+          "source_url": "https://wangsg.lanzoub.com/iCnmd07tihah",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试2(考试纪律).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令2"
+      ]
     },
     {
       "name": "考试2-考试结束",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试2-考试结束.mp3",
       "size": 2699003,
-      "sha256": "747d15a5d7fcbed6926c19a29dee7bad298c9acaf4ea91b87d21a608117aaed8"
+      "sha256": "747d15a5d7fcbed6926c19a29dee7bad298c9acaf4ea91b87d21a608117aaed8",
+      "source_aliases": [
+        {
+          "name": "考试2(考试结束)",
+          "category": "考试指令2",
+          "label": "考试结束",
+          "source_url": "https://wangsg.lanzoub.com/iZuEb07tihcj",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "考试2(考试结束).mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令2"
+      ]
     },
     {
       "name": "考试3-开考前00分钟-开考",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试3-开考前00分钟-开考.mp3",
       "size": 459408,
-      "sha256": "85efd46d197a3bbcf5d5161dfdd7611501b9f22b8c07e05dfdeebd8d45f561ea"
+      "sha256": "85efd46d197a3bbcf5d5161dfdd7611501b9f22b8c07e05dfdeebd8d45f561ea",
+      "source_aliases": [
+        {
+          "name": "开考前00分钟（开考）",
+          "category": "考试指令3",
+          "label": "开考",
+          "source_url": "https://wangsg.lanzoub.com/imvva17dmo8b",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "开考前00分钟（开考）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令3"
+      ]
     },
     {
       "name": "考试3-开考前05分钟-发卷",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试3-开考前05分钟-发卷.mp3",
       "size": 858120,
-      "sha256": "d40c89ce7c2a387e0ec27c6852793df502141d44d1126e7b0d0642ddafd5e378"
+      "sha256": "d40c89ce7c2a387e0ec27c6852793df502141d44d1126e7b0d0642ddafd5e378",
+      "source_aliases": [
+        {
+          "name": "开考前05分钟（发卷）",
+          "category": "考试指令3",
+          "label": "发卷",
+          "source_url": "https://wangsg.lanzoub.com/iBKSW17dmocf",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "开考前05分钟（发卷）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令3"
+      ]
     },
     {
       "name": "考试3-开考前10分钟-拆卷",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试3-开考前10分钟-拆卷.mp3",
       "size": 399288,
-      "sha256": "d83d7c641fb05713174482a6003280a7272c6814892f139e161afd76fab3ccd5"
+      "sha256": "d83d7c641fb05713174482a6003280a7272c6814892f139e161afd76fab3ccd5",
+      "source_aliases": [
+        {
+          "name": "开考前10分钟（拆卷）",
+          "category": "考试指令3",
+          "label": "拆卷",
+          "source_url": "https://wangsg.lanzoub.com/imeKw17dmofi",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "开考前10分钟（拆卷）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令3"
+      ]
     },
     {
       "name": "考试3-开考前15分钟-发答题卡",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试3-开考前15分钟-发答题卡.mp3",
       "size": 672264,
-      "sha256": "40d184f4d334c5e7e4f09c8abcb3fd4c8d8d43174b97a3e910fdb4d4a3b36e0c"
+      "sha256": "40d184f4d334c5e7e4f09c8abcb3fd4c8d8d43174b97a3e910fdb4d4a3b36e0c",
+      "source_aliases": [
+        {
+          "name": "开考前15分钟（发答题卡）",
+          "category": "考试指令3",
+          "label": "发答题卡等",
+          "source_url": "https://wangsg.lanzoub.com/iBHKT17dmoha",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "开考前15分钟（发答题卡）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令3"
+      ]
     },
     {
       "name": "考试3-开考前20分钟-考试纪律",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试3-开考前20分钟-考试纪律.mp3",
       "size": 2432064,
-      "sha256": "f93d85a3a9761dd2296228a4ad9ed2eaf6df811b8068b2a361c3c041360b112c"
+      "sha256": "f93d85a3a9761dd2296228a4ad9ed2eaf6df811b8068b2a361c3c041360b112c",
+      "source_aliases": [
+        {
+          "name": "开考前20分钟（考试纪律）",
+          "category": "考试指令3",
+          "label": "考试纪律",
+          "source_url": "https://wangsg.lanzoub.com/ieIrZ17dmomf",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "开考前20分钟（考试纪律）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令3"
+      ]
     },
     {
       "name": "考试3-开考前30分钟-考生进场",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试3-开考前30分钟-考生进场.mp3",
       "size": 749472,
-      "sha256": "ce4784c7dcc556b4e0f26ae0821fcd3efbae01a8c533d0ca972dbfbe81fe2341"
+      "sha256": "ce4784c7dcc556b4e0f26ae0821fcd3efbae01a8c533d0ca972dbfbe81fe2341",
+      "source_aliases": [
+        {
+          "name": "开考前30分钟（考生进场）",
+          "category": "考试指令3",
+          "label": "考生进场",
+          "source_url": "https://wangsg.lanzoub.com/iW3DB17dmong",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "开考前30分钟（考生进场）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令3"
+      ]
     },
     {
       "name": "考试3-结束前00分钟-考试结束",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试3-结束前00分钟-考试结束.mp3",
       "size": 1096176,
-      "sha256": "ca59a86be615d417bc7e7205eaf4b6753d66715871630ab0f112f669075c6456"
+      "sha256": "ca59a86be615d417bc7e7205eaf4b6753d66715871630ab0f112f669075c6456",
+      "source_aliases": [
+        {
+          "name": "结束前00分钟（考试结束）",
+          "category": "考试指令3",
+          "label": "考试结束",
+          "source_url": "https://wangsg.lanzoub.com/iEJR017dmo2f",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "结束前00分钟（考试结束）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令3"
+      ]
     },
     {
       "name": "考试3-结束前15分钟-15分钟提示",
       "category": "考试指令",
       "relative_path": "music/考试指令/考试3-结束前15分钟-15分钟提示.mp3",
       "size": 129672,
-      "sha256": "0e32f74d819d3ecf8a4fd2ce412a20693a1a3b936ff9b4fea8d37c03e5f1ff48"
+      "sha256": "0e32f74d819d3ecf8a4fd2ce412a20693a1a3b936ff9b4fea8d37c03e5f1ff48",
+      "source_aliases": [
+        {
+          "name": "结束前15分钟（15分钟提示）",
+          "category": "考试指令3",
+          "label": "15分钟提示",
+          "source_url": "https://wangsg.lanzoub.com/iw33L17dmo4h",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "结束前15分钟（15分钟提示）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "考试指令3"
+      ]
+    },
+    {
+      "name": "发财发福中国年",
+      "category": "超市喜庆",
+      "relative_path": "music/超市喜庆/发财发福中国年.mp3",
+      "size": 9319010,
+      "sha256": "b94ddb9cfa725dfb3c2f58a5008f504c4860e60ac5f393133fb82cc0e62e8cde",
+      "pcm_sha256": "e323c8fa32ed374349df9b6d5f9471e80f9b33c2e24419bc677f9c366a0369d3",
+      "duration_seconds": 290.92571428571426,
+      "source_url": "https://wangsg.lanzoub.com/iydrP07tivlc",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "发财发福中国年",
+          "category": "超市喜庆",
+          "label": "发财发福中国年",
+          "source_url": "https://wangsg.lanzoub.com/iydrP07tivlc",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "发财发福中国年.mp3"
+        }
+      ],
+      "category_aliases": [
+        "超市喜庆"
+      ]
+    },
+    {
+      "name": "恭喜恭喜",
+      "category": "超市喜庆",
+      "relative_path": "music/超市喜庆/恭喜恭喜.mp3",
+      "size": 9103651,
+      "sha256": "ba63e51552bc3a2d2419e224e13e6f20e0859341356ec64facdbc48ba199ff31",
+      "pcm_sha256": "451457fab720af3eb3ec6bb0b1c2eb5fd61d1e067aa92b3f6f1cd5ae6915bf20",
+      "duration_seconds": 224.82698412698412,
+      "source_url": "https://wangsg.lanzoub.com/i6yfD07tivmd",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "恭喜恭喜",
+          "category": "超市喜庆",
+          "label": "恭喜恭喜",
+          "source_url": "https://wangsg.lanzoub.com/i6yfD07tivmd",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "恭喜恭喜.mp3"
+        }
+      ],
+      "category_aliases": [
+        "超市喜庆"
+      ]
+    },
+    {
+      "name": "团结友谊进行曲",
+      "category": "进行曲",
+      "relative_path": "music/进行曲/团结友谊进行曲.mp3",
+      "size": 2643889,
+      "sha256": "627b22c9fc93ced32d2fdf8d06184a58a01084ff34f904943f837980d6e5344e",
+      "pcm_sha256": "388527ad711918ab5368f7191576bc141f0e78f89786ebad8b25f864eb2ae81e",
+      "duration_seconds": 165.32897959183674,
+      "source_url": "https://wangsg.lanzoub.com/iALeY07tigij",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "团结友谊进行曲",
+          "category": "进行曲",
+          "label": "团结友谊进行曲",
+          "source_url": "https://wangsg.lanzoub.com/iALeY07tigij",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "团结友谊进行曲.mp3"
+        }
+      ],
+      "category_aliases": [
+        "进行曲"
+      ]
+    },
+    {
+      "name": "拉德茨基进行曲",
+      "category": "进行曲",
+      "relative_path": "music/进行曲/拉德茨基进行曲.mp3",
+      "size": 1760862,
+      "sha256": "4a88e6e7f439633fee070461aa847c4c008dfded1d1a2b580d1d3be6210b0afd",
+      "pcm_sha256": "028e997527f7029cfc61ad04472ad5a4333b68af59c852a54eeaf4896b58fab1",
+      "duration_seconds": 220.1077551020408,
+      "source_url": "https://wangsg.lanzoub.com/iYcGB07tighi",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "拉德茨基进行曲",
+          "category": "进行曲",
+          "label": "拉德茨基进行曲",
+          "source_url": "https://wangsg.lanzoub.com/iYcGB07tighi",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "拉德茨基进行曲.mp3"
+        }
+      ],
+      "category_aliases": [
+        "进行曲"
+      ]
+    },
+    {
+      "name": "欢迎进行曲",
+      "category": "进行曲",
+      "relative_path": "music/进行曲/欢迎进行曲.mp3",
+      "size": 1013441,
+      "sha256": "92362556acbf308751528111f569e33768a281185554c729233a91d275811017",
+      "pcm_sha256": "64df121d502255c66cd0e6134326d145ee37c638af3654882cd7eb2403df0f2d",
+      "duration_seconds": 126.14530612244899,
+      "source_url": "https://wangsg.lanzoub.com/iTLik07tigbc",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "欢迎进行曲",
+          "category": "进行曲",
+          "label": "欢迎进行曲",
+          "source_url": "https://wangsg.lanzoub.com/iTLik07tigbc",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "欢迎进行曲.mp3"
+        }
+      ],
+      "category_aliases": [
+        "进行曲"
+      ]
+    },
+    {
+      "name": "解放军进行曲",
+      "category": "进行曲",
+      "relative_path": "music/进行曲/解放军进行曲.mp3",
+      "size": 1070568,
+      "sha256": "170ffc94eb9a3d32a165230a74bfa978d005195f1487696e4419a7e7e0a69c15",
+      "pcm_sha256": "419d88d1f00a120ab678e37cf2a9426655f1d576cb077fe6ae294c2d48a7f2ae",
+      "duration_seconds": 133.7730612244898,
+      "source_url": "https://wangsg.lanzoub.com/iPpHF07tigef",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "解放军进行曲",
+          "category": "进行曲",
+          "label": "解放军进行曲",
+          "source_url": "https://wangsg.lanzoub.com/iPpHF07tigef",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "解放军进行曲.mp3"
+        }
+      ],
+      "category_aliases": [
+        "进行曲"
+      ]
+    },
+    {
+      "name": "运动员进行曲",
+      "category": "进行曲",
+      "relative_path": "music/进行曲/运动员进行曲.mp3",
+      "size": 3374438,
+      "sha256": "c0c7948f7826b6febe3eb744e88f10ceaa8de01161e64d41850cee358b0fd22f",
+      "pcm_sha256": "99e8bf1ff121fde1d60953c3f0dba06f68dada28c73e8e507f8b467f0129ef85",
+      "duration_seconds": 153.39353741496598,
+      "source_url": "https://wangsg.lanzoub.com/i6RxL07tiglc",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "运动员进行曲",
+          "category": "进行曲",
+          "label": "运动员进行曲",
+          "source_url": "https://wangsg.lanzoub.com/i6RxL07tiglc",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "运动员进行曲.mp3"
+        }
+      ],
+      "category_aliases": [
+        "进行曲"
+      ]
+    },
+    {
+      "name": "打烊（萨克斯回家）",
+      "category": "通用提示与音乐",
+      "relative_path": "music/打烊（萨克斯回家）.mp3",
+      "size": 6078053,
+      "sha256": "1e08a2fd8990ff68961f14f3593b80790bf2d4c6fe5e3ac8ba2280959b6a6450",
+      "pcm_sha256": "9277b423ef30489db10bb2a17a07940e5b73380f72d0ab8f08b52dc73616c4ce",
+      "duration_seconds": 254.44507936507935,
+      "source_url": "https://wangsg.lanzoub.com/ilmQT07tisra",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "打烊（萨克斯回家）",
+          "category": "打烊",
+          "label": "萨克斯回家",
+          "source_url": "https://wangsg.lanzoub.com/ilmQT07tisra",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "打烊（萨克斯回家）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "打烊"
+      ],
+      "bitrate": 191069,
+      "aliases": [
+        "music/打烊/打烊（萨克斯回家）.mp3"
+      ]
+    },
+    {
+      "name": "提示音a",
+      "category": "通用提示与音乐",
+      "relative_path": "music/提示音a.mp3",
+      "size": 35704,
+      "sha256": "ca7249cbcdfa23a916d34dabdae9a8cfef08dfc60c927c94ee0d014a34fdad23",
+      "source_aliases": [
+        {
+          "name": "tone-a",
+          "category": "提示音",
+          "label": "提示音a",
+          "source_url": "https://wangsg.lanzoub.com/ieE7S07titxc",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "tone-a.mp3"
+        }
+      ],
+      "category_aliases": [
+        "提示音"
+      ]
+    },
+    {
+      "name": "提示音b",
+      "category": "通用提示与音乐",
+      "relative_path": "music/提示音b.mp3",
+      "size": 57769,
+      "sha256": "68086ebc8e7950904ac18bcc8f0b8870977d6da2678d9df77230fea73ecb0260",
+      "source_aliases": [
+        {
+          "name": "tone-b",
+          "category": "提示音",
+          "label": "提示音b",
+          "source_url": "https://wangsg.lanzoub.com/iFHTE07tityd",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "tone-b.mp3"
+        }
+      ],
+      "category_aliases": [
+        "提示音"
+      ]
+    },
+    {
+      "name": "提示音c",
+      "category": "通用提示与音乐",
+      "relative_path": "music/提示音c.mp3",
+      "size": 52191,
+      "sha256": "64cf7aeeb9d73db9b45cd1250db3888de973114f2e7392f17603ef5da7cca84d",
+      "source_aliases": [
+        {
+          "name": "tone-c",
+          "category": "提示音",
+          "label": "提示音c",
+          "source_url": "https://wangsg.lanzoub.com/iJqWZ07titze",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "tone-c.mp3"
+        }
+      ],
+      "category_aliases": [
+        "提示音"
+      ]
     },
     {
       "name": "迎宾（With An Orchid）",
       "category": "通用提示与音乐",
       "relative_path": "music/迎宾（With An Orchid）.mp3",
-      "size": 4894752,
-      "sha256": "ef477f894c29968ed2a68f7bf55f553e5658653dcb04f1f1f1281f101f016058"
+      "size": 12277027,
+      "sha256": "debe69eae9170d5b5853dbf2182e665cb8bccd1d300ceb92535d42707185e5b4",
+      "pcm_sha256": "2c811c2c76b2e3c8ba6d82f0c3499a1787a3935219060550b7254d8ca3ca8be6",
+      "duration_seconds": 305.99256235827664,
+      "source_url": "https://wangsg.lanzoub.com/izOEg07tiwda",
+      "source_page": "https://www.wsgsoft.com/laba/music.htm",
+      "source_aliases": [
+        {
+          "name": "和兰花在一起",
+          "category": "迎宾",
+          "label": "和兰花在一起",
+          "source_url": "https://wangsg.lanzoub.com/izOEg07tiwda",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "和兰花在一起.mp3"
+        }
+      ],
+      "category_aliases": [
+        "迎宾"
+      ],
+      "bitrate": 320000,
+      "aliases": [
+        "music/迎宾/和兰花在一起.mp3"
+      ]
     },
     {
       "name": "闭馆（致爱丽丝）",
       "category": "通用提示与音乐",
       "relative_path": "music/闭馆（致爱丽丝）.mp3",
       "size": 2539952,
-      "sha256": "44f0c7a4588124f527071509c7b0a7bef8f9b81caa14f697186003972f51a49a"
+      "sha256": "44f0c7a4588124f527071509c7b0a7bef8f9b81caa14f697186003972f51a49a",
+      "source_aliases": [
+        {
+          "name": "闭馆（致爱丽丝）",
+          "category": "打烊",
+          "label": "致爱丽丝",
+          "source_url": "https://wangsg.lanzoub.com/iEBYA17d9g4b",
+          "source_page": "https://www.wsgsoft.com/laba/music.htm",
+          "filename": "闭馆（致爱丽丝）.mp3"
+        }
+      ],
+      "category_aliases": [
+        "打烊"
+      ]
     }
   ],
-  "help": []
+  "help": [],
+  "source_page": "https://www.wsgsoft.com/laba/music.htm"
 }

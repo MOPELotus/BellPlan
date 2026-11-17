@@ -21,7 +21,7 @@ def test_builtin_media_catalogue_and_hashes():
         path = Path(item["path"])
         assert path.is_absolute()
         assert path.is_relative_to(root.resolve())
-        assert path.suffix.lower() == ".mp3"
+        assert path.suffix.lower() in {".mp3", ".mp2"}
         assert path.stat().st_size == item["size"]
         assert isinstance(item["aliases"], list)
         assert hashlib.sha256(path.read_bytes()).hexdigest() == hashes[item["relative_path"]]

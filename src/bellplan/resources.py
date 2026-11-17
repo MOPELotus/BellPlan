@@ -14,6 +14,8 @@ class BuiltinMedia(TypedDict):
     relative_path: str
     size: int
     aliases: list[str]
+    category_aliases: list[str]
+    source_aliases: list[dict]
 
 
 def resource_root() -> Path:
@@ -53,6 +55,8 @@ def builtin_media() -> list[BuiltinMedia]:
                 "relative_path": relative_path,
                 "size": entry["size"],
                 "aliases": aliases,
+                "category_aliases": list(entry.get("category_aliases", [])),
+                "source_aliases": list(entry.get("source_aliases", [])),
             }
         )
     return result
