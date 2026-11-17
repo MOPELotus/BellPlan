@@ -13,7 +13,7 @@ ApplicationWindow {
     minimumWidth: 1050
     minimumHeight: 720
     visible: true
-    title: "铃序 · Evolved"
+    title: "铃序（BellPlan）"
     color: "#f5f6fb"
     font.family: "Noto Sans CJK SC"
     font.pixelSize: 14
@@ -330,7 +330,7 @@ ApplicationWindow {
                             font.pixelSize: 19
                         }
                         Label {
-                            text: "E V O L V E D"
+                            text: "B E L L P L A N"
                             color: win.muted
                             font.pixelSize: 10
                             topPadding: 2
@@ -1240,7 +1240,7 @@ ApplicationWindow {
                                 }
                                 RowLayout {
                                     Label {
-                                        text: "插播时定时播音量（%）"
+                                        text: "立即播时定时播音量（%）"
                                         color: win.ink
                                     }
                                     SpinBox {
@@ -1251,6 +1251,12 @@ ApplicationWindow {
                                         value: (win.state.settings || {}).duckVolume === undefined ? 30 : win.state.settings.duckVolume
                                         editable: true
                                     }
+                                }
+                                SmallText {
+                                    objectName: "duckVolumeDescription"
+                                    text: "相对于节目原音量；0 为静音，100 保持不变"
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.Wrap
                                 }
                                 SectionLabel {
                                     text: "系统主音量"

@@ -104,8 +104,13 @@ def _registry():
     return winreg
 
 
-def startup_command():
-    """The current executable or installed Python module; no shell expansion."""
+def startup_command(data_dir=None):
+    """Build an absolute executable/data command independent of the login cwd.
+
+    Source installations use the installed ``bellplan`` module. The optional
+    data path is retained explicitly so writable-directory selections survive
+    login, executable relocation and changes to the current directory.
+    """
     executable = sys.executable
     if not executable:
         raise OSError("无法确定当前程序路径")
@@ -114,10 +119,21 @@ def startup_command():
     arguments = [executable]
     if not getattr(sys, "frozen", False):
         arguments.extend(["-m", "bellplan"])
+    if data_dir is not None:
+        try:
+            directory = os.fspath(data_dir)
+        except TypeError as exc:
+            raise ValueError("自启动数据目录必须为有效路径") from exc
+        if not isinstance(directory, str) or not directory or "\0" in directory:
+            raise ValueError("自启动数据目录必须为有效路径")
+        directory = os.path.expanduser(directory)
+        if not (os.path.isabs(directory) or ntpath.isabs(directory)):
+            directory = os.path.abspath(directory)
+        arguments.extend(["--data-dir", directory])
     return subprocess.list2cmdline(arguments)
 
 
-def get_start_at_login():
+def get_start_at_login(data_dir=None):
     """Whether this installation is registered in the current user's Run key."""
     registry = _registry()
     try:
@@ -127,7 +143,9 @@ def get_start_at_login():
         return False
     except OSError as exc:
         raise OSError(f"无法读取登录自启动设置：{exc}") from exc
-    return kind in (registry.REG_SZ, registry.REG_EXPAND_SZ) and value == startup_command()
+    return kind in (registry.REG_SZ, registry.REG_EXPAND_SZ) and value == startup_command(
+        data_dir=data_dir
+    )
 
 
 def _startup_approval(registry):
@@ -156,7 +174,7 @@ def _startup_approval(registry):
     return None, "unknown", "Windows 启动审批状态未知"
 
 
-def get_startup_status():
+def get_startup_status(data_dir=None):
     """Read registration and Windows approval separately, without mutation.
 
     ``enabled`` is an observed registration status, not a promise that group
@@ -167,7 +185,7 @@ def get_startup_status():
         "enabled": False,
         "matchesCurrentPath": False,
         "currentCommand": "",
-        "expectedCommand": startup_command(),
+        "expectedCommand": startup_command(data_dir=data_dir),
         "error": "",
         "blockedByWindows": None,
         "approvalState": "unsupported" if sys.platform != "win32" else "unknown",
@@ -202,7 +220,7 @@ def get_startup_status():
     return result
 
 
-def repair_start_at_login():
+def repair_start_at_login(data_dir=None):
     """Repair the Run command after explicit user opt-in, preserving OS choices.
 
     The caller must first check the user's saved startAtLogin preference. This
@@ -210,27 +228,31 @@ def repair_start_at_login():
     and never modifies StartupApproved or policy keys.
     """
     _require_windows()
-    status = get_startup_status()
+    status = get_startup_status(data_dir=data_dir)
     if status["blockedByWindows"] is not False or status["error"]:
         return status
     if not status["matchesCurrentPath"]:
         try:
-            set_start_at_login(True)
+            if data_dir is None:
+                set_start_at_login(True)
+            else:
+                set_start_at_login(True, data_dir=data_dir)
         except OSError as exc:
             status["error"] = str(exc)
             return status
-        status = get_startup_status()
+        status = get_startup_status(data_dir=data_dir)
     return status
 
 
-def set_start_at_login(enabled):
+def set_start_at_login(enabled, data_dir=None):
     """Register only this program under HKCU; no administrator access needed."""
     enabled = _boolean(enabled, "登录自启动状态")
+    command = startup_command(data_dir=data_dir) if enabled else None
     registry = _registry()
     try:
         if enabled:
             with registry.CreateKey(registry.HKEY_CURRENT_USER, STARTUP_KEY) as key:
-                registry.SetValueEx(key, STARTUP_VALUE, 0, registry.REG_SZ, startup_command())
+                registry.SetValueEx(key, STARTUP_VALUE, 0, registry.REG_SZ, command)
         else:
             try:
                 with registry.OpenKey(

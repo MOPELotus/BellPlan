@@ -97,6 +97,7 @@ def worker_main():
         item = find(name=name)
         click(item)
         QTest.keyClick(window, Qt.Key_A, Qt.ControlModifier)
+        QTest.keyClick(window, Qt.Key_Backspace)
         for character in value:
             QTest.keyClick(window, character)
         QTest.qWait(80)
@@ -108,6 +109,7 @@ def worker_main():
         QTest.qWait(250)
         assert window.grabWindow().save(str(EVIDENCE / f"{name}.png"))
 
+    assert "铃序" in window.title() and "Evolved" not in window.title()
     assert backend.store.list_programs() == []
     snapshot("01-empty-overview")
     click("newProgram")
@@ -157,8 +159,11 @@ def worker_main():
     QTest.keyClick(window, "6")
     QTest.keyClick(window, "0")
     QTest.keyClick(window, Qt.Key_Return)
+    assert duck.property("value") == 60, duck.property("value")
+    QTest.wheelEvent(window, QPointF(1050, 650), QPoint(0, -480))
+    QTest.qWait(500)
     click("settingsSave")
-    assert backend.settings["duckVolume"] == 60
+    assert backend.settings["duckVolume"] == 60, backend.settings
     snapshot("04-settings-saved")
     click("nav0")
     click("planManage")
@@ -192,6 +197,78 @@ def worker_main():
     click("programDeleteConfirm")
     assert backend.store.list_programs() == []
     snapshot("09-program-deleted")
+    # Exercise the merged catalogue through actual controls without starting audio.
+    click("nav2")
+    click(find(text="内置音频"))
+    category_input = find(name="builtinCategory")
+    library = category_input
+    while library and library.metaObject().indexOfProperty("filteredTracks") < 0:
+        library = library.parentItem()
+    assert library is not None
+
+    def variant(value):
+        return value.toVariant() if hasattr(value, "toVariant") else value
+
+    def choose_category(name):
+        categories = variant(library.property("categories"))
+        assert name in categories, (name, categories)
+        click("builtinCategory")
+        QTest.keyClick(window, Qt.Key_Home)
+        for _ in range(categories.index(name)):
+            QTest.keyClick(window, Qt.Key_Down)
+        QTest.keyClick(window, Qt.Key_Return)
+        QTest.qWait(200)
+        assert library.property("category") == ("" if categories.index(name) == 0 else name)
+
+    def paste_search(value):
+        click("builtinSearch")
+        QTest.keyClick(window, Qt.Key_A, Qt.ControlModifier)
+        app.clipboard().setText(value)
+        QTest.keyClick(window, Qt.Key_V, Qt.ControlModifier)
+        QTest.qWait(200)
+        assert find(name="builtinSearch").property("text") == value
+
+    assert len(backend.builtin_media) == 119
+    choose_category("上课")  # Category exists only in category_aliases for these files.
+    alias_rows = variant(library.property("filteredTracks"))
+    assert alias_rows and any(row["category"] != "上课" for row in alias_rows)
+    assert all("上课" in [row["category"]] + row.get("category_aliases", []) for row in alias_rows)
+    snapshot("10-builtin-alias-category")
+    choose_category("提示音")
+    paste_search("tone-a")  # Search the source alias, not the displayed canonical title.
+    source_rows = variant(library.property("filteredTracks"))
+    assert len(source_rows) == 1 and source_rows[0]["name"] == "提示音a"
+    snapshot("11-builtin-source-alias-search")
+    paste_search("")
+    choose_category("眼保健操")
+    eye_rows = variant(library.property("filteredTracks"))
+    assert len(eye_rows) == 4
+    chosen = next(row for row in eye_rows if "传统" in row["name"])
+    paste_search(chosen["name"])
+    assert len(variant(library.property("filteredTracks"))) == 1
+    click("builtinSelectAll")
+    assert variant(library.property("selectedPaths")) == [chosen["path"]]
+    snapshot("12-builtin-selected")
+    click("builtinAddLive")
+    portable = "builtin://" + chosen["relative_path"]
+    assert backend.live.snapshot()["files"] == [portable]
+    assert json.loads(backend.stateJson)["live"]["files"] == [chosen["path"]]
+    assert backend.player.state()["status"] == "stopped", "Library selection must never play audio"
+    click("builtinAdd")
+    fill("nameInput", "Builtin Library Bell")
+    click("editorSave")
+    stored = backend.store.list_programs()
+    assert len(stored) == 1 and stored[0]["files"] == [portable]
+    click("nav0")
+    fill("searchInput", "")
+    click(find(text="修改"))
+    QTest.wheelEvent(window, QPointF(1050, 650), QPoint(0, -480))
+    QTest.qWait(350)
+    assert find(name="filesInput").property("text") == chosen["path"]
+    snapshot("13-builtin-program-reopened")
+    click("editorCancel")
+    click("nav2")
+    snapshot("14-builtin-library-final")
     (EVIDENCE / "result.json").write_text(
         json.dumps(
             {

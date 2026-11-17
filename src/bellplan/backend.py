@@ -290,7 +290,7 @@ class Backend(QObject):
     def check_startup(self):
         if self.closed:
             return
-        status = platform_services.get_startup_status()
+        status = platform_services.get_startup_status(data_dir=self.data_dir)
         if (
             self.settings.get("startAtLogin")
             and status.get("supported")
@@ -298,7 +298,7 @@ class Backend(QObject):
         ):
             try:
                 previous = status
-                status = platform_services.repair_start_at_login()
+                status = platform_services.repair_start_at_login(data_dir=self.data_dir)
                 if status.get("matchesCurrentPath") and not previous.get("matchesCurrentPath"):
                     self.log("info", "登录启动路径已修复")
             except OSError as exc:
@@ -497,7 +497,7 @@ class Backend(QObject):
         self.settingsChanged.emit()
 
     def _set_startup(self, enabled):
-        platform_services.set_start_at_login(enabled)
+        platform_services.set_start_at_login(enabled, data_dir=self.data_dir)
 
     def _live_action(self, action, payload):
         if action in ("live_add_files", "live_add_directory"):
@@ -525,7 +525,7 @@ class Backend(QObject):
         elif action == "live_move":
             self.live.move(payload["index"], payload["delta"])
         elif action == "live_sort":
-            self.live.sort(payload.get("descending", False))
+            self.live.sort(payload.get("descending", False), by=payload.get("by", "name"))
         elif action == "live_shuffle":
             self.live.shuffle()
         elif action == "live_save_settings":
@@ -655,7 +655,9 @@ class Backend(QObject):
             elif action == "repair_startup":
                 if not self.settings.get("startAtLogin"):
                     raise ValueError("请先启用登录启动")
-                self.startup_status = platform_services.repair_start_at_login()
+                self.startup_status = platform_services.repair_start_at_login(
+                    data_dir=self.data_dir
+                )
             elif action == "lock_workstation":
                 platform_services.lock_workstation()
             elif action == "open_help":

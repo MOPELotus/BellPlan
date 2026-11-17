@@ -59,6 +59,44 @@ class LivePlaylistTests(unittest.TestCase):
         selected = self.live.snapshot()["selectedIndex"]
         self.assertEqual(self.live.snapshot()["files"][selected], "b")
 
+    def test_type_sort_uses_extension_name_and_full_path(self):
+        paths = [
+            r"C:\z\a.WAV",
+            r"C:\z\Beta.MP3",
+            "/b/alpha.mp3",
+            "/a/ALPHA.Mp3",
+            "/directory/no-extension",
+            "/a/z.flac",
+        ]
+        self.live.add(paths)
+        self.live.configure({"selectedIndex": 1})
+        expected = [
+            "/directory/no-extension",
+            "/a/z.flac",
+            "/a/ALPHA.Mp3",
+            "/b/alpha.mp3",
+            r"C:\z\Beta.MP3",
+            r"C:\z\a.WAV",
+        ]
+        self.live.sort(by="type")
+        result = self.live.snapshot()
+        self.assertEqual(result["files"], expected)
+        self.assertEqual(result["selectedIndex"], 4)
+        self.assertEqual(LivePlaylist(self.store).snapshot(), result)
+        self.live.sort(descending=True, by="type")
+        result = self.live.snapshot()
+        self.assertEqual(result["files"], list(reversed(expected)))
+        self.assertEqual(result["files"][result["selectedIndex"]], paths[1])
+
+    def test_unknown_sort_mode_is_rejected_without_changes(self):
+        self.live.add(["b.mp3", "a.wav"])
+        before = self.live.snapshot()
+        for by in ("size", "", None, []):
+            with self.subTest(by=by), self.assertRaises(ValueError):
+                self.live.sort(by=by)
+            self.assertEqual(self.live.snapshot(), before)
+            self.assertEqual(self.store.get_setting("live"), before)
+
     def test_list_program_rotates_without_dropping_files(self):
         self.live.add(["a", "b", "c"])
         self.live.configure(

@@ -99,6 +99,8 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -e ".[dev]"
       - run: python -m PyInstaller BellPlan.spec --noconfirm --clean
+      - name: Verify portable executable
+        run: pwsh -File tools/check_portable.ps1 -Executable dist/BellPlan.exe
       - name: Verify single-file output
         shell: pwsh
         run: |

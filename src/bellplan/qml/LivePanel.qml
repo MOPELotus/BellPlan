@@ -51,18 +51,45 @@ Item {
                 Layout.fillWidth: true
             }
             Button {
-                text: "名称 ↑"
+                id: sortButton
+                objectName: "liveSortButton"
+                text: "排序 ▾"
                 flat: true
-                onClicked: panel.send("live_sort", {
-                    descending: false
-                })
-            }
-            Button {
-                text: "名称 ↓"
-                flat: true
-                onClicked: panel.send("live_sort", {
-                    descending: true
-                })
+                onClicked: sortMenu.open()
+                Menu {
+                    id: sortMenu
+                    y: sortButton.height
+                    MenuItem {
+                        text: "按名称升序"
+                        onTriggered: panel.send("live_sort", {
+                            by: "name",
+                            descending: false
+                        })
+                    }
+                    MenuItem {
+                        text: "按名称降序"
+                        onTriggered: panel.send("live_sort", {
+                            by: "name",
+                            descending: true
+                        })
+                    }
+                    MenuSeparator {}
+                    MenuItem {
+                        objectName: "liveSortByType"
+                        text: "按文件类型排序"
+                        onTriggered: panel.send("live_sort", {
+                            by: "type",
+                            descending: false
+                        })
+                    }
+                    MenuItem {
+                        text: "按文件类型降序"
+                        onTriggered: panel.send("live_sort", {
+                            by: "type",
+                            descending: true
+                        })
+                    }
+                }
             }
             Button {
                 text: "打乱"

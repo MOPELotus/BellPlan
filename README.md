@@ -1,8 +1,11 @@
 # 铃序（BellPlan）
 
-面向 Windows 10/11 的单文件便携定时播放工具，使用 PySide6 / Qt Quick Controls。保留“节目单、定时播、立即播、节假日、调休”的操作方式，节目数量不设人工上限。
+面向 Windows 10/11 的单文件便携定时播放工具，使用 PySide6 / Qt Quick Controls。
 
-支持文件和目录播放、多时点、星期／每月／指定日期、日期时间有效期、播放队列、独立即时播放、淡入淡出、输出设备、分项备份和日志。内置音频按原分类提供。命令、朗读及 Windows 系统操作作为节目类型或系统功能提供。
+[下载 Release](https://github.com/MOPELotus/BellPlan/releases) · [Actions 构建](https://github.com/MOPELotus/BellPlan/actions)
+保留“节目单、定时播、立即播、节假日、调休”的操作方式，节目数量不设人工上限。
+
+支持文件和目录播放、多时点、星期／每月／指定日期、日期时间有效期、播放队列、独立即时播放、淡入淡出、输出设备、分项备份和日志。内置 119 个去重录音，支持分类、搜索和直接选用。命令、朗读及 Windows 系统操作作为节目类型或系统功能提供。
 
 ## 运行
 

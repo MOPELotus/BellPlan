@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import sqlite3
 import sys
+import tempfile
 from pathlib import Path
 
 from PySide6.QtCore import QLockFile, QObject, QStandardPaths, Qt, QTimer, QUrl, Signal
@@ -14,6 +16,7 @@ from PySide6.QtQuickControls2 import QQuickStyle
 from PySide6.QtWidgets import QApplication, QFileDialog, QMenu, QMessageBox, QSystemTrayIcon
 
 from .backend import Backend
+from .selfcheck import write_report
 from .windows_events import WindowsEvents
 
 
@@ -36,14 +39,19 @@ def main(argv=None):
     parser.add_argument("--data-dir", type=Path, help="独立数据目录")
     parser.add_argument("--screenshot", type=Path, help="启动后保存真实窗口截图")
     parser.add_argument("--quit-after", type=float, default=0, help="诊断：指定秒后退出")
+    parser.add_argument(
+        "--self-check-report", type=Path, help="检查便携包内容并写入 JSON，不启动界面"
+    )
     args = parser.parse_args(argv)
+    if args.self_check_report:
+        return write_report(args.self_check_report)
     # Use the native graphics API selected by Qt. Validation may explicitly choose
     # QSG_RHI_BACKEND=opengl to record the actual OpenGL device below.
     QQuickStyle.setStyle("Material")
     app = QApplication(sys.argv[:1])
     app.setOrganizationName("BellPlan")
     app.setApplicationName("BellPlan")
-    app.setApplicationDisplayName("铃序 · 进化版")
+    app.setApplicationDisplayName("铃序（BellPlan）")
     icon = app_icon()
     app.setWindowIcon(icon)
     if args.data_dir:
@@ -54,9 +62,8 @@ def main(argv=None):
         data_dir = Path(QStandardPaths.writableLocation(QStandardPaths.AppDataLocation))
     try:
         data_dir.mkdir(parents=True, exist_ok=True)
-        probe_file = data_dir / ".write-test"
-        probe_file.touch()
-        probe_file.unlink()
+        with tempfile.TemporaryFile(dir=data_dir):
+            pass
     except OSError:
         QMessageBox.information(
             None, "数据目录", "程序所在位置无法写入，请选择用于保存数据的目录。"
@@ -70,7 +77,14 @@ def main(argv=None):
     if not lock.tryLock(100):
         QMessageBox.information(None, "铃序", "此数据目录已有程序实例运行，请从系统托盘打开。")
         return 1
-    backend = Backend(data_dir, start_service=True)
+    try:
+        backend = Backend(data_dir, start_service=True)
+    except (OSError, sqlite3.Error, ValueError) as exc:
+        QMessageBox.critical(
+            None, "无法打开数据", "无法读取程序数据，请检查目录权限或从备份恢复。\n" + str(exc)
+        )
+        lock.unlock()
+        return 1
     native_events = WindowsEvents(app)
     native_events.resume.connect(backend.handle_resume)
     native_events.devicesChanged.connect(backend.handle_devices_changed)
@@ -86,7 +100,7 @@ def main(argv=None):
         return 1
     window = engine.rootObjects()[0]
     tray = QSystemTrayIcon(icon, app)
-    tray.setToolTip("铃序 · 进化版")
+    tray.setToolTip("铃序（BellPlan）")
     menu = QMenu()
     show_action = QAction("打开主窗口", menu)
     show_action.triggered.connect(

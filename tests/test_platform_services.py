@@ -364,6 +364,151 @@ class StartupStatusTests(unittest.TestCase):
             registry.assert_not_called()
 
 
+class StartupDataDirectoryTests(unittest.TestCase):
+    def registry_fixture(self, command, approval=b"\x02" + b"\0" * 11):
+        registry = MagicMock()
+        registry.HKEY_CURRENT_USER = 1
+        registry.KEY_READ = 2
+        registry.REG_SZ, registry.REG_EXPAND_SZ, registry.REG_BINARY = 1, 2, 3
+        registry.QueryValueEx.side_effect = [
+            (command, registry.REG_SZ),
+            (approval, registry.REG_BINARY),
+        ]
+        return registry
+
+    def test_source_command_keeps_chinese_data_directory_with_spaces(self):
+        with (
+            patch.object(platform.sys, "executable", r"C:\Program Files\Python\pythonw.exe"),
+            patch.object(platform.sys, "frozen", False, create=True),
+        ):
+            self.assertEqual(
+                platform.startup_command(data_dir=r"D:\学校广播 数据\BellPlan"),
+                '"C:\\Program Files\\Python\\pythonw.exe" -m bellplan --data-dir "D:\\学校广播 数据\\BellPlan"',
+            )
+
+    def test_frozen_command_keeps_chinese_data_directory_with_spaces(self):
+        with (
+            patch.object(platform.sys, "executable", r"C:\Program Files\BellPlan\BellPlan.exe"),
+            patch.object(platform.sys, "frozen", True, create=True),
+        ):
+            self.assertEqual(
+                platform.startup_command(data_dir=r"D:\我的数据\广播 数据"),
+                '"C:\\Program Files\\BellPlan\\BellPlan.exe" --data-dir "D:\\我的数据\\广播 数据"',
+            )
+
+    def test_relative_data_path_becomes_absolute_at_registration(self):
+        import os
+        from pathlib import Path
+
+        with patch.object(platform.sys, "frozen", True, create=True):
+            command = platform.startup_command(data_dir=Path("铃声 数据"))
+        self.assertIn(os.path.abspath("铃声 数据"), command)
+        self.assertIn("--data-dir", command)
+
+    def test_data_directory_with_trailing_backslash_is_quoted_correctly(self):
+        import subprocess
+
+        directory = "D:\\学校 数据\\"
+        with (
+            patch.object(platform.sys, "executable", r"C:\BellPlan\BellPlan.exe"),
+            patch.object(platform.sys, "frozen", True, create=True),
+        ):
+            self.assertEqual(
+                platform.startup_command(data_dir=directory),
+                subprocess.list2cmdline([r"C:\BellPlan\BellPlan.exe", "--data-dir", directory]),
+            )
+
+    def test_no_data_directory_keeps_original_command(self):
+        with (
+            patch.object(platform.sys, "executable", r"C:\BellPlan\BellPlan.exe"),
+            patch.object(platform.sys, "frozen", True, create=True),
+        ):
+            self.assertEqual(platform.startup_command(), r"C:\BellPlan\BellPlan.exe")
+            self.assertEqual(platform.startup_command(data_dir=None), platform.startup_command())
+
+    def test_invalid_data_directory_is_rejected(self):
+        for directory in ("", "bad\0directory", b"bytes"):
+            with self.subTest(directory=directory), self.assertRaises(ValueError):
+                platform.startup_command(data_dir=directory)
+
+    def test_registration_writes_the_same_data_directory_command(self):
+        registry = MagicMock()
+        key = registry.CreateKey.return_value.__enter__.return_value
+        directory = r"D:\学校\值班 广播"
+        with patch.object(platform, "_registry", return_value=registry):
+            platform.set_start_at_login(True, data_dir=directory)
+        registry.SetValueEx.assert_called_once_with(
+            key,
+            platform.STARTUP_VALUE,
+            0,
+            registry.REG_SZ,
+            platform.startup_command(data_dir=directory),
+        )
+
+    def test_exact_match_check_includes_data_directory(self):
+        directory = r"D:\校区广播 数据"
+        registry = MagicMock()
+        registry.REG_SZ, registry.REG_EXPAND_SZ = 1, 2
+        registry.QueryValueEx.return_value = (platform.startup_command(data_dir=directory), 1)
+        with patch.object(platform, "_registry", return_value=registry):
+            self.assertTrue(platform.get_start_at_login(data_dir=directory))
+            self.assertFalse(platform.get_start_at_login(data_dir=r"D:\其他 数据"))
+            self.assertFalse(platform.get_start_at_login())
+
+    def test_old_registration_missing_data_directory_is_detected(self):
+        directory = r"D:\学校 广播"
+        registry = self.registry_fixture(platform.startup_command())
+        with (
+            patch.object(platform.sys, "platform", "win32"),
+            patch.object(platform, "_registry", return_value=registry),
+        ):
+            result = platform.get_startup_status(data_dir=directory)
+        self.assertFalse(result["matchesCurrentPath"])
+        self.assertFalse(result["enabled"])
+        self.assertEqual(result["expectedCommand"], platform.startup_command(data_dir=directory))
+        self.assertEqual(result["currentCommand"], platform.startup_command())
+
+    def test_status_matches_current_executable_and_data_directory(self):
+        directory = r"D:\学校 广播"
+        registry = self.registry_fixture(platform.startup_command(data_dir=directory))
+        with (
+            patch.object(platform.sys, "platform", "win32"),
+            patch.object(platform, "_registry", return_value=registry),
+        ):
+            result = platform.get_startup_status(data_dir=directory)
+        self.assertTrue(result["matchesCurrentPath"])
+        self.assertTrue(result["enabled"])
+        self.assertEqual(result["currentCommand"], result["expectedCommand"])
+
+    def test_repair_carries_data_directory_through_read_write_and_recheck(self):
+        directory = r"D:\学校 广播"
+        before = {"blockedByWindows": False, "error": "", "matchesCurrentPath": False}
+        after = {"blockedByWindows": False, "error": "", "matchesCurrentPath": True}
+        with (
+            patch.object(platform.sys, "platform", "win32"),
+            patch.object(platform, "get_startup_status", side_effect=[before, after]) as read,
+            patch.object(platform, "set_start_at_login") as write,
+        ):
+            self.assertEqual(platform.repair_start_at_login(data_dir=directory), after)
+            self.assertEqual(read.call_count, 2)
+            for call in read.call_args_list:
+                self.assertEqual(call.kwargs, {"data_dir": directory})
+            write.assert_called_once_with(True, data_dir=directory)
+
+    def test_repair_with_data_directory_keeps_windows_disable_choice(self):
+        directory = r"D:\学校 广播"
+        for blocked in (True, None):
+            before = {"blockedByWindows": blocked, "error": "", "matchesCurrentPath": False}
+            with (
+                self.subTest(blocked=blocked),
+                patch.object(platform.sys, "platform", "win32"),
+                patch.object(platform, "get_startup_status", return_value=before),
+                patch.object(platform, "set_start_at_login") as write,
+            ):
+                self.assertEqual(platform.repair_start_at_login(data_dir=directory), before)
+                write.assert_not_called()
+
+
 class WindowsEventsTests(unittest.TestCase):
     def setUp(self):
         from bellplan.windows_events import WindowsEvents

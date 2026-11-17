@@ -7,6 +7,11 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     strategy:
@@ -36,6 +41,8 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install -e .[dev]
       - run: python -m PyInstaller BellPlan.spec --noconfirm
+      - name: Verify portable executable
+        run: pwsh -File tools/check_portable.ps1 -Executable dist/BellPlan.exe
       - uses: actions/upload-artifact@v4
         with:
           name: BellPlan-Windows

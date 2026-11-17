@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 import random
 from copy import deepcopy
+from pathlib import PurePosixPath
 
 _DEFAULT = {
     "files": [],
@@ -140,10 +141,19 @@ class LivePlaylist:
         data["selectedIndex"] = files.index(selected) if selected is not None else -1
         return self._commit(data)
 
-    def sort(self, descending=False):
+    def sort(self, descending=False, by="name"):
         if type(descending) is not bool:
             raise ValueError("排序方向必须为布尔值")
-        return self._reorder(sorted(self._data["files"], key=str.casefold, reverse=descending))
+        if by not in ("name", "type"):
+            raise ValueError("排序方式必须为 name 或 type")
+
+        def type_key(path):
+            # Both separators are accepted when a Windows backup is opened on Linux.
+            name = path.replace("\\", "/").rsplit("/", 1)[-1]
+            return PurePosixPath(name).suffix.casefold(), name.casefold(), path.casefold()
+
+        key = type_key if by == "type" else str.casefold
+        return self._reorder(sorted(self._data["files"], key=key, reverse=descending))
 
     def shuffle(self):
         files = list(self._data["files"])
