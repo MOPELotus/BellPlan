@@ -9,15 +9,30 @@ import tempfile
 from pathlib import Path
 
 from PySide6.QtCore import QLockFile, QObject, QStandardPaths, Qt, QTimer, QUrl, Signal
-from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap
+from PySide6.QtGui import QAction, QColor, QFont, QFontDatabase, QIcon, QPainter, QPixmap
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtQuick import QSGRendererInterface
 from PySide6.QtQuickControls2 import QQuickStyle
 from PySide6.QtWidgets import QApplication, QFileDialog, QMenu, QMessageBox, QSystemTrayIcon
 
+from . import __version__
 from .backend import Backend
 from .selfcheck import write_report
 from .windows_events import WindowsEvents
+
+
+def ui_font_family(available, platform, fallback):
+    """Choose an installed UI font instead of relying on a missing-family fallback."""
+    preferred = {
+        "win32": ("Microsoft YaHei UI", "Microsoft YaHei", "微软雅黑", "SimHei", "Segoe UI"),
+        "darwin": ("PingFang SC", "Heiti SC", "Helvetica Neue"),
+    }.get(
+        platform, ("Noto Sans CJK SC", "Noto Sans SC", "Source Han Sans SC", "WenQuanYi Micro Hei")
+    )
+    families = {name.casefold(): name for name in available}
+    return next(
+        (families[name.casefold()] for name in preferred if name.casefold() in families), fallback
+    )
 
 
 def app_icon():
@@ -57,8 +72,13 @@ def main(argv=None):
     # QSG_RHI_BACKEND=opengl to record the actual OpenGL device below.
     QQuickStyle.setStyle("Material")
     app = QApplication(sys.argv[:1])
+    ui_font = QFontDatabase.systemFont(QFontDatabase.SystemFont.GeneralFont)
+    ui_font.setFamily(ui_font_family(QFontDatabase.families(), sys.platform, ui_font.family()))
+    ui_font.setStyleHint(QFont.StyleHint.SansSerif)
+    app.setFont(ui_font)
     app.setOrganizationName("BellPlan")
     app.setApplicationName("BellPlan")
+    app.setApplicationVersion(__version__)
     app.setApplicationDisplayName("铃序（BellPlan）")
     icon = app_icon()
     app.setWindowIcon(icon)

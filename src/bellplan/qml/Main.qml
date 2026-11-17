@@ -15,7 +15,6 @@ ApplicationWindow {
     visible: true
     title: "铃序（BellPlan）"
     color: "#f5f6fb"
-    font.family: "Noto Sans CJK SC"
     font.pixelSize: 14
     Material.theme: Material.Light
     Material.primary: "#6659df"
@@ -32,6 +31,7 @@ ApplicationWindow {
     readonly property color ink: "#22253f"
     readonly property color muted: "#82869b"
     readonly property color accent: "#6659df"
+    readonly property bool compactHeight: height < 820
     readonly property var programs: win.state.programs || []
     readonly property var plans: win.state.plans || []
     readonly property var playing: (win.state.playing || {}).immediate || ({})
@@ -252,23 +252,27 @@ ApplicationWindow {
         property string caption
         property string value
         property string detail
-        property string symbol
+        property string iconName
         property color symbolColor: win.accent
+        readonly property int contentPadding: win.compactHeight ? 16 : 21
         Layout.fillWidth: true
-        Layout.preferredHeight: 120
+        Layout.minimumHeight: statRow.implicitHeight + contentPadding * 2
+        Layout.preferredHeight: Math.max(win.compactHeight ? 100 : 120, Layout.minimumHeight)
         RowLayout {
+            id: statRow
             anchors.fill: parent
-            anchors.margins: 21
+            anchors.margins: stat.contentPadding
             spacing: 17
             Rectangle {
-                width: 48
-                height: 48
+                width: win.compactHeight ? 44 : 48
+                height: width
                 radius: 15
                 color: Qt.rgba(stat.symbolColor.r, stat.symbolColor.g, stat.symbolColor.b, 0.09)
-                Label {
+                Icon {
                     anchors.centerIn: parent
-                    text: stat.symbol
-                    font.pixelSize: 22
+                    width: 24
+                    height: 24
+                    name: stat.iconName
                     color: stat.symbolColor
                 }
             }
@@ -308,17 +312,18 @@ ApplicationWindow {
                 spacing: 8
                 RowLayout {
                     Layout.topMargin: 12
-                    Layout.bottomMargin: 28
+                    Layout.bottomMargin: win.compactHeight ? 20 : 28
                     spacing: 12
                     Rectangle {
                         width: 42
                         height: 42
                         radius: 13
                         color: win.accent
-                        Label {
+                        Icon {
                             anchors.centerIn: parent
-                            text: "◷"
-                            font.pixelSize: 30
+                            width: 28
+                            height: 28
+                            name: "clock"
                             color: "white"
                         }
                     }
@@ -345,27 +350,27 @@ ApplicationWindow {
                 Repeater {
                     model: [
                         {
-                            icon: "▦",
+                            icon: "schedule",
                             name: "定时播"
                         },
                         {
-                            icon: "☷",
+                            icon: "playlist",
                             name: "节目单"
                         },
                         {
-                            icon: "♫",
+                            icon: "music",
                             name: "立即播"
                         },
                         {
-                            icon: "≡",
+                            icon: "logs",
                             name: "运行日志"
                         },
                         {
-                            icon: "⚙",
+                            icon: "settings",
                             name: "设置"
                         },
                         {
-                            icon: "▦",
+                            icon: "calendar",
                             name: "节假日与调休"
                         }
                     ]
@@ -378,13 +383,17 @@ ApplicationWindow {
                         radius: 10
                         color: win.page === index ? "#f0edff" : navMouse.containsMouse ? "#f7f7fc" : "transparent"
                         Row {
+                            anchors.left: parent.left
+                            anchors.leftMargin: 16
                             anchors.verticalCenter: parent.verticalCenter
-                            leftPadding: 15
+                            height: 22
                             spacing: 14
-                            Label {
-                                text: modelData.icon
-                                width: 20
-                                font.pixelSize: 22
+                            Icon {
+                                objectName: "navIcon" + index
+                                anchors.verticalCenter: parent.verticalCenter
+                                name: modelData.icon
+                                width: 22
+                                height: 22
                                 color: win.page === index ? win.accent : win.muted
                             }
                             Label {
@@ -422,7 +431,7 @@ ApplicationWindow {
                             font.bold: true
                         }
                         SmallText {
-                            text: "当前程序版本 0.1"
+                            text: "当前程序版本 " + (Qt.application.version || "开发版")
                         }
                         SmallText {
                             text: "节目总数：" + programs.length
@@ -431,7 +440,7 @@ ApplicationWindow {
                     }
                 }
                 SmallText {
-                    text: "BellPlan · 0.1"
+                    text: "BellPlan · " + (Qt.application.version || "开发版")
                     Layout.topMargin: 12
                     Layout.alignment: Qt.AlignHCenter
                 }
@@ -443,7 +452,7 @@ ApplicationWindow {
             spacing: 0
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 94
+                Layout.preferredHeight: win.compactHeight ? 80 : 94
                 color: "white"
                 RowLayout {
                     anchors.fill: parent
@@ -492,12 +501,24 @@ ApplicationWindow {
                 currentIndex: win.page
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                // Overview and program manager share the same live program panel.
-                Item {
+                // The overview has a content minimum; small windows scroll instead
+                // of squeezing its empty-state text and controls into a clipped view.
+                Flickable {
+                    id: overviewScroll
+                    objectName: "overviewScroll"
+                    clip: true
+                    contentWidth: width
+                    contentHeight: Math.max(height, overviewContent.implicitHeight + overviewContent.pageMargin * 2)
+                    boundsBehavior: Flickable.StopAtBounds
+                    ScrollBar.vertical: ScrollBar {}
                     ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: 28
-                        spacing: 22
+                        id: overviewContent
+                        readonly property int pageMargin: win.compactHeight ? 20 : 28
+                        x: pageMargin
+                        y: pageMargin
+                        width: Math.max(0, overviewScroll.width - pageMargin * 2)
+                        height: Math.max(implicitHeight, overviewScroll.height - pageMargin * 2)
+                        spacing: win.compactHeight ? 16 : 22
                         RowLayout {
                             Layout.fillWidth: true
                             spacing: 16
@@ -505,7 +526,7 @@ ApplicationWindow {
                                 caption: "全部节目"
                                 value: String(programs.length)
                                 detail: "包括全部节目单"
-                                symbol: "☷"
+                                iconName: "playlist"
                             }
                             Stat {
                                 caption: "已启用节目"
@@ -513,24 +534,30 @@ ApplicationWindow {
                                     return p.enabled;
                                 }).length)
                                 detail: plans.length + " 个节目单"
-                                symbol: "✓"
+                                iconName: "check"
                                 symbolColor: "#31a785"
                             }
                             Stat {
                                 caption: "下一次播出"
                                 value: win.width < 1200 ? (win.state.next || "暂无安排").split(" · ")[0].split(" ").pop() : (win.state.next || "暂无安排").split(" · ")[0]
                                 detail: (win.state.next || "").split(" · ")[1] || "按本机时间执行"
-                                symbol: "◷"
+                                iconName: "clock"
                                 symbolColor: "#e5a24b"
                             }
                         }
                         Panel {
+                            id: overviewPanel
+                            readonly property int contentPadding: win.compactHeight ? 16 : 20
+                            implicitHeight: overviewPanelContent.implicitHeight + contentPadding * 2
                             Layout.fillWidth: true
                             Layout.fillHeight: true
+                            Layout.minimumHeight: implicitHeight
+                            Layout.preferredHeight: implicitHeight
                             ColumnLayout {
+                                id: overviewPanelContent
                                 anchors.fill: parent
-                                anchors.margins: 20
-                                spacing: 12
+                                anchors.margins: overviewPanel.contentPadding
+                                spacing: win.compactHeight ? 8 : 12
                                 RowLayout {
                                     Layout.fillWidth: true
                                     ColumnLayout {
@@ -633,8 +660,11 @@ ApplicationWindow {
                                 }
                                 ListView {
                                     id: overviewList
+                                    objectName: "overviewList"
                                     Layout.fillWidth: true
                                     Layout.fillHeight: true
+                                    Layout.minimumHeight: filtered.length === 0 ? overviewEmpty.implicitHeight + 24 : 72
+                                    Layout.preferredHeight: Layout.minimumHeight
                                     clip: true
                                     model: filtered
                                     spacing: 2
@@ -751,20 +781,32 @@ ApplicationWindow {
                                         }
                                     }
                                     ColumnLayout {
+                                        id: overviewEmpty
+                                        objectName: "overviewEmptyState"
                                         anchors.centerIn: parent
+                                        width: Math.min(implicitWidth, Math.max(0, overviewList.width - 24))
+                                        height: implicitHeight
                                         visible: filtered.length === 0
                                         spacing: 10
                                         Label {
+                                            objectName: "overviewEmptyTitle"
                                             text: programs.length ? "没有匹配的节目" : "暂无节目"
                                             color: win.ink
                                             font.pixelSize: 20
+                                            Layout.minimumHeight: implicitHeight
                                             Layout.alignment: Qt.AlignHCenter
                                         }
                                         SmallText {
                                             text: programs.length ? "请调整搜索条件或选择其他节目单。" : "请选择“添加节目”或导入节目单。"
+                                            Layout.fillWidth: true
+                                            horizontalAlignment: Text.AlignHCenter
+                                            wrapMode: Text.WordWrap
+                                            Layout.minimumHeight: implicitHeight
                                             Layout.alignment: Qt.AlignHCenter
                                         }
                                         RowLayout {
+                                            objectName: "overviewEmptyActions"
+                                            Layout.minimumHeight: implicitHeight
                                             Layout.alignment: Qt.AlignHCenter
                                             Button {
                                                 text: "＋ 添加节目"
@@ -1443,7 +1485,7 @@ ApplicationWindow {
             }
             Rectangle {
                 Layout.fillWidth: true
-                Layout.preferredHeight: 89
+                Layout.preferredHeight: win.compactHeight ? 76 : 89
                 color: "white"
                 Rectangle {
                     width: parent.width
@@ -1460,10 +1502,11 @@ ApplicationWindow {
                         height: 44
                         radius: 13
                         color: "#f0edff"
-                        Label {
+                        Icon {
                             anchors.centerIn: parent
-                            text: "♫"
-                            font.pixelSize: 25
+                            width: 25
+                            height: 25
+                            name: "music"
                             color: win.accent
                         }
                     }

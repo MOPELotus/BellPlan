@@ -40,7 +40,13 @@ def write_report(destination: Path) -> int:
             report["audio_count"] += 1
             report["audio_bytes"] += item["size"]
         qml = Path(__file__).parent / "qml"
-        for name in ("Main.qml", "CalendarPage.qml", "LivePanel.qml", "BuiltinLibrary.qml"):
+        for name in (
+            "Main.qml",
+            "CalendarPage.qml",
+            "LivePanel.qml",
+            "BuiltinLibrary.qml",
+            "Icon.qml",
+        ):
             if not (qml / name).is_file():
                 raise ValueError("缺少界面文件：" + name)
         report["ok"] = True

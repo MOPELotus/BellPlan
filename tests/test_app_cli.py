@@ -5,7 +5,7 @@ import sys
 
 import pytest
 
-from bellplan.app import main
+from bellplan.app import main, ui_font_family
 
 
 def test_help_can_print_chinese_on_cp1252_console(monkeypatch):
@@ -27,3 +27,14 @@ def test_help_in_windowed_build_without_console(monkeypatch):
     with pytest.raises(SystemExit) as result:
         main(["--help"])
     assert result.value.code == 0
+
+
+def test_windows_ui_font_uses_installed_chinese_sans_family():
+    families = ["SimSun", "Segoe UI", "Microsoft YaHei", "Microsoft YaHei UI"]
+    assert ui_font_family(families, "win32", "SimSun") == "Microsoft YaHei UI"
+    assert ui_font_family(["Microsoft YaHei"], "win32", "SimSun") == "Microsoft YaHei"
+
+
+def test_ui_font_never_selects_missing_family():
+    assert ui_font_family(["Installed Sans"], "win32", "Installed Sans") == "Installed Sans"
+    assert ui_font_family(["Noto Sans CJK SC"], "linux", "Sans") == "Noto Sans CJK SC"
