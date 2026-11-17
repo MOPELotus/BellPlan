@@ -19,7 +19,7 @@ bellplan = "bellplan.app:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-bellplan = ["qml/*.qml", "qml/components/*.qml", "assets/manifest.json", "assets/music/*.mp3", "assets/music/*/*.mp3", "assets/help/*.html"]
+bellplan = ["qml/*.qml", "qml/components/*.qml", "assets/manifest.json", "assets/music/*", "assets/music/*/*", "assets/help/*.html"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
