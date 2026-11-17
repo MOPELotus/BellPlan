@@ -1,0 +1,529 @@
+{
+  "schema_version": 1,
+  "source": "用户提供及公开页面获取的音频资料",
+  "media_count": 74,
+  "media": [
+    {
+      "name": "上课号上班号",
+      "category": "军号",
+      "relative_path": "music/军号/上课号上班号.mp3",
+      "size": 152322,
+      "sha256": "bcfdce587b3af03dd1e05e17a614f382c67b9de088cfe00f82f1d04f356743ec"
+    },
+    {
+      "name": "下课下班号",
+      "category": "军号",
+      "relative_path": "music/军号/下课下班号.mp3",
+      "size": 168411,
+      "sha256": "e0cb8c534042423015150a08a33f80121af72f40e715a07875396c3b097b4637"
+    },
+    {
+      "name": "休息号",
+      "category": "军号",
+      "relative_path": "music/军号/休息号.mp3",
+      "size": 127996,
+      "sha256": "b55563c377613407dc89c1b8be2831ef6ebe611820318f5d9fab0b2d55aaedfa"
+    },
+    {
+      "name": "冲锋号",
+      "category": "军号",
+      "relative_path": "music/军号/冲锋号.mp3",
+      "size": 56316,
+      "sha256": "4f1c6057e8d94de5f8c5ba682b861af35a647ca001ea0819a87934c125664910"
+    },
+    {
+      "name": "冲锋号OLD",
+      "category": "军号",
+      "relative_path": "music/军号/冲锋号OLD.mp3",
+      "size": 48820,
+      "sha256": "675fcbcee353fc465c943903ec1876e7f19359bbf1bab1f2aab1d353566a7b63"
+    },
+    {
+      "name": "出操号",
+      "category": "军号",
+      "relative_path": "music/军号/出操号.mp3",
+      "size": 86670,
+      "sha256": "886477b3c44f01c532e90ef25e63290270f62c85024a2f0502039fd05d190b30"
+    },
+    {
+      "name": "午睡号",
+      "category": "军号",
+      "relative_path": "music/军号/午睡号.mp3",
+      "size": 121198,
+      "sha256": "9f895bc9e3e9fb22783e70e8e075e70e70e255b6d26d5ec38126f43803e6f8a9"
+    },
+    {
+      "name": "午起号",
+      "category": "军号",
+      "relative_path": "music/军号/午起号.mp3",
+      "size": 154478,
+      "sha256": "556a33e364d1eb97a90777165bac0810f5f4831585405fa0e24db9167da034c1"
+    },
+    {
+      "name": "开饭号",
+      "category": "军号",
+      "relative_path": "music/军号/开饭号.mp3",
+      "size": 133482,
+      "sha256": "5f7a439710158aecf1a96a349a6ba07422305892c318bb4e850fcbc63e209d04"
+    },
+    {
+      "name": "收操号",
+      "category": "军号",
+      "relative_path": "music/军号/收操号.mp3",
+      "size": 77893,
+      "sha256": "c8b9aa89a28c1701ebd007835d815c0ac554dc023819c1378a0ef80a304bc4f9"
+    },
+    {
+      "name": "晚点名号",
+      "category": "军号",
+      "relative_path": "music/军号/晚点名号.mp3",
+      "size": 119769,
+      "sha256": "7c66b23f2387603d7b01d2914bcdab4b63a3d2d8c90568a89c199f565fd475c9"
+    },
+    {
+      "name": "熄灯号",
+      "category": "军号",
+      "relative_path": "music/军号/熄灯号.mp3",
+      "size": 138602,
+      "sha256": "a0080f886a81ebda7f5cdcc0db5995d723af6d8ece7879f2391ada11f42c9f20"
+    },
+    {
+      "name": "紧急集合号",
+      "category": "军号",
+      "relative_path": "music/军号/紧急集合号.mp3",
+      "size": 78048,
+      "sha256": "445cbfb456e39735543c369d142e1fa20ef824f1930198f2d012152f9356c185"
+    },
+    {
+      "name": "解除警报号",
+      "category": "军号",
+      "relative_path": "music/军号/解除警报号.mp3",
+      "size": 80457,
+      "sha256": "12e8c1c2c294144131ad51e346e8fca685cee39dee4b10560cbb84de9ca799b7"
+    },
+    {
+      "name": "起床号",
+      "category": "军号",
+      "relative_path": "music/军号/起床号.mp3",
+      "size": 149939,
+      "sha256": "c056a53cb62745591be4a2c847260c6b9761c015b334a954c27d804b35c89779"
+    },
+    {
+      "name": "防空号",
+      "category": "军号",
+      "relative_path": "music/军号/防空号.mp3",
+      "size": 105838,
+      "sha256": "aa57c94b74b4693a266fd1983fec925c1b5b82161cf5d261265c6cc9c65ae5df"
+    },
+    {
+      "name": "集合号",
+      "category": "军号",
+      "relative_path": "music/军号/集合号.mp3",
+      "size": 158533,
+      "sha256": "47f88d4aedea1c2d5c20adb1238e7450a58148802ce2f24e3865fb7976e642b3"
+    },
+    {
+      "name": "打烊（萨克斯回家）",
+      "category": "通用提示与音乐",
+      "relative_path": "music/打烊（萨克斯回家）.mp3",
+      "size": 4069700,
+      "sha256": "9f3ecb3ce9e9ea907998b9bddac5fb87a3c0be25b2deab149c8e2f94471ab011"
+    },
+    {
+      "name": "上课-人声（15s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/上课-人声（15s）.mp3",
+      "size": 118740,
+      "sha256": "8e1330bb8b41149d8a24f7fb0c80cedf126c90f9df5b5d45c54a3623454c5dd2"
+    },
+    {
+      "name": "上课-女声（26s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/上课-女声（26s）.mp3",
+      "size": 602154,
+      "sha256": "91313ac3e0600a599ed1575f9011d501aeeba9fff0b6062bf88800d90a849d11"
+    },
+    {
+      "name": "上课-女童（17s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/上课-女童（17s）.mp3",
+      "size": 273271,
+      "sha256": "280370fbb06c0d3f71abba6432ead661b9076f67c19bc7feb8dc599fcdbc590e",
+      "aliases": [
+        "music/打铃/上课-人声（17s）.mp3"
+      ]
+    },
+    {
+      "name": "上课-钟声（08s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/上课-钟声（08s）.mp3",
+      "size": 94006,
+      "sha256": "d8638bb11eba10d0c63806607356a7d5288885e556acc93a05f6ea74ada049ad"
+    },
+    {
+      "name": "上课-钟声（13s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/上课-钟声（13s）.mp3",
+      "size": 120384,
+      "sha256": "2c5e3eb5abed145c6d816fc3ffe5c581e56f4b51409e3e03fcb44cc1dd9a0126"
+    },
+    {
+      "name": "上课-钟声（24s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/上课-钟声（24s）.mp3",
+      "size": 603192,
+      "sha256": "49399b121bfa792f4fa85b38d6cf6fb1e07ecc7b3b697ae04b76c27b99571c78"
+    },
+    {
+      "name": "下课-人声（16s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/下课-人声（16s）.mp3",
+      "size": 180440,
+      "sha256": "0095643fbf261fd04e741534b51fe0eb7ba60a7b7320663a7c02d06c6491baa8"
+    },
+    {
+      "name": "下课-人声（21s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/下课-人声（21s）.mp3",
+      "size": 433361,
+      "sha256": "60d87552fe2e16c6de126de570eb8460f5a49bfb79ad4640903d74cc4853f0a9"
+    },
+    {
+      "name": "下课-女声（15s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/下课-女声（15s）.mp3",
+      "size": 63608,
+      "sha256": "8f4e46e2b3fc060fb9588ec43ecf25b932b00e1f8a6aec7da97fc463981dc1a5"
+    },
+    {
+      "name": "下课-女声（25s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/下课-女声（25s）.mp3",
+      "size": 197208,
+      "sha256": "2ef55283897cadd3cc18f32438a24062121bdb9069890546840b0a7d122347dd"
+    },
+    {
+      "name": "下课-女童（21s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/下课-女童（21s）.mp3",
+      "size": 339427,
+      "sha256": "f0dcad308682d0dd3b24deb64735865525ef09d287d72d6ecb51aba2f4f389b0"
+    },
+    {
+      "name": "下课-钟声（19s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/下课-钟声（19s）.mp3",
+      "size": 165636,
+      "sha256": "7fe4f205225fef7a20f37ef7659594d7aa318a95836d89a72d493398cb6c14f3"
+    },
+    {
+      "name": "下课-钟声（20s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/下课-钟声（20s）.mp3",
+      "size": 464185,
+      "sha256": "dbc5b430c066a56749f7959ae8a395091a272f07fd64b8a599a7f986717d1fe2"
+    },
+    {
+      "name": "下课-钟声（22s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/下课-钟声（22s）.mp3",
+      "size": 346938,
+      "sha256": "2c609eaa52c1ba91d95be31f8a992992e6028376f3ff4f690d6fd899be165b9d"
+    },
+    {
+      "name": "打铃-电铃（10s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/打铃-电铃（10s）.mp3",
+      "size": 77981,
+      "sha256": "a0da21c77f5222a117cc20841923aff10f2f0d1b73e51300e03784dee2aae383"
+    },
+    {
+      "name": "打铃-电铃（15s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/打铃-电铃（15s）.mp3",
+      "size": 333342,
+      "sha256": "b663c3d903c75b53c86b53d9a20502e724af4a20051764ff5fa04d3016c7f0ca"
+    },
+    {
+      "name": "打铃-经典（14s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/打铃-经典（14s）.mp3",
+      "size": 351754,
+      "sha256": "e2d3b270ff31459cd7cff3629108370cdda9ee856d91fcbd3743fe3abdb69a74"
+    },
+    {
+      "name": "打铃-连续（31s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/打铃-连续（31s）.mp3",
+      "size": 798109,
+      "sha256": "79ea9d04e7a5f4583b222103cca39a3d4d5810742557276d504867892e6ae09b"
+    },
+    {
+      "name": "打铃-间隙（30s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/打铃-间隙（30s）.mp3",
+      "size": 686973,
+      "sha256": "bf0a40c314e0544b42ef85e5dbd108ce3c0986ce99c3820df3b7b143e8ffceeb"
+    },
+    {
+      "name": "钟声-经典（14s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/钟声-经典（14s）.mp3",
+      "size": 56262,
+      "sha256": "c9f59ec2897cb92bb23481b57a074431de83177552c8db10508d862a6aafde8e"
+    },
+    {
+      "name": "预备铃（15s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/预备铃（15s）.mp3",
+      "size": 302783,
+      "sha256": "4981c7ddf0b1e535289367f88b270bcc5c8d894950c5c849d33c5276ab1055c7"
+    },
+    {
+      "name": "预备铃（16s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/预备铃（16s）.mp3",
+      "size": 223085,
+      "sha256": "de8bd6bd5c03a6fe47574e93c7217da14ae6e7e84f04e97e8e0598f4c2064c97"
+    },
+    {
+      "name": "预备铃（25s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/预备铃（25s）.mp3",
+      "size": 197417,
+      "sha256": "4aab1d6fab24bd956e743a9aacec19821fdfcab3db9d7518b8d92551a6f0be36"
+    },
+    {
+      "name": "预备铃（26s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/预备铃（26s）.mp3",
+      "size": 384214,
+      "sha256": "b39acbb2054dd298f6322a93f93dc3642aa005460c99dcf727b0e21653a19b76"
+    },
+    {
+      "name": "预备铃（27s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/预备铃（27s）.mp3",
+      "size": 350712,
+      "sha256": "1f4b63e5674a71da2fb0395fa728716328566af0e143d542d6c5323ba37b71cb"
+    },
+    {
+      "name": "预备铃（43s）",
+      "category": "打铃",
+      "relative_path": "music/打铃/预备铃（43s）.mp3",
+      "size": 694196,
+      "sha256": "c8d13965df303b61934de051f898bc736c21b7acb90c10c218fe0f18f8fc13de"
+    },
+    {
+      "name": "提示音a",
+      "category": "通用提示与音乐",
+      "relative_path": "music/提示音a.mp3",
+      "size": 35704,
+      "sha256": "ca7249cbcdfa23a916d34dabdae9a8cfef08dfc60c927c94ee0d014a34fdad23"
+    },
+    {
+      "name": "提示音b",
+      "category": "通用提示与音乐",
+      "relative_path": "music/提示音b.mp3",
+      "size": 57769,
+      "sha256": "68086ebc8e7950904ac18bcc8f0b8870977d6da2678d9df77230fea73ecb0260"
+    },
+    {
+      "name": "提示音c",
+      "category": "通用提示与音乐",
+      "relative_path": "music/提示音c.mp3",
+      "size": 52191,
+      "sha256": "64cf7aeeb9d73db9b45cd1250db3888de973114f2e7392f17603ef5da7cca84d"
+    },
+    {
+      "name": "放学-人声(22s)",
+      "category": "放学安全提示",
+      "relative_path": "music/放学安全提示/放学-人声(22s).mp3",
+      "size": 174203,
+      "sha256": "c7a7a62827d7182ec86114a7a833dfc244d023f19137cefba738d79e97ad5d4d"
+    },
+    {
+      "name": "放学-人声(38s)",
+      "category": "放学安全提示",
+      "relative_path": "music/放学安全提示/放学-人声(38s).mp3",
+      "size": 303261,
+      "sha256": "aa8a7b365f169fdb7484b65737599fb32d7286a0afa50fcad19e4c6bcb70d5ae"
+    },
+    {
+      "name": "放学-人声(39s)",
+      "category": "放学安全提示",
+      "relative_path": "music/放学安全提示/放学-人声(39s).mp3",
+      "size": 309321,
+      "sha256": "24f5934c7513bdc87af569b32f0e9654e7780865bd35967e6a123803806f9533"
+    },
+    {
+      "name": "莱芜南冶",
+      "category": "歌曲",
+      "relative_path": "music/歌曲/莱芜南冶.mp3",
+      "size": 1959660,
+      "sha256": "3f54325450fed569e3394b8e323ea01b45dae6d780a09f49f7a66025a564b191"
+    },
+    {
+      "name": "考试1-入考室",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试1-入考室.mp3",
+      "size": 209155,
+      "sha256": "c7cadb6db248d05d32872d64020146a620499e9d05725e648d97ccc9aedd1e04"
+    },
+    {
+      "name": "考试1-发卷",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试1-发卷.mp3",
+      "size": 711784,
+      "sha256": "393a8f5026d116a9c1e7af709ddc972e1653ecde061d3904734403cfda4313e8"
+    },
+    {
+      "name": "考试1-开考",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试1-开考.mp3",
+      "size": 69635,
+      "sha256": "8ac9cb20e1adce62f593e2736273007a4e44dd04c5855e7c64cc4951f0081c46"
+    },
+    {
+      "name": "考试1-拆卷",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试1-拆卷.mp3",
+      "size": 242800,
+      "sha256": "71e03d2bb9c9c9daf686a64722e67b31902852538f3f0783e827102509d08dbb"
+    },
+    {
+      "name": "考试1-结束",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试1-结束.mp3",
+      "size": 201665,
+      "sha256": "11aae616a176f0095b8f3bc22c4db77e3c6111d1555367f3972d979c888775b6"
+    },
+    {
+      "name": "考试1-领卷",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试1-领卷.mp3",
+      "size": 162795,
+      "sha256": "9eac7875b2a86f98b26870f7405d55592de78237fb3ce3b14e137f636063bbc7"
+    },
+    {
+      "name": "考试2-15分钟提示",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试2-15分钟提示.mp3",
+      "size": 117413,
+      "sha256": "4d28a88031355d9c71f5b8b94b0da3bd04233aec3640222d93eeab7bf911df42"
+    },
+    {
+      "name": "考试2-发卷",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试2-发卷.mp3",
+      "size": 991013,
+      "sha256": "34024d5aa8b823185e28fe5fe2446dabef61372370c0cea9ef126e47f16121d6"
+    },
+    {
+      "name": "考试2-开考",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试2-开考.mp3",
+      "size": 172440,
+      "sha256": "5a2c39a0c512b379a3043324875bfe8d5402ecbe755e80ced50342146ce219a7"
+    },
+    {
+      "name": "考试2-拆卷",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试2-拆卷.mp3",
+      "size": 281109,
+      "sha256": "6ff54f1933581e676eecc2360fc3ef4afd18f1cc6657d2f0480efd73e273cfcd"
+    },
+    {
+      "name": "考试2-考生进场",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试2-考生进场.mp3",
+      "size": 192920,
+      "sha256": "4d898e0f2a981df09c4933967d170d0e87671cfd1005a65a17b5574230b7c70b"
+    },
+    {
+      "name": "考试2-考试纪律",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试2-考试纪律.mp3",
+      "size": 1281494,
+      "sha256": "bcadaac1da6819d88697f3a13fa58bdaafa4206dc737dd5bd4a7dc75e7a9ba04"
+    },
+    {
+      "name": "考试2-考试结束",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试2-考试结束.mp3",
+      "size": 2699003,
+      "sha256": "747d15a5d7fcbed6926c19a29dee7bad298c9acaf4ea91b87d21a608117aaed8"
+    },
+    {
+      "name": "考试3-开考前00分钟-开考",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试3-开考前00分钟-开考.mp3",
+      "size": 459408,
+      "sha256": "85efd46d197a3bbcf5d5161dfdd7611501b9f22b8c07e05dfdeebd8d45f561ea"
+    },
+    {
+      "name": "考试3-开考前05分钟-发卷",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试3-开考前05分钟-发卷.mp3",
+      "size": 858120,
+      "sha256": "d40c89ce7c2a387e0ec27c6852793df502141d44d1126e7b0d0642ddafd5e378"
+    },
+    {
+      "name": "考试3-开考前10分钟-拆卷",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试3-开考前10分钟-拆卷.mp3",
+      "size": 399288,
+      "sha256": "d83d7c641fb05713174482a6003280a7272c6814892f139e161afd76fab3ccd5"
+    },
+    {
+      "name": "考试3-开考前15分钟-发答题卡",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试3-开考前15分钟-发答题卡.mp3",
+      "size": 672264,
+      "sha256": "40d184f4d334c5e7e4f09c8abcb3fd4c8d8d43174b97a3e910fdb4d4a3b36e0c"
+    },
+    {
+      "name": "考试3-开考前20分钟-考试纪律",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试3-开考前20分钟-考试纪律.mp3",
+      "size": 2432064,
+      "sha256": "f93d85a3a9761dd2296228a4ad9ed2eaf6df811b8068b2a361c3c041360b112c"
+    },
+    {
+      "name": "考试3-开考前30分钟-考生进场",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试3-开考前30分钟-考生进场.mp3",
+      "size": 749472,
+      "sha256": "ce4784c7dcc556b4e0f26ae0821fcd3efbae01a8c533d0ca972dbfbe81fe2341"
+    },
+    {
+      "name": "考试3-结束前00分钟-考试结束",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试3-结束前00分钟-考试结束.mp3",
+      "size": 1096176,
+      "sha256": "ca59a86be615d417bc7e7205eaf4b6753d66715871630ab0f112f669075c6456"
+    },
+    {
+      "name": "考试3-结束前15分钟-15分钟提示",
+      "category": "考试指令",
+      "relative_path": "music/考试指令/考试3-结束前15分钟-15分钟提示.mp3",
+      "size": 129672,
+      "sha256": "0e32f74d819d3ecf8a4fd2ce412a20693a1a3b936ff9b4fea8d37c03e5f1ff48"
+    },
+    {
+      "name": "迎宾（With An Orchid）",
+      "category": "通用提示与音乐",
+      "relative_path": "music/迎宾（With An Orchid）.mp3",
+      "size": 4894752,
+      "sha256": "ef477f894c29968ed2a68f7bf55f553e5658653dcb04f1f1f1281f101f016058"
+    },
+    {
+      "name": "闭馆（致爱丽丝）",
+      "category": "通用提示与音乐",
+      "relative_path": "music/闭馆（致爱丽丝）.mp3",
+      "size": 2539952,
+      "sha256": "44f0c7a4588124f527071509c7b0a7bef8f9b81caa14f697186003972f51a49a"
+    }
+  ],
+  "help": []
+}

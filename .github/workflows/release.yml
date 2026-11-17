@@ -1,0 +1,154 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '版本号，例如 v0.1.0；须与 pyproject.toml 一致'
+        required: true
+        type: string
+      prerelease:
+        description: '标记为预发布版本'
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.event.inputs.version || github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.validate.outputs.version }}
+      prerelease: ${{ steps.validate.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate release version
+        id: validate
+        env:
+          REQUESTED_VERSION: ${{ github.event.inputs.version || github.ref_name }}
+          REQUESTED_PRERELEASE: ${{ github.event.inputs.prerelease }}
+          EVENT_NAME: ${{ github.event_name }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          import re
+          import subprocess
+          import tomllib
+          from pathlib import Path
+
+          version = os.environ['REQUESTED_VERSION']
+          pattern = r'v[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?(?:\+[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?'
+          if not re.fullmatch(pattern, version):
+              raise SystemExit('版本号格式无效')
+          package_version = tomllib.loads(Path('pyproject.toml').read_text())['project']['version']
+          if version[1:] != package_version:
+              raise SystemExit('版本号必须与 pyproject.toml 的 project.version 一致')
+          tag = subprocess.run(['git', 'rev-parse', '--verify', f'refs/tags/{version}^{{commit}}'], capture_output=True, text=True)
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          if tag.returncode == 0 and tag.stdout.strip() != head:
+              raise SystemExit('同名标签已指向其他提交；请使用新的版本号')
+          if os.environ['EVENT_NAME'] == 'workflow_dispatch':
+              prerelease = os.environ['REQUESTED_PRERELEASE'].lower() == 'true'
+          else:
+              prerelease = '-' in version
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as stream:
+              stream.write(f'version={version}\nprerelease={str(prerelease).lower()}\n')
+          PY
+
+  test:
+    needs: version
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m ruff check src tests run.py
+      - run: python -m ruff format --check src tests run.py
+      - run: python -m pytest -q
+
+  windows-build:
+    needs: test
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e ".[dev]"
+      - run: python -m PyInstaller BellPlan.spec --noconfirm --clean
+      - name: Verify single-file output
+        shell: pwsh
+        run: |
+          if (!(Test-Path -Path dist/BellPlan.exe -PathType Leaf)) {
+            throw 'BellPlan.exe was not produced'
+          }
+          $hash = (Get-FileHash dist/BellPlan.exe -Algorithm SHA256).Hash.ToLowerInvariant()
+          "$hash  BellPlan.exe" | Set-Content dist/SHA256SUMS.txt -Encoding ascii
+      - uses: actions/upload-artifact@v4
+        with:
+          name: BellPlan-Windows
+          path: |
+            dist/BellPlan.exe
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+
+  publish:
+    needs: [version, windows-build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: BellPlan-Windows
+          path: release
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VERSION: ${{ needs.version.outputs.version }}
+          PRERELEASE: ${{ needs.version.outputs.prerelease }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            echo '同名 Release 已存在，不覆盖已有发布。' >&2
+            exit 1
+          fi
+          cd release
+          sha256sum --check SHA256SUMS.txt
+          cd ..
+          cat > release-notes.md <<'NOTES'
+          铃序（BellPlan）Windows 单文件便携版。
+
+          下载 BellPlan.exe 后直接运行，无须安装 Python 或安装程序，无注册码。程序离线运行，运行数据保存在 EXE 同目录的 BellPlan-data 文件夹。
+
+          此构建已通过自动测试；Windows 实机音频输出、多声卡切换、休眠恢复、自启动和系统操作的验证范围请查看仓库中的 docs/WINDOWS_TESTING.md。自动构建不代替这些实机检查。
+          NOTES
+          flags=()
+          if [ "$PRERELEASE" = true ]; then
+            flags+=(--prerelease)
+          fi
+          gh release create "$VERSION" release/BellPlan.exe release/SHA256SUMS.txt \
+            --target "$GITHUB_SHA" --title "铃序 $VERSION" \
+            --notes-file release-notes.md "${flags[@]}"
