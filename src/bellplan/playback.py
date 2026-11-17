@@ -1,6 +1,6 @@
 """Native Qt audio and offline speech, with independent scheduled/live channels.
 
-In ``playlist`` mode, ``repeat`` counts complete playlist passes. ``tracks``
+In ``playlist`` mode, ``repeat`` counts complete playlist passes (zero is unlimited). ``tracks``
 mode loops until ``track_limit`` successful tracks, and ``duration`` mode loops
 until the requested seconds elapse. Zero limits are unlimited in those modes.
 A nonzero duration also caps other modes; paused time is excluded. Playlists
@@ -324,7 +324,8 @@ class _Channel(QObject):
         if self._mode() == "tracks":
             limit = int(self.program.get("track_limit", 0))
             return not limit or self.completed_tracks < limit
-        return self.pass_index < int(self.program.get("repeat", 1))
+        repeat = int(self.program.get("repeat", 1))
+        return repeat <= 0 or self.pass_index < repeat
 
     def _load(self):
         if not self.active:
@@ -439,9 +440,8 @@ class _Channel(QObject):
             self.index += 1
             if self.index >= len(self.paths):
                 self.pass_index += 1
-                if self._mode() == "playlist" and self.pass_index >= int(
-                    self.program.get("repeat", 1)
-                ):
+                repeat = int(self.program.get("repeat", 1))
+                if self._mode() == "playlist" and repeat > 0 and self.pass_index >= repeat:
                     self._finish()
                     return
                 self.index = 0
@@ -462,10 +462,12 @@ class _Channel(QObject):
             factor = min(factor, elapsed / fade_in)
         remaining = limit - elapsed if limit else None
         # Without an explicit limit, fade out on the final item of the final pass.
+        repeat = int(self.program.get("repeat", 1))
         last_playlist = (
             self._mode() == "playlist"
+            and repeat > 0
             and self.index == len(self.paths) - 1
-            and self.pass_index + 1 >= int(self.program.get("repeat", 1))
+            and self.pass_index + 1 >= repeat
         )
         track_limit = int(self.program.get("track_limit", 0))
         last_track = (

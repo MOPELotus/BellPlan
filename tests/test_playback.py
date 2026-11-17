@@ -4,9 +4,11 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from PySide6.QtCore import QCoreApplication
+from PySide6.QtMultimedia import QMediaPlayer
+from PySide6.QtTextToSpeech import QTextToSpeech
 
 from bellplan.playback import Playback, _device_id, expand_sources
 
@@ -129,6 +131,83 @@ class PlaybackTests(unittest.TestCase):
             channel._advance(old)
             load.assert_not_called()
         self.assertEqual(channel.index, 0)
+
+    def test_zero_playlist_repeat_advances_across_three_rounds(self):
+        channel = self.player.scheduled
+        channel.active = True
+        channel.paths = ["a.wav", "b.wav"]
+        channel.program = {"action": "audio", "stop_mode": "playlist", "repeat": 0}
+        with patch.object(channel, "_load") as load:
+            for _ in range(6):
+                channel._media_status(QMediaPlayer.MediaStatus.EndOfMedia)
+                APP.processEvents()
+                self.assertTrue(channel.active)
+            self.assertEqual(load.call_count, 6)
+        self.assertEqual(channel.pass_index, 3)
+        self.assertEqual(channel.completed_tracks, 6)
+
+    def test_positive_playlist_repeat_finishes_after_exact_pass_count(self):
+        channel = self.player.scheduled
+        for repeat in (1, 2):
+            with self.subTest(repeat=repeat):
+                channel.stop()
+                channel.active = True
+                channel.paths = ["a.wav", "b.wav"]
+                channel.index = channel.pass_index = channel.completed_tracks = 0
+                channel.program = {"action": "audio", "stop_mode": "playlist", "repeat": repeat}
+                with patch.object(channel, "_load") as load:
+                    for number in range(repeat * 2):
+                        channel._media_status(QMediaPlayer.MediaStatus.EndOfMedia)
+                        APP.processEvents()
+                        self.assertEqual(channel.active, number < repeat * 2 - 1)
+                    self.assertEqual(load.call_count, repeat * 2 - 1)
+                self.assertEqual(channel.completed_tracks, repeat * 2)
+
+    def test_zero_speech_repeat_keeps_scheduling_after_three_utterances(self):
+        channel = self.player.scheduled
+        channel.active = True
+        channel.speech = Mock()
+        channel.program = {"action": "speech", "text": "test", "stop_mode": "playlist", "repeat": 0}
+        for _ in range(3):
+            channel._speech_state(QTextToSpeech.State.Speaking)
+            channel._speech_state(QTextToSpeech.State.Ready)
+            APP.processEvents()
+            self.assertTrue(channel.active)
+        self.assertEqual(channel.speech.say.call_count, 3)
+        self.assertEqual(channel.pass_index, 3)
+        self.assertEqual(channel.completed_tracks, 3)
+
+    def test_positive_speech_repeat_stops_at_exact_utterance_count(self):
+        channel = self.player.scheduled
+        for repeat in (1, 2):
+            with self.subTest(repeat=repeat):
+                channel.stop()
+                channel.active = True
+                channel.speech = Mock()
+                channel.pass_index = channel.completed_tracks = 0
+                channel.program = {
+                    "action": "speech",
+                    "text": "test",
+                    "stop_mode": "playlist",
+                    "repeat": repeat,
+                }
+                for number in range(repeat):
+                    channel._speech_state(QTextToSpeech.State.Speaking)
+                    channel._speech_state(QTextToSpeech.State.Ready)
+                    APP.processEvents()
+                    self.assertEqual(channel.active, number < repeat - 1)
+                self.assertEqual(channel.speech.say.call_count, repeat - 1)
+
+    def test_zero_playlist_repeat_does_not_fade_each_pass_as_final_pass(self):
+        channel = self.player.scheduled
+        channel.active = True
+        channel.paths = ["one.wav"]
+        channel.volume = 100
+        channel.program = {"stop_mode": "playlist", "repeat": 0, "fade_out": 1}
+        with patch.object(channel.player, "duration", return_value=1000):
+            with patch.object(channel.player, "position", return_value=950):
+                channel._apply_volume()
+        self.assertAlmostEqual(channel.output.volume(), 1.0, places=5)
 
     def test_playlist_repetition_is_lazy_and_finishes(self):
         channel = self.player.scheduled

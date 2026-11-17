@@ -12,7 +12,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from PySide6.QtCore import QCoreApplication
+from PySide6.QtCore import QCoreApplication, QObject, Qt, Slot
 from PySide6.QtTest import QSignalSpy
 
 from bellplan.scheduler import Scheduler
@@ -295,6 +295,110 @@ class ServiceTests(unittest.TestCase):
         finally:
             locker.rollback()
             locker.close()
+
+    def queued_adapter(self, service):
+        """A main-thread consumer that checks the event's dispatch generation."""
+        store = self.store
+
+        class Adapter(QObject):
+            def __init__(self):
+                super().__init__()
+                self.accepted = []
+                self.rejected = []
+
+            @Slot(dict)
+            def dispatch(self, event):
+                if service.is_current(event):
+                    self.accepted.append(event)
+                else:
+                    store.finish_run(event["event_id"], "cancelled", "控制代际已改变")
+                    self.rejected.append(event)
+
+        adapter = Adapter()
+        service.due.connect(adapter.dispatch, Qt.QueuedConnection)
+        emitted = threading.Event()
+        pending = []
+
+        def capture(event):
+            pending.append(event)
+            emitted.set()
+
+        service.due.connect(capture, Qt.DirectConnection)
+        return adapter, emitted, pending
+
+    def test_queued_due_is_rejected_after_pause_then_reenable(self):
+        self.program(datetime.now() - timedelta(seconds=1))
+        service = self.make_service()
+        adapter, emitted, pending = self.queued_adapter(service)
+        self.assertTrue(service.start())
+        self.assertTrue(emitted.wait(2), "worker must emit without main-loop processing")
+        self.assertEqual(adapter.accepted, [])
+        old = pending[0]
+        self.assertTrue(service.is_current(old))
+        service.set_enabled(False)
+        service.set_enabled(True)
+        self.assertGreater(service.control_generation, old["control_generation"])
+        self.assertFalse(service.is_current(old))
+        self.assertTrue(self.wait_until(lambda: len(adapter.rejected) == 1))
+        self.assertEqual(adapter.accepted, [])
+        self.assertEqual(self.store.list_runs()[0]["status"], "cancelled")
+
+    def test_queued_due_is_rejected_after_explicit_reset(self):
+        self.program(datetime.now() - timedelta(seconds=1))
+        service = self.make_service()
+        adapter, emitted, pending = self.queued_adapter(service)
+        service.start()
+        self.assertTrue(emitted.wait(2))
+        service.reset()
+        self.assertFalse(service.is_current(pending[0]))
+        self.assertTrue(self.wait_until(lambda: len(adapter.rejected) == 1))
+        self.assertEqual(adapter.accepted, [])
+
+    def test_queued_due_is_rejected_after_stop_and_start(self):
+        self.program(datetime.now() - timedelta(seconds=1))
+        service = self.make_service()
+        adapter, emitted, pending = self.queued_adapter(service)
+        service.start()
+        self.assertTrue(emitted.wait(2))
+        old_generation = pending[0]["control_generation"]
+        self.assertTrue(service.stop())
+        self.assertFalse(service.is_current(pending[0]))
+        self.assertTrue(service.start())
+        self.assertGreater(service.control_generation, old_generation)
+        self.assertFalse(service.is_current(pending[0]))
+        self.assertTrue(self.wait_until(lambda: len(adapter.rejected) == 1))
+        self.assertEqual(adapter.accepted, [])
+
+    def test_natural_resume_keeps_already_claimed_queued_event_valid(self):
+        self.program(datetime.now() - timedelta(seconds=1))
+        service = self.make_service()
+        adapter, emitted, pending = self.queued_adapter(service)
+        service.start()
+        self.assertTrue(emitted.wait(2))
+        before = service.control_generation
+        service.notify_resume()
+        self.assertEqual(service.control_generation, before)
+        self.assertTrue(service.is_current(pending[0]))
+        self.assertTrue(self.wait_until(lambda: len(adapter.accepted) == 1))
+        self.assertEqual(adapter.rejected, [])
+        self.wait_briefly()
+        self.assertEqual(len(pending), 1, "resume must not reclaim an existing occurrence")
+
+    def test_generation_validation_rejects_malformed_and_other_service_events(self):
+        self.program(datetime.now() - timedelta(seconds=1))
+        service = self.make_service()
+        _, emitted, pending = self.queued_adapter(service)
+        service.start()
+        self.assertTrue(emitted.wait(2))
+        event = pending[0]
+        self.assertFalse(service.is_current(None))
+        self.assertFalse(service.is_current({}))
+        self.assertFalse(service.is_current(dict(event, control_generation=True)))
+        self.assertFalse(service.is_current(dict(event, service_token="another-service")))
+        other = self.make_service()
+        self.start_service(other)
+        self.assertEqual(other.control_generation, service.control_generation)
+        self.assertFalse(other.is_current(event))
 
     def test_clock_discontinuity_diagnostics_distinguish_rollback_and_stall(self):
         service = self.make_service()

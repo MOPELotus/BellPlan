@@ -13,6 +13,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from types import MappingProxyType
+from uuid import uuid4
 
 from PySide6.QtCore import QObject, Signal
 
@@ -163,6 +164,7 @@ class SchedulerService(QObject):
         self.stall_threshold = float(stall_threshold)
         self._enabled = enabled
         self._control_serial = 0
+        self._service_token = uuid4().hex
         self._activation_floor = None
         self._lock = threading.RLock()
         self._commands = queue.Queue()
@@ -175,11 +177,41 @@ class SchedulerService(QObject):
         with self._lock:
             return self._thread is not None and self._thread.is_alive()
 
+    @property
+    def control_generation(self):
+        """Current explicit-control generation, including stop/start boundaries."""
+        with self._lock:
+            return self._control_serial
+
+    def is_current(self, event):
+        """Reject queued events invalidated since the worker emitted them.
+
+        The GUI must call this immediately before dispatch. Checking only its
+        current enabled flag misses a pause followed by re-enable while a due
+        signal was waiting in Qt's event queue. OS resume does not invalidate
+        otherwise valid claimed tasks; it only checks the catch-up window.
+        """
+        if not isinstance(event, dict):
+            return False
+        generation = event.get("control_generation")
+        if type(generation) is not int:
+            return False
+        with self._lock:
+            return (
+                self._enabled
+                and not self._stop.is_set()
+                and self._thread is not None
+                and self._thread.is_alive()
+                and generation == self._control_serial
+                and event.get("service_token") == self._service_token
+            )
+
     def start(self):
         """Start once; starting an already running service is harmless."""
         with self._lock:
             if self._thread is not None and self._thread.is_alive():
                 return False
+            self._control_serial += 1
             self._stop.clear()
             self._wake.clear()
             self._thread = threading.Thread(
@@ -199,6 +231,7 @@ class SchedulerService(QObject):
         ):
             raise ValueError("停止等待时间必须是非负秒数")
         with self._lock:
+            self._control_serial += 1
             self._stop.set()
             self._wake.set()
             thread = self._thread
@@ -219,8 +252,8 @@ class SchedulerService(QObject):
         if type(enabled) is not bool:
             raise ValueError("调度启用状态必须是布尔值")
         with self._lock:
-            if enabled == self._enabled:
-                return
+            # Even an explicit request for the existing value forms a new
+            # control boundary: queued due events belong to the older request.
             self._enabled = enabled
             self._control_serial += 1
             stamp = datetime.now()
@@ -289,7 +322,7 @@ class SchedulerService(QObject):
                             action, value, stamp, serial = self._commands.get_nowait()
                         except queue.Empty:
                             break
-                        applied_serial = serial
+                        applied_serial = max(applied_serial, serial)
                         if action == "enabled":
                             enabled = value
                             scheduler.reset(stamp)
@@ -337,6 +370,8 @@ class SchedulerService(QObject):
                                 )
                             events = []
                         for event in events:
+                            event["control_generation"] = applied_serial
+                            event["service_token"] = self._service_token
                             event["program"] = _thaw(event["program"])
                             detected = datetime.now()
                             scheduled = datetime.fromisoformat(event["scheduled_at"])

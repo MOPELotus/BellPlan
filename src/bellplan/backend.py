@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import json
 import logging
-import os
-import shlex
 import sys
 from datetime import datetime, timedelta
 from logging.handlers import RotatingFileHandler
@@ -17,6 +15,7 @@ from PySide6.QtWidgets import QFileDialog, QMessageBox
 
 from . import platform_services
 from .backup import prepare_import, select_sections
+from .commands import CommandRunner, parse_command
 from .domain import validate_setting
 from .live import LivePlaylist
 from .playback import Playback
@@ -56,6 +55,7 @@ class Backend(QObject):
     def __init__(self, data_dir: Path, parent=None, *, start_service=False):
         super().__init__(parent)
         self.closed = False
+        self.closing = False
         self.system_volume = {
             "available": sys.platform == "win32",
             "volume": 0,
@@ -94,6 +94,7 @@ class Backend(QObject):
             for alias in item.get("aliases", []):
                 self._builtin_uris["builtin://" + alias] = item["path"]
         self._run_timings = {}
+        self._activation_floor = None
         self.startup_status = {
             "supported": sys.platform == "win32",
             "enabled": False,
@@ -101,7 +102,9 @@ class Backend(QObject):
             "error": "尚未读取",
         }
         self.service = None
-        self.processes = []
+        self.commands = CommandRunner(self)
+        self.commands.runChanged.connect(self._run_changed)
+        self.commands.log.connect(self.log)
         self.power_pending = None
         self.power_timer = QTimer(self)
         self.power_timer.setSingleShot(True)
@@ -144,6 +147,8 @@ class Backend(QObject):
 
     @Slot(str, str)
     def log(self, level, message):
+        if self.closed:
+            return
         if hasattr(self, "logger"):
             getattr(self.logger, level if level in ("error", "warning", "info") else "info")(
                 message
@@ -158,7 +163,7 @@ class Backend(QObject):
 
     @Slot()
     def request_refresh(self):
-        if self.closed:
+        if self.closed or self.closing:
             return
         if not self.publish_timer.isActive():
             self.publish_timer.start(150)
@@ -182,7 +187,7 @@ class Backend(QObject):
 
     @Slot(str, str, str)
     def _run_changed(self, event_id, status, message):
-        if not event_id:
+        if self.closed or not event_id:
             return
         if status == "started" and event_id in self._run_timings:
             elapsed = max(
@@ -200,7 +205,7 @@ class Backend(QObject):
 
     @Slot()
     def refresh(self):
-        if self.closed:
+        if self.closed or self.closing:
             return
         if not hasattr(self, "logs"):
             return
@@ -240,7 +245,7 @@ class Backend(QObject):
 
     @Slot(dict)
     def handle_due(self, event):
-        if self.closed:
+        if self.closed or self.closing:
             return
         program = event["program"]
         current = self.store.get_program(program["id"])
@@ -254,6 +259,20 @@ class Backend(QObject):
             self.store.finish_run(event["event_id"], "cancelled", "执行前节目或节目单已停用")
             return
         scheduled = datetime.fromisoformat(event["scheduled_at"])
+        # A UI event may have waited across suspend even though it was claimed
+        # promptly. Do not bypass the compensation window at the final handoff.
+        age = (datetime.now() - scheduled.replace(tzinfo=None)).total_seconds()
+        if age > max(1.0, self.settings["catchupSeconds"]):
+            self.store.finish_run(event["event_id"], "cancelled", "任务已超过补播窗口")
+            self.log("info", "已跳过超时任务：" + program["name"])
+            return
+        stale = self.service is not None and not self.service.is_current(event)
+        if self.service is None and self._activation_floor is not None:
+            stale = scheduled.replace(tzinfo=None) < self._activation_floor
+        if stale:
+            self.store.finish_run(event["event_id"], "cancelled", "任务在暂停或服务切换后已失效")
+            self.log("info", "已取消失效任务：" + program["name"])
+            return
         self._run_timings[event["event_id"]] = scheduled.replace(tzinfo=None)
         lag = event.get(
             "lateness_ms",
@@ -332,18 +351,7 @@ class Backend(QObject):
         if not result.get("plan_id"):
             result["plan_id"] = self.store.list_plans()[0]["id"]
         if result["action"] == "command" and ("text" in payload or not result.get("command")):
-            text = result.get("text", "").strip()
-            try:
-                command = json.loads(text)
-            except json.JSONDecodeError:
-                command = shlex.split(text, posix=os.name != "nt")
-            if (
-                not isinstance(command, list)
-                or not all(isinstance(x, str) for x in command)
-                or not command
-            ):
-                raise ValueError('命令请填写非空 JSON 参数数组，例如 ["notepad.exe"]')
-            result["command"] = command
+            result["command"] = parse_command(result.get("text", ""))
         result["files"] = encode_sources(result.get("files", []))
         return result
 
@@ -373,41 +381,7 @@ class Backend(QObject):
         if action in ("audio", "speech"):
             self.player.play(program, immediate=immediate)
         elif action == "command":
-            args = program.get("command", [])
-            if not args:
-                raise ValueError("命令参数为空")
-            proc = QProcess(self)
-            proc.setProgram(args[0])
-            proc.setArguments(args[1:])
-            proc.started.connect(
-                lambda: self._run_changed(
-                    program.get("_run_event_id", ""), "started", program["name"]
-                )
-            )
-            proc.finished.connect(
-                lambda code, status: self._run_changed(
-                    program.get("_run_event_id", ""),
-                    "completed" if code == 0 else "failed",
-                    f"{program['name']} 退出码 {code}",
-                )
-            )
-            proc.errorOccurred.connect(
-                lambda error: self._run_changed(
-                    program.get("_run_event_id", ""), "failed", proc.errorString()
-                )
-            )
-            proc.finished.connect(
-                lambda code, status: self.log(
-                    "info" if code == 0 else "error", f"命令结束：{program['name']}，退出码 {code}"
-                )
-            )
-            proc.errorOccurred.connect(
-                lambda error: self.log("error", f"命令无法启动：{proc.errorString()}")
-            )
-            proc.finished.connect(lambda *_: self._release_process(proc))
-            self.processes.append(proc)
-            proc.start()
-            self.log("info", f"开始命令：{program['name']}")
+            self.commands.start(program)
         elif action == "system":
             self._run_changed(program.get("_run_event_id", ""), "started", program["name"])
             operation = program["system_action"]
@@ -441,11 +415,6 @@ class Backend(QObject):
                 raise ValueError("休眠尚未验证，暂不执行")
             if operation in ("stop", "volume", "lock"):
                 self._run_changed(program.get("_run_event_id", ""), "completed", program["name"])
-
-    def _release_process(self, proc):
-        if proc in self.processes:
-            self.processes.remove(proc)
-        proc.deleteLater()
 
     def _execute_power(self):
         if self.power_pending:
@@ -588,7 +557,8 @@ class Backend(QObject):
             elif action == "set_scheduler":
                 self.enabled = bool(p.get("enabled", not self.enabled))
                 self.store.set_setting("schedulerEnabled", self.enabled)
-                self.scheduler.reset(datetime.now())
+                self._activation_floor = datetime.now()
+                self.scheduler.reset(self._activation_floor)
                 if self.service:
                     self.service.set_enabled(self.enabled)
                 self.log("info", "定时调度已开启" if self.enabled else "定时调度已暂停")
@@ -745,9 +715,9 @@ class Backend(QObject):
             return json.dumps({"ok": False, "error": message}, ensure_ascii=False)
 
     def close(self):
-        if self.closed:
+        if self.closed or self.closing:
             return
-        self.closed = True
+        self.closing = True
         self.timer.stop()
         self.startup_timer.stop()
         if self.service and not self.service.stop():
@@ -758,7 +728,13 @@ class Backend(QObject):
             self._run_changed(
                 self.power_pending.get("event_id", ""), "cancelled", "程序退出，系统倒计时已取消"
             )
+        for item in self.commands.close():
+            message = f"外部命令继续运行：{item['name']}；程序退出后不再跟踪完成状态"
+            if item["event_id"]:
+                self.store.finish_run(item["event_id"], "started", message)
+            self.log("info", message)
         self.player.stop()
+        self.closed = True
         self.store.close()
         for handler in list(self.logger.handlers):
             handler.close()

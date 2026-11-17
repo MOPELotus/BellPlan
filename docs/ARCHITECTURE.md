@@ -9,6 +9,7 @@
 - `selfcheck.py`：非图形便携包与资源完整性检查。
 - `scheduler.py`：到期计算、补播窗口、持久去重；不执行系统操作。
 - `playback.py`：Qt Multimedia、语音、队列、双通道和设备。
+- `commands.py`：外部命令参数解析、状态观察与退出分离；不接管或终止外部程序。
 - `live.py`：立即播列表和参数。
 - `backup.py`：备份范围筛选、导入预检。
 - `resources.py`：音频目录与便携引用。

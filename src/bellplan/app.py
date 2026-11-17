@@ -35,6 +35,14 @@ def app_icon():
 
 
 def main(argv=None):
+    # Windowed executables may have no stream; attached consoles may use cp1252.
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure:
+            try:
+                reconfigure(encoding="utf-8", errors="replace")
+            except (OSError, ValueError):
+                pass
     parser = argparse.ArgumentParser(description="BellPlan")
     parser.add_argument("--data-dir", type=Path, help="独立数据目录")
     parser.add_argument("--screenshot", type=Path, help="启动后保存真实窗口截图")

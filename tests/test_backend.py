@@ -1,6 +1,7 @@
 """Bridge regressions: no graphics, audio hardware or system actions required."""
 
 import json
+import sys
 import unittest
 from copy import deepcopy
 from datetime import datetime, timedelta
@@ -8,7 +9,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
-from PySide6.QtCore import QCoreApplication, QObject, Signal
+from PySide6.QtCore import QCoreApplication, QObject, Qt, Signal
 
 from bellplan.backend import Backend
 
@@ -130,6 +131,35 @@ class BackendTests(unittest.TestCase):
         self.assertEqual(
             self.backend.player.calls, [], "Resuming must not catch up explicitly paused programs"
         )
+
+    def test_queued_due_is_cancelled_after_pause_then_resume(self):
+        class Producer(QObject):
+            due = Signal(dict)
+
+        past = datetime.now() - timedelta(seconds=2)
+        self.add(time=past.strftime("%H:%M:%S"))
+        event = self.backend.scheduler.poll(datetime.now())[0]
+        producer = Producer()
+        producer.due.connect(self.backend.handle_due, Qt.QueuedConnection)
+        producer.due.emit(event)
+        self.assertTrue(self.act("set_scheduler", {"enabled": False})["ok"])
+        self.assertTrue(self.act("set_scheduler", {"enabled": True})["ok"])
+        QCoreApplication.processEvents()
+        self.assertEqual(self.backend.player.calls, [])
+        self.assertEqual(self.backend.store.list_runs()[0]["status"], "cancelled")
+
+    def test_delivery_held_across_sleep_cannot_bypass_compensation_window(self):
+        program = self.add()
+        scheduled = datetime.now() - timedelta(minutes=5)
+        event_id = "expired-delivery-test"
+        self.backend.store.claim(event_id, program["id"], scheduled.isoformat())
+        self.backend.handle_due(
+            {"program": program, "event_id": event_id, "scheduled_at": scheduled.isoformat()}
+        )
+        self.assertEqual(self.backend.player.calls, [])
+        run = self.backend.store.list_runs()[0]
+        self.assertEqual(run["status"], "cancelled")
+        self.assertIn("补播窗口", run["message"])
 
     def test_import_disables_executable_actions(self):
         self.add(kind="command", text='["do-not-run.exe"]')
@@ -413,6 +443,58 @@ class BackendTests(unittest.TestCase):
         self.assertFalse(result["ok"])
         self.assertTrue(result["cancelled"])
         self.assertEqual(self.backend.store.list_programs(), [])
+
+    def test_close_preserves_external_process_without_late_database_callbacks(self):
+        gate = Path(self.directory.name) / "release-child"
+        script = (
+            "import pathlib,sys,time; gate=pathlib.Path(sys.argv[1]); "
+            "deadline=time.monotonic()+15; "
+            "exec('while not gate.exists() and time.monotonic()<deadline: time.sleep(0.01)')"
+        )
+        event_id = "external-close-test"
+        self.backend.store.claim(event_id, "command-test", datetime.now().isoformat())
+        self.backend._execute(
+            {
+                "action": "command",
+                "name": "测试外部程序",
+                "command": [sys.executable, "-c", script, str(gate)],
+                "_run_event_id": event_id,
+            }
+        )
+        process = self.backend.commands._running[0]["process"]
+        try:
+            self.backend.close()
+            self.assertIsNone(process.poll())
+            self.assertFalse(self.backend.commands.timer.isActive())
+            self.backend.commands.runChanged.emit(event_id, "completed", "late signal")
+            QCoreApplication.processEvents()
+        finally:
+            gate.touch()
+            process.wait(timeout=10)
+        from bellplan.storage import Store
+
+        store = Store(Path(self.directory.name) / "bellplan.sqlite3")
+        try:
+            run = store.list_runs()[0]
+            self.assertEqual(run["status"], "started")
+            self.assertIn("不再跟踪", run["message"])
+        finally:
+            store.close()
+
+    def test_close_records_audio_cancellation_before_closing_storage(self):
+        event_id = "audio-close-test"
+        self.backend.store.claim(event_id, "audio-test", datetime.now().isoformat())
+        self.backend.player.stop = lambda: self.backend.player.runChanged.emit(
+            event_id, "cancelled", "程序退出"
+        )
+        self.backend.close()
+        from bellplan.storage import Store
+
+        store = Store(Path(self.directory.name) / "bellplan.sqlite3")
+        try:
+            self.assertEqual(store.list_runs()[0]["status"], "cancelled")
+        finally:
+            store.close()
 
     def test_last_plan_cannot_be_deleted(self):
         result = self.act("delete_plan", {"id": self.plan["id"]})
