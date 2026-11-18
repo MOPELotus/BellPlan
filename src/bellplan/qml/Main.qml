@@ -1596,7 +1596,7 @@ ApplicationWindow {
             var times = timesInput.text.split(/[\n,，]+/).map(function (s) {
                 return s.trim();
             }).filter(Boolean);
-            var md = monthDays.text.trim() ? monthDays.text.split(/[,，\s]+/).map(Number) : [];
+            var md = monthDays.text.trim() ? monthDays.text.trim().split(/[,，\s]+/).filter(Boolean).map(Number) : [];
             var exclusions = [];
             try {
                 exclusions = JSON.parse(programExcludeInput.text || "[]");
@@ -1635,9 +1635,9 @@ ApplicationWindow {
                 shuffle: shuffleInput.checked,
                 enabled: enabledInput.checked,
                 start_date: startDate.text.trim(),
-                datetime_from: startClock.text.trim() ? startDate.text.trim() + "T" + startClock.text.trim() : "",
+                datetime_from: startDate.text.trim() && startClock.text.trim() ? startDate.text.trim() + "T" + startClock.text.trim() : "",
                 end_date: endDate.text.trim(),
-                datetime_to: endClock.text.trim() ? endDate.text.trim() + "T" + endClock.text.trim() : "",
+                datetime_to: endDate.text.trim() && endClock.text.trim() ? endDate.text.trim() + "T" + endClock.text.trim() : "",
                 playback_mode: queueInput.currentIndex === 1 ? "queue" : "interrupt",
                 output_device: deviceInput.currentIndex > 0 ? (win.state.devices || [])[deviceInput.currentIndex - 1].id : ""
             };
@@ -1645,6 +1645,7 @@ ApplicationWindow {
         }
         contentItem: ScrollView {
             id: editorScroll
+            objectName: "editorScroll"
             clip: true
             contentWidth: availableWidth
             ColumnLayout {
@@ -1771,6 +1772,7 @@ ApplicationWindow {
                         }
                         TextField {
                             id: monthDays
+                            objectName: "monthDaysInput"
                             Layout.fillWidth: true
                             placeholderText: "留空按星期执行"
                         }
@@ -1778,35 +1780,54 @@ ApplicationWindow {
                     ColumnLayout {
                         Layout.fillWidth: true
                         SmallText {
-                            text: "开始日期 · 可选"
+                            text: "有效期开始日期 · 可选"
                         }
                         TextField {
                             id: startDate
+                            objectName: "startDateInput"
+                            onTextChanged: {
+                                if (!text.trim())
+                                    startClock.clear();
+                            }
                             Layout.fillWidth: true
                             placeholderText: "YYYY-MM-DD"
                         }
                         TextField {
                             id: startClock
+                            objectName: "startClockInput"
+                            enabled: !!startDate.text.trim()
                             Layout.fillWidth: true
-                            placeholderText: "起始时刻，可选 HH:MM:SS"
+                            placeholderText: enabled ? "起始时刻 · 可选 HH:MM:SS" : "先填写对应日期"
                         }
                     }
                     ColumnLayout {
                         Layout.fillWidth: true
                         SmallText {
-                            text: "结束日期 · 可选"
+                            text: "有效期结束日期 · 可选"
                         }
                         TextField {
                             id: endDate
+                            objectName: "endDateInput"
+                            onTextChanged: {
+                                if (!text.trim())
+                                    endClock.clear();
+                            }
                             Layout.fillWidth: true
                             placeholderText: "YYYY-MM-DD"
                         }
                         TextField {
                             id: endClock
+                            objectName: "endClockInput"
+                            enabled: !!endDate.text.trim()
                             Layout.fillWidth: true
-                            placeholderText: "结束时刻，可选 HH:MM:SS"
+                            placeholderText: enabled ? "结束时刻 · 可选 HH:MM:SS" : "先填写对应日期"
                         }
                     }
+                }
+                SmallText {
+                    Layout.fillWidth: true
+                    text: "有效期留空表示不限制日期；播出时间请在上方填写。"
+                    wrapMode: Text.Wrap
                 }
                 SectionLabel {
                     text: "播放内容"

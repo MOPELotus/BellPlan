@@ -42,7 +42,20 @@ def ui_program(program):
     item["kind"] = {"speech": "tts"}.get(item["action"], item["action"])
     if item["action"] == "system":
         item["kind"] = {"restart": "reboot"}.get(item["system_action"], item["system_action"])
-    item["start_date"], item["end_date"] = item["date_from"], item["date_to"]
+    # The editor has one date/clock pair per boundary. Project the intersection
+    # of stored date and timestamp bounds so an unrelated edit cannot widen it.
+    for date_key, datetime_key, ui_key, day_clock, select in (
+        ("date_from", "datetime_from", "start_date", "00:00:00", max),
+        ("date_to", "datetime_to", "end_date", "23:59:59", min),
+    ):
+        stamp = item.get(datetime_key, "")
+        day = item.get(date_key, "")
+        if stamp:
+            stamp = select(stamp, day + "T" + day_clock) if day else stamp
+            item[datetime_key] = stamp
+            item[ui_key] = stamp[:10]
+        else:
+            item[ui_key] = day
     return item
 
 

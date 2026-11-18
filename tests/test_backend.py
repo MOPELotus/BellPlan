@@ -11,7 +11,8 @@ from unittest.mock import patch
 
 from PySide6.QtCore import QCoreApplication, QObject, Qt, Signal
 
-from bellplan.backend import Backend
+from bellplan.backend import Backend, ui_program
+from bellplan.domain import active_at, runs_on
 
 
 class SilentPlayback(QObject):
@@ -89,6 +90,99 @@ class BackendTests(unittest.TestCase):
         self.assertEqual(len(self.backend.store.list_programs()), 2)
         self.assertTrue(self.act("delete_program", {"id": p["id"]})["ok"])
         self.assertEqual(len(self.backend.store.list_programs()), 1)
+
+    def test_editor_preserves_effective_validity_bounds(self):
+        cases = [
+            ({}, ("", "", "", "")),
+            ({"date_from": "2026-11-10"}, ("2026-11-10", "", "", "")),
+            ({"date_to": "2026-11-20"}, ("", "", "2026-11-20", "")),
+            (
+                {"datetime_from": "2026-11-10T09:00:00"},
+                ("2026-11-10", "2026-11-10T09:00:00", "", ""),
+            ),
+            (
+                {"datetime_to": "2026-11-20T17:00:00"},
+                ("", "", "2026-11-20", "2026-11-20T17:00:00"),
+            ),
+            (
+                {
+                    "date_from": "2026-11-01",
+                    "datetime_from": "2026-11-10T09:00:00",
+                    "date_to": "2026-11-30",
+                    "datetime_to": "2026-11-20T17:00:00",
+                },
+                ("2026-11-10", "2026-11-10T09:00:00", "2026-11-20", "2026-11-20T17:00:00"),
+            ),
+            (
+                {
+                    "date_from": "2026-11-10",
+                    "datetime_from": "2026-11-01T09:00:00",
+                    "date_to": "2026-11-20",
+                    "datetime_to": "2026-11-30T17:00:00",
+                },
+                ("2026-11-10", "2026-11-10T00:00:00", "2026-11-20", "2026-11-20T23:59:59"),
+            ),
+            (
+                {
+                    "date_from": "2026-11-10",
+                    "datetime_from": "2026-11-01T09:00:00",
+                    "date_to": "2026-11-30",
+                    "datetime_to": "2026-11-20T17:00:00",
+                },
+                ("2026-11-10", "2026-11-10T00:00:00", "2026-11-20", "2026-11-20T17:00:00"),
+            ),
+            (
+                {
+                    "date_from": "2026-11-01",
+                    "datetime_from": "2026-11-10T09:00:00",
+                    "date_to": "2026-11-20",
+                    "datetime_to": "2026-11-30T17:00:00",
+                },
+                ("2026-11-10", "2026-11-10T09:00:00", "2026-11-20", "2026-11-20T23:59:59"),
+            ),
+        ]
+        samples = {
+            datetime(2026, 11, 1) + timedelta(days=day, hours=hour)
+            for day in range(31)
+            for hour in (0, 9, 17, 23)
+        }
+        for bounds, expected in cases:
+            with self.subTest(bounds=bounds):
+                original = self.backend.store.save_program(
+                    dict(name="有效期回归", plan_id=self.plan["id"], **bounds)
+                )
+                ui = ui_program(original)
+                self.assertEqual(
+                    tuple(
+                        ui.get(key, "")
+                        for key in ("start_date", "datetime_from", "end_date", "datetime_to")
+                    ),
+                    expected,
+                )
+                self.assertEqual(self.backend.store.get_program(original["id"]), original)
+                # Match the editor payload: its aliases replace the stored dates,
+                # and its clocks reconstruct the projected timestamp boundaries.
+                payload = {
+                    key: ui.get(key, "")
+                    for key in ("id", "start_date", "datetime_from", "end_date", "datetime_to")
+                }
+                payload["name"] = "仅修改名称"
+                result = self.act("update_program", payload)
+                self.assertTrue(result["ok"], result)
+                saved = self.backend.store.get_program(original["id"])
+                boundary_samples = set(samples)
+                for stamp in (*bounds.values(), *expected):
+                    if stamp:
+                        point = datetime.fromisoformat(stamp)
+                        boundary_samples.update(
+                            point + timedelta(seconds=delta) for delta in (-1, 0, 1)
+                        )
+                for occurrence in sorted(boundary_samples):
+                    before = runs_on(original, occurrence.date()) and active_at(
+                        original, occurrence
+                    )
+                    after = runs_on(saved, occurrence.date()) and active_at(saved, occurrence)
+                    self.assertEqual(after, before, (bounds, occurrence))
 
     def test_command_edit_replaces_actual_arguments(self):
         p = self.add(kind="command", text='["first.exe", "old"]')
