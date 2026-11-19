@@ -76,6 +76,46 @@ class BackendTests(unittest.TestCase):
         self.assertTrue(result["ok"], result)
         return self.backend.store.list_programs()[-1]
 
+    def test_operation_lock_blocks_dispatch_without_interrupting_scheduling(self):
+        program = self.add(time="08:00:00")
+        self.assertTrue(
+            self.act(
+                "security_set_password",
+                {"new_password": "test password", "confirmation": "test password"},
+            )["ok"]
+        )
+        self.assertTrue(self.act("security_lock")["ok"])
+        before = self.backend.store.export_data()
+        with patch("bellplan.backend.QFileDialog.getOpenFileName") as open_dialog:
+            for action in (
+                "add_program",
+                "update_program",
+                "delete_program",
+                "save_settings",
+                "play",
+                "stop",
+                "import",
+                "export",
+                "security_set_password",
+                "security_remove_password",
+                "live_clear",
+                "toggle_scheduler",
+            ):
+                result = self.act(action, {"id": program["id"]})
+                self.assertFalse(result["ok"], action)
+            open_dialog.assert_not_called()
+        self.assertEqual(self.backend.store.export_data(), before)
+        self.assertTrue(self.backend.enabled)
+        self.assertEqual(len(self.backend.scheduler.poll(datetime(2026, 11, 19, 8))), 1)
+        self.assertFalse(self.act("security_unlock", {"password": "wrong"})["ok"])
+        self.assertTrue(self.backend.security.locked)
+        self.assertTrue(self.act("security_unlock", {"password": "test password"})["ok"])
+        self.assertTrue(self.act("delete_program", {"id": program["id"]})["ok"])
+        state = json.loads(self.backend.stateJson)
+        self.assertEqual(state["security"], {"configured": True, "locked": False})
+        self.assertNotIn("test password", self.backend.stateJson)
+        self.assertNotIn("test password", (Path(self.directory.name) / "activity.log").read_text())
+
     def test_crud_and_ui_mapping(self):
         p = self.add(kind="tts", text="早上好", start_date="2026-11-01", end_date="2026-12-31")
         self.assertEqual(p["action"], "speech")

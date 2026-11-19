@@ -154,6 +154,69 @@ class BackupTests(unittest.TestCase):
             with self.subTest(programs=programs), self.assertRaises(ValueError):
                 prepare_import({"programs": programs, "settings": {}}, {})
 
+    def test_settings_only_roundtrip_preserves_other_data_and_local_password(self):
+        source = Store(":memory:")
+        target = Store(":memory:")
+        try:
+            preferences = {
+                "closeToTray": False,
+                "startAtLogin": True,
+                "duckVolume": 42,
+                "catchupSeconds": 15,
+                "defaultDevice": "USB speaker",
+                "theme": "light",
+            }
+            source.set_setting("ui", preferences)
+            source.set_setting("operation_lock", {"hash": "source-private-hash"})
+            source_plan = source.save_plan({"name": "不应导入的节目单"})
+            source.save_program({"name": "不应导入的节目", "plan_id": source_plan["id"]})
+            target_plan = target.save_plan({"name": "现有节目单"})
+            target_program = target.save_program({"name": "现有节目", "plan_id": target_plan["id"]})
+            current = {"startAtLogin": False, "duckVolume": 80}
+            target.set_setting("ui", current)
+            local_password = {"hash": "target-private-hash"}
+            target.set_setting("operation_lock", local_password)
+            target.set_setting("calendar_overrides", {"2026-11-19": "disabled"})
+            target.set_setting("live", {"files": ["local.mp3"]})
+
+            selected = select_sections(source.export_data(), ["settings"])
+            self.assertEqual(set(selected["settings"]), {"ui"})
+            target.import_data(prepare_import(selected, current))
+
+            self.assertEqual(target.get_setting("ui"), dict(preferences, startAtLogin=False))
+            self.assertEqual(target.list_plans(), [target_plan])
+            self.assertEqual(target.list_programs(), [target_program])
+            self.assertEqual(target.get_setting("operation_lock"), local_password)
+            self.assertEqual(target.get_setting("live"), {"files": ["local.mp3"]})
+            self.assertEqual(target.get_setting("calendar_overrides"), {"2026-11-19": "disabled"})
+        finally:
+            source.close()
+            target.close()
+
+    def test_all_backup_scopes_exclude_password_and_runtime_state(self):
+        data = sample()
+        data["settings"]["operation_lock"] = {"hash": "private", "salt": "private"}
+        for sections in (None, ["settings"], list(("programs", "settings", "live"))):
+            with self.subTest(sections=sections):
+                exported = select_sections(data, sections)
+                self.assertNotIn("operation_lock", exported["settings"])
+                self.assertNotIn("schedulerEnabled", exported["settings"])
+
+    def test_invalid_restore_leaves_preferences_and_programs_unchanged(self):
+        store = Store(":memory:")
+        try:
+            store.set_setting("ui", {"duckVolume": 77})
+            plan = store.save_plan({"name": "当前节目单"})
+            store.save_program({"name": "当前节目", "plan_id": plan["id"]})
+            before = store.export_data()
+            incoming = sample()
+            incoming["settings"]["ui"]["duckVolume"] = 101
+            with self.assertRaises(ValueError):
+                store.import_data(prepare_import(select_sections(incoming), {"duckVolume": 77}))
+            self.assertEqual(store.export_data(), before)
+        finally:
+            store.close()
+
     def test_live_only_import_does_not_change_other_store_settings(self):
         store = Store(":memory:")
         try:

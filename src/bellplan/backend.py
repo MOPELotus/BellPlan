@@ -21,6 +21,7 @@ from .live import LivePlaylist
 from .playback import Playback
 from .resources import builtin_media, decode_sources, encode_sources, resource_root
 from .scheduler import Scheduler
+from .security import OperationLock
 from .service import SchedulerService
 from .storage import Store
 
@@ -79,6 +80,7 @@ class Backend(QObject):
         self.data_dir = data_dir
         data_dir.mkdir(parents=True, exist_ok=True)
         self.store = Store(data_dir / "bellplan.sqlite3")
+        self.security = OperationLock(self.store)
         self.settings = dict(DEFAULT_SETTINGS, **self.store.get_setting("ui", {}))
         if not self.store.list_plans():
             self.store.save_plan({"name": "默认节目单"})
@@ -235,6 +237,7 @@ class Backend(QObject):
                 "logs": self.logs,
                 "playing": self.player.state(),
                 "settings": self.settings,
+                "security": self.security.state(),
                 "schedulerEnabled": self.enabled,
                 "now": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "next": self._next(programs, plans) if self.enabled else "定时调度已暂停",
@@ -537,7 +540,19 @@ class Backend(QObject):
             p = json.loads(encoded or "{}")
             if not isinstance(p, dict):
                 raise ValueError("操作参数必须为对象")
-            if action in ("add_program", "update_program"):
+            if self.security.locked and action != "security_unlock":
+                raise ValueError("操作已锁定，请先输入密码解锁")
+            if action == "security_unlock":
+                self.security.unlock(p.get("password"))
+            elif action == "security_lock":
+                self.security.lock()
+            elif action == "security_set_password":
+                self.security.set_password(
+                    p.get("current_password"), p.get("new_password"), p.get("confirmation")
+                )
+            elif action == "security_remove_password":
+                self.security.remove_password(p.get("password"))
+            elif action in ("add_program", "update_program"):
                 record = self._normalize_program(p)
                 if not self._confirm_action(record):
                     return json.dumps({"ok": False, "cancelled": True})

@@ -20,6 +20,8 @@ ApplicationWindow {
     Material.primary: "#6659df"
     Material.accent: "#6659df"
     property var state: JSON.parse(backend ? backend.stateJson || "{}" : "{}")
+    readonly property bool securityConfigured: !!(state.security || {}).configured
+    readonly property bool securityLocked: !!(state.security || {}).locked
     property int page: 0
     property string search: ""
     property string planFilter: ""
@@ -217,6 +219,10 @@ ApplicationWindow {
         target: backend
         ignoreUnknownSignals: true
         function onErrorOccurred(message) {
+            if (win.securityLocked) {
+                unlockError.text = message;
+                return;
+            }
             win.showError(message);
         }
         function onFileSelectionJsonChanged() {
@@ -1371,6 +1377,71 @@ ApplicationWindow {
                             Layout.fillWidth: true
                             Layout.leftMargin: 28
                             Layout.rightMargin: 28
+                            implicitHeight: protectionColumn.implicitHeight + 40
+                            ColumnLayout {
+                                id: protectionColumn
+                                anchors.fill: parent
+                                anchors.margins: 20
+                                spacing: 12
+                                SectionLabel {
+                                    text: "备份与还原"
+                                }
+                                SmallText {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.Wrap
+                                    text: "备份节目单、运行设置、节假日与调休及立即播列表。音频文件和锁定密码不包含在备份中。"
+                                }
+                                RowLayout {
+                                    Button {
+                                        objectName: "settingsBackup"
+                                        text: "备份…"
+                                        onClicked: win.openBackup("export")
+                                    }
+                                    Button {
+                                        objectName: "settingsRestore"
+                                        text: "还原…"
+                                        onClicked: win.openBackup("import")
+                                    }
+                                }
+                                SectionLabel {
+                                    text: "密码锁定"
+                                }
+                                SmallText {
+                                    Layout.fillWidth: true
+                                    wrapMode: Text.Wrap
+                                    text: win.securityConfigured ? "已设置密码。锁定后定时播出继续运行，操作程序需要先解锁。重新启动后自动锁定。" : "尚未设置密码。设置后可锁定操作界面，定时播出不受影响。"
+                                }
+                                RowLayout {
+                                    Button {
+                                        objectName: "passwordManage"
+                                        text: win.securityConfigured ? "修改密码…" : "设置密码…"
+                                        onClicked: {
+                                            passwordDialog.removeMode = false;
+                                            passwordDialog.open();
+                                        }
+                                    }
+                                    Button {
+                                        objectName: "passwordRemove"
+                                        visible: win.securityConfigured
+                                        text: "移除密码…"
+                                        onClicked: {
+                                            passwordDialog.removeMode = true;
+                                            passwordDialog.open();
+                                        }
+                                    }
+                                    Button {
+                                        objectName: "securityLock"
+                                        visible: win.securityConfigured
+                                        text: "立即锁定"
+                                        onClicked: win.act("security_lock")
+                                    }
+                                }
+                            }
+                        }
+                        Panel {
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 28
+                            Layout.rightMargin: 28
                             implicitHeight: aboutColumn.implicitHeight + 40
                             ColumnLayout {
                                 id: aboutColumn
@@ -2429,6 +2500,178 @@ ApplicationWindow {
             width: parent.width
             wrapMode: Text.Wrap
             color: win.ink
+        }
+    }
+    Dialog {
+        id: passwordDialog
+        objectName: "passwordDialog"
+        property bool removeMode: false
+        parent: Overlay.overlay
+        modal: true
+        width: Math.min(440, win.width - 60)
+        anchors.centerIn: parent
+        title: removeMode ? "移除密码" : win.securityConfigured ? "修改密码" : "设置密码"
+        standardButtons: Dialog.NoButton
+        function clearPasswords() {
+            currentPassword.clear();
+            newPassword.clear();
+            confirmPassword.clear();
+        }
+        onOpened: {
+            clearPasswords();
+            (win.securityConfigured ? currentPassword : newPassword).forceActiveFocus();
+        }
+        onClosed: clearPasswords()
+        ColumnLayout {
+            width: parent.width
+            spacing: 12
+            Label {
+                text: "当前密码"
+                visible: win.securityConfigured
+            }
+            TextField {
+                id: currentPassword
+                objectName: "currentPassword"
+                visible: win.securityConfigured
+                Layout.fillWidth: true
+                echoMode: TextInput.Password
+                maximumLength: 256
+            }
+            Label {
+                text: "新密码"
+                visible: !passwordDialog.removeMode
+            }
+            TextField {
+                id: newPassword
+                objectName: "newPassword"
+                visible: !passwordDialog.removeMode
+                Layout.fillWidth: true
+                echoMode: TextInput.Password
+                maximumLength: 256
+            }
+            Label {
+                text: "确认新密码"
+                visible: !passwordDialog.removeMode
+            }
+            TextField {
+                id: confirmPassword
+                objectName: "confirmPassword"
+                visible: !passwordDialog.removeMode
+                Layout.fillWidth: true
+                echoMode: TextInput.Password
+                maximumLength: 256
+            }
+            SmallText {
+                Layout.fillWidth: true
+                wrapMode: Text.Wrap
+                text: "请妥善保管密码。备份与还原不会更改本机密码。"
+            }
+        }
+        footer: DialogButtonBox {
+            Button {
+                objectName: "passwordSave"
+                text: passwordDialog.removeMode ? "移除" : "保存"
+                highlighted: true
+                onClicked: {
+                    var ok = win.act(passwordDialog.removeMode ? "security_remove_password" : "security_set_password", passwordDialog.removeMode ? {
+                        password: currentPassword.text
+                    } : {
+                        current_password: currentPassword.text,
+                        new_password: newPassword.text,
+                        confirmation: confirmPassword.text
+                    });
+                    passwordDialog.clearPasswords();
+                    if (ok)
+                        passwordDialog.close();
+                }
+            }
+            Button {
+                text: "取消"
+                onClicked: passwordDialog.close()
+            }
+        }
+    }
+    Popup {
+        id: securityOverlay
+        objectName: "securityOverlay"
+        parent: Overlay.overlay
+        x: 0
+        y: 0
+        width: parent.width
+        height: parent.height
+        z: 100000
+        modal: true
+        dim: false
+        focus: true
+        closePolicy: Popup.NoAutoClose
+        visible: win.securityLocked
+        onOpened: {
+            unlockPassword.clear();
+            unlockError.text = "";
+            unlockPassword.forceActiveFocus();
+        }
+        onClosed: {
+            unlockPassword.clear();
+            unlockError.text = "";
+        }
+        background: Rectangle {
+            color: "#f5f6fb"
+        }
+        function unlock() {
+            var password = unlockPassword.text;
+            unlockPassword.clear();
+            try {
+                var result = JSON.parse(backend.dispatch("security_unlock", JSON.stringify({
+                    password: password
+                })));
+                password = "";
+                if (result.ok === false)
+                    unlockError.text = result.error || "解锁失败";
+            } catch (e) {
+                unlockError.text = "解锁失败，请重试。";
+            }
+            unlockPassword.forceActiveFocus();
+        }
+        ColumnLayout {
+            width: Math.min(380, parent.width - 60)
+            anchors.centerIn: parent
+            spacing: 20
+            Label {
+                text: "程序已锁定"
+                color: win.ink
+                font.pixelSize: 26
+                font.bold: true
+            }
+            Label {
+                Layout.fillWidth: true
+                text: "定时播出继续运行。请输入密码以操作程序。"
+                color: win.muted
+                wrapMode: Text.Wrap
+            }
+            TextField {
+                id: unlockPassword
+                objectName: "unlockPassword"
+                Layout.fillWidth: true
+                placeholderText: "密码"
+                echoMode: TextInput.Password
+                maximumLength: 256
+                onAccepted: securityOverlay.unlock()
+            }
+            Label {
+                id: unlockError
+                objectName: "unlockError"
+                Layout.fillWidth: true
+                color: "#b33f50"
+                wrapMode: Text.Wrap
+                visible: !!text
+            }
+            Button {
+                objectName: "securityUnlock"
+                text: "解锁"
+                highlighted: true
+                Layout.fillWidth: true
+                onClicked: securityOverlay.unlock()
+            }
         }
     }
 }

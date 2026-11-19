@@ -136,10 +136,17 @@ def main(argv=None):
     )
     menu.addAction(show_action)
     stop_action = QAction("停止所有播放", menu)
-    stop_action.triggered.connect(backend.player.stop)
+    stop_action.triggered.connect(lambda: backend.dispatch("stop"))
     menu.addAction(stop_action)
     quit_action = QAction("退出程序", menu)
-    quit_action.triggered.connect(app.quit)
+
+    def request_quit():
+        if backend.security.locked:
+            show_action.trigger()
+            return
+        app.quit()
+
+    quit_action.triggered.connect(request_quit)
     menu.addAction(quit_action)
     tray.setContextMenu(menu)
     tray.activated.connect(
@@ -153,6 +160,11 @@ def main(argv=None):
         tray.show()
 
     def on_closing(event):
+        if backend.security.locked:
+            event.setAccepted(False)
+            if tray.isVisible():
+                window.hide()
+            return
         if backend.settings.get("closeToTray") and tray.isVisible():
             event.setAccepted(False)
             window.hide()
