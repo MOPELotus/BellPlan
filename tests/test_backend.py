@@ -114,7 +114,10 @@ class BackendTests(unittest.TestCase):
         state = json.loads(self.backend.stateJson)
         self.assertEqual(state["security"], {"configured": True, "locked": False})
         self.assertNotIn("test password", self.backend.stateJson)
-        self.assertNotIn("test password", (Path(self.directory.name) / "activity.log").read_text())
+        self.assertNotIn(
+            "test password",
+            (Path(self.directory.name) / "activity.log").read_text(encoding="utf-8"),
+        )
 
     def test_crud_and_ui_mapping(self):
         p = self.add(kind="tts", text="早上好", start_date="2026-11-01", end_date="2026-12-31")
